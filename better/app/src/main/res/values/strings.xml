@@ -3,4 +3,5 @@
     <string name="cube_btn_txt">CUBE</string>
     <string name="plus_btn_txt">+</string>
     <string name="openInGallery_btn_txt">open in gallery.</string>
+    <string name="camera_btn_txt">make a photo.</string>
 </resources>
