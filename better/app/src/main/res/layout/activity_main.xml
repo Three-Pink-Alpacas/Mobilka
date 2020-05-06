@@ -10,10 +10,25 @@
         android:id="@+id/moveToCanvasButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CUBE"
+        android:onClick="cubeMove"
+        android:text="@string/cube_btn_txt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:onClick="cubeMove"/>
+        app:layout_constraintVertical_bias="0.916" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/plus_btn_txt"
+        android:onClick="plusMove"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.916" />
 </androidx.constraintlayout.widget.ConstraintLayout>

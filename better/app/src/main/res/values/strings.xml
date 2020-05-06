@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">better.</string>
+    <string name="cube_btn_txt">CUBE</string>
+    <string name="plus_btn_txt">+</string>
 </resources>
