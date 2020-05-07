@@ -7,7 +7,7 @@
     tools:context=".CubeShowingActivity">
 
 
-    <SurfaceView
+    <com.example.better.MySurfaceView
         android:id="@+id/surface"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -24,10 +24,11 @@
         android:id="@+id/MainMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="BACK"
+        android:onClick="mainMenuMove"
+        android:text="@string/backToMainMenu_btn_txt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surface"
-        android:onClick="mainMenuMove"/>
+        app:layout_constraintTop_toBottomOf="@+id/surface" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
