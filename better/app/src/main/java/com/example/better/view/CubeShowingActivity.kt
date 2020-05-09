@@ -1,14 +1,10 @@
-package com.example.better
+package com.example.better.view
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.graphics.Canvas
-import android.graphics.Color
 import android.os.Bundle
-import android.view.SurfaceHolder
-import android.view.SurfaceView
 import android.view.View
+import com.example.better.R
 
 
 class CubeShowingActivity : Activity() {

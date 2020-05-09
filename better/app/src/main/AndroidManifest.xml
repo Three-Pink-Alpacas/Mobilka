@@ -30,8 +30,8 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".CubeShowingActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".view.CubeShowingActivity"></activity>
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

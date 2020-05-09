@@ -1,10 +1,9 @@
-package com.example.better
+package com.example.better.view
 
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Point
 import android.util.AttributeSet
 import android.view.SurfaceHolder
 import android.view.SurfaceView
@@ -15,12 +14,12 @@ import kotlin.math.sin
 class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceView(context, attrs), SurfaceHolder.Callback {
 
     val cube: Array<RealPoint> = arrayOf(
-        RealPoint(2000F,2000F,2000F),
-        RealPoint(2500F,2000F,2000F),
+        RealPoint(2000F, 2000F, 2000F),
+        RealPoint(2500F, 2000F, 2000F),
         RealPoint(2500F, 2500F, 2000F),
         RealPoint(2000F, 2500F, 2000F),
-        RealPoint(2000F,2000F,2500F),
-        RealPoint(2500F,2000F,2500F),
+        RealPoint(2000F, 2000F, 2500F),
+        RealPoint(2500F, 2000F, 2500F),
         RealPoint(2500F, 2500F, 2500F),
         RealPoint(2000F, 2500F, 2500F)
     )
@@ -61,7 +60,7 @@ class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceVie
         val rws = orthographicMatrix.size
         val clmns = orthographicMatrix[0].size
 
-        fun into2D():ViewPoint{
+        fun into2D(): ViewPoint {
             val answerArr = floatArrayOf(0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)
             for (i in 0 until rws){
@@ -69,10 +68,13 @@ class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceVie
                     answerArr[i] += orthographicMatrix[i][j] * pointArr[j]
                 }
             }
-            return ViewPoint(answerArr[0], answerArr[1])
+            return ViewPoint(
+                answerArr[0],
+                answerArr[1]
+            )
 
         }
-        fun rotateX(angle: Float):RealPoint{
+        fun rotateX(angle: Float): RealPoint {
             val answerArr = floatArrayOf(0F, 0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)
             val RxMatrix: Array<FloatArray> = arrayOf(
@@ -86,9 +88,13 @@ class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceVie
                     answerArr[i] += RxMatrix[i][j] * pointArr[j]
                 }
             }
-            return RealPoint(answerArr[0],answerArr[1],answerArr[2])
+            return RealPoint(
+                answerArr[0],
+                answerArr[1],
+                answerArr[2]
+            )
         }
-        fun rotateY(angle: Float):RealPoint{
+        fun rotateY(angle: Float): RealPoint {
             val answerArr = floatArrayOf(0F, 0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)
             val RyMatrix: Array<FloatArray> = arrayOf(
@@ -102,9 +108,13 @@ class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceVie
                     answerArr[i] += RyMatrix[i][j] * pointArr[j]
                 }
             }
-            return RealPoint(answerArr[0],answerArr[1],answerArr[2])
+            return RealPoint(
+                answerArr[0],
+                answerArr[1],
+                answerArr[2]
+            )
         }
-        fun rotateZ(angle: Float):RealPoint{
+        fun rotateZ(angle: Float): RealPoint {
             val answerArr = floatArrayOf(0F, 0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)
             val RzMatrix: Array<FloatArray> = arrayOf(
@@ -118,11 +128,16 @@ class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceVie
                     answerArr[i] += RzMatrix[i][j] * pointArr[j]
                 }
             }
-            return RealPoint(answerArr[0],answerArr[1],answerArr[2])
+            return RealPoint(
+                answerArr[0],
+                answerArr[1],
+                answerArr[2]
+            )
         }
     }
 
-    fun Canvas.center(): ViewPoint = ViewPoint(width / 2f, height / 2f)
+    fun Canvas.center(): ViewPoint =
+        ViewPoint(width / 2f, height / 2f)
     override fun draw(canvas: Canvas?) {
         super.draw(canvas)
         val mPaint = Paint()
