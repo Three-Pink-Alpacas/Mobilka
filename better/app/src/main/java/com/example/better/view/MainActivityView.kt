@@ -19,7 +19,7 @@ import com.example.better.contract.ContractInterface
 import com.example.better.presenter.MainActivityPresenter
 import java.io.File
 
-class MainActivity : AppCompatActivity(), ContractInterface.View {
+class MainActivityView : AppCompatActivity(), ContractInterface.View_ {
 
     private val neededPermissions = arrayOf(CAMERA, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE)
     private val REQUEST_PERMISSION_CODE = 100
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), ContractInterface.View {
     }
 
     fun cubeMove(view: View) {
-        val intent = Intent(this, CubeShowingActivity::class.java);
+        val intent = Intent(this, CubeActivityView::class.java);
         startActivity(intent);
     }
 
@@ -72,10 +72,22 @@ class MainActivity : AppCompatActivity(), ContractInterface.View {
 
     override fun requestPermissions(permissions: Array<String>) {
         ActivityCompat.requestPermissions(
-            this@MainActivity,
+            this@MainActivityView,
             permissions,
             REQUEST_PERMISSION_CODE
         )
+    }
+
+    override fun absoluteDifferenceX(): Float {
+        TODO("Not yet implemented")
+    }
+
+    override fun absoluteDifferenceY(): Float {
+        TODO("Not yet implemented")
+    }
+
+    override fun updateViewData() {
+        TODO("Not yet implemented")
     }
 
     override fun initView() {
