@@ -1,48 +1,61 @@
-package com.example.better.view
+package com.example.better.model
 
-import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.util.AttributeSet
-import android.view.SurfaceHolder
-import android.view.SurfaceView
+import android.graphics.ColorSpace
 import kotlin.math.cos
 import kotlin.math.sin
+import com.example.better.contract.ContractInterface.*
+import com.example.better.presenter.CubeActivityPresenter
 
-
-class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceView(context, attrs), SurfaceHolder.Callback {
-
-    val cube: Array<RealPoint> = arrayOf(
-        RealPoint(2000F, 2000F, 2000F),
-        RealPoint(2500F, 2000F, 2000F),
-        RealPoint(2500F, 2500F, 2000F),
-        RealPoint(2000F, 2500F, 2000F),
-        RealPoint(2000F, 2000F, 2500F),
-        RealPoint(2500F, 2000F, 2500F),
-        RealPoint(2500F, 2500F, 2500F),
-        RealPoint(2000F, 2500F, 2500F)
+class CubeActivityModel(): Model_ {
+    var cubeReal: Array<RealPoint> = arrayOf(
+        RealPoint(50F, 50F, 50F),
+        RealPoint(100F, 50F, 50F),
+        RealPoint(100F, 100F, 50F),
+        RealPoint(50F, 100F, 50F),
+        RealPoint(50F, 50F, 100F),
+        RealPoint(100F, 50F, 100F),
+        RealPoint(100F, 100F, 100F),
+        RealPoint(50F, 100F, 100F)
     )
 
-    fun showCube(cube: Array<RealPoint>, canvas: Canvas?, mPaint: Paint){
-        for (i in 0 until cube.size){
-            canvas?.drawPoint(cube[i].into2D().getX(), cube[i].into2D().getY(), mPaint)
+    var cubeView: Array<ViewPoint> = arrayOf(
+        cubeReal[0].into2D(),
+        cubeReal[1].into2D(),
+        cubeReal[2].into2D(),
+        cubeReal[3].into2D(),
+        cubeReal[4].into2D(),
+        cubeReal[5].into2D(),
+        cubeReal[6].into2D(),
+        cubeReal[7].into2D()
+    )
+
+    override fun getCubeCoordinates():Array<ViewPoint> {
+        for (i in 0 until cubeView.size){
+            cubeView[i] = cubeReal[i].into2D()
         }
+        return cubeView
     }
 
-    fun rotateCubeX(cube: Array<RealPoint>, angle: Float){
-        for (i in 0 until cube.size){
-            cube[i] = cube[i].rotateX(angle)
+    override fun rotateCube(diffX: Float, diffY: Float) {
+        rotateCubeX(diffX/100)
+        rotateCubeY(diffY/100)
+    }
+
+
+
+    fun rotateCubeX(angle: Float){
+        for (i in 0 until cubeReal.size){
+            cubeReal[i] = cubeReal[i].rotateX(angle)
         }
     }
-    fun rotateCubeY(cube: Array<RealPoint>, angle: Float){
-        for (i in 0 until cube.size){
-            cube[i] = cube[i].rotateY(angle)
+    fun rotateCubeY(angle: Float){
+        for (i in 0 until cubeReal.size){
+            cubeReal[i] = cubeReal[i].rotateY(angle)
         }
     }
-    fun rotateCubeZ(cube: Array<RealPoint>, angle: Float){
-        for (i in 0 until cube.size){
-            cube[i] = cube[i].rotateZ(angle)
+    fun rotateCubeZ(angle: Float){
+        for (i in 0 until cubeReal.size){
+            cubeReal[i] = cubeReal[i].rotateZ(angle)
         }
     }
 
@@ -135,58 +148,4 @@ class MySurfaceView (context: Context, attrs: AttributeSet? = null) : SurfaceVie
             )
         }
     }
-
-    fun Canvas.center(): ViewPoint =
-        ViewPoint(width / 2f, height / 2f)
-    override fun draw(canvas: Canvas?) {
-        super.draw(canvas)
-        val mPaint = Paint()
-        val xMax = 5000F
-        val xMin = 0F
-        val yMax = 5000F
-        val yMin = 0F
-        val width = canvas!!.width.toFloat()
-        val height = canvas!!.height.toFloat()
-        canvas!!.scale(width / (xMax - xMin), -height / (yMax - yMin))
-        canvas!!.translate(-xMin + 0.2F, -yMax + 0.2F)
-        mPaint.setStrokeWidth(50F)
-        mPaint.setColor(Color.WHITE)
-        mPaint.isAntiAlias
-        canvas?.drawColor(Color.BLACK)
-        var angle:Float = 0.1F
-        rotateCubeX(cube, angle)
-        rotateCubeY(cube, angle)
-        rotateCubeZ(cube, angle)
-        showCube(cube, canvas, mPaint)
-
-    }
-
-    override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
-// TODO Auto-generated method stub
-    }
-
-    override fun surfaceCreated(holder: SurfaceHolder) {
-        var canvas: Canvas? = null
-        try {
-            canvas = holder.lockCanvas(null)
-            synchronized(holder) { draw(canvas) }
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-        }
-        finally {
-            if (canvas != null) {
-                holder.unlockCanvasAndPost(canvas)
-            }
-        }
-    }
-
-    override fun surfaceDestroyed(holder: SurfaceHolder) {
-// TODO Auto-generated method stub
-    }
-
-    init {
-        holder.addCallback(this)
-    }
-
 }
