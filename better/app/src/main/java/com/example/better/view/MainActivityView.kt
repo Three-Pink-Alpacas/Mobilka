@@ -1,10 +1,10 @@
 package com.example.better.view
 
-import android.Manifest.permission.*
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -14,14 +14,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.example.better.EditorActivity
 import com.example.better.R
-import com.example.better.contract.ContractInterface
+import com.example.better.contract.MainContract
 import com.example.better.presenter.MainActivityPresenter
 import java.io.File
 
-class MainActivityView : AppCompatActivity(), ContractInterface.View_ {
-
-    private val neededPermissions = arrayOf(CAMERA, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE)
+class MainActivity : AppCompatActivity(), MainContract.View {
     private val REQUEST_PERMISSION_CODE = 100
     private val OPEN_GALLERY_CODE = 1
     private val OPEN_CAMERA_CODE = 2
@@ -40,8 +39,8 @@ class MainActivityView : AppCompatActivity(), ContractInterface.View_ {
     }
 
     fun cubeMove(view: View) {
-        val intent = Intent(this, CubeActivityView::class.java);
-        startActivity(intent);
+        val intent = Intent(this, CubeShowingActivity::class.java)
+        startActivity(intent)
     }
 
     fun plusMove(view: View) {}
@@ -52,15 +51,21 @@ class MainActivityView : AppCompatActivity(), ContractInterface.View_ {
     }
 
     fun cameraOpen(view: View) {
-        val PhotoMakerintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoMakerIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
         val uri = FileProvider.getUriForFile(
             this,
             this.applicationContext.packageName + ".provider",
             file
         )
-        PhotoMakerintent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
-        startActivityForResult(PhotoMakerintent, OPEN_CAMERA_CODE)
+        photoMakerIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        startActivityForResult(photoMakerIntent, OPEN_CAMERA_CODE)
+    }
+
+    private fun startEditor(imageUri: Uri) {
+        val intent = Intent(this, EditorActivity::class.java)
+        intent.putExtra("img", imageUri)
+        startActivity(intent)
     }
 
     override fun checkHasPermission(permission: String): Boolean {
@@ -72,22 +77,10 @@ class MainActivityView : AppCompatActivity(), ContractInterface.View_ {
 
     override fun requestPermissions(permissions: Array<String>) {
         ActivityCompat.requestPermissions(
-            this@MainActivityView,
+            this@MainActivity,
             permissions,
             REQUEST_PERMISSION_CODE
         )
-    }
-
-    override fun absoluteDifferenceX(): Float {
-        TODO("Not yet implemented")
-    }
-
-    override fun absoluteDifferenceY(): Float {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateViewData() {
-        TODO("Not yet implemented")
     }
 
     override fun initView() {
@@ -120,6 +113,7 @@ class MainActivityView : AppCompatActivity(), ContractInterface.View_ {
             OPEN_GALLERY_CODE -> if (resultCode === Activity.RESULT_OK) {
                 val photoUri = data!!.data
                 if (photoUri != null) {
+                    startEditor(photoUri)
                     try {
                         currentImage =
                             MediaStore.Images.Media.getBitmap(this.contentResolver, photoUri)
