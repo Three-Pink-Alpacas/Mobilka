@@ -2,7 +2,7 @@ package com.example.better.contract
 
 import com.example.better.model.CubeActivityModel
 
-interface ContractInterface {
+interface MainContract {
 
     interface View_ {
         fun initView()

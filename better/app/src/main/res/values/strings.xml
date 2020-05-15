@@ -5,7 +5,7 @@
     <string name="openInGallery_btn_txt">open in gallery.</string>
     <string name="camera_btn_txt">make a photo.</string>
     <string name="backToMainMenu_btn_txt">BACK</string>
-    <string name="editable_image">Editable Image</string>
+    <string name="scale_image">slace_image</string>
     <string name="rotate_image">rotate_image</string>
-    <string name="scale_image">scale_image</string>
+    <string name="editable_image">editable_image</string>
 </resources>

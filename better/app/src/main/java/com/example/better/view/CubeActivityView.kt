@@ -13,9 +13,8 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import com.example.better.R
-import com.example.better.contract.ContractInterface
+import com.example.better.contract.MainContract
 import com.example.better.presenter.CubeActivityPresenter
-import kotlin.math.abs
 
 
 class CubeActivityView : Activity() {
@@ -59,7 +58,7 @@ class CubeActivityView : Activity() {
 
     }
 
-    class MySurfaceView : SurfaceView, SurfaceHolder.Callback, ContractInterface.View_ {
+    class MySurfaceView : SurfaceView, SurfaceHolder.Callback, MainContract.View_ {
 
         private fun init() {
             holder.addCallback(this)

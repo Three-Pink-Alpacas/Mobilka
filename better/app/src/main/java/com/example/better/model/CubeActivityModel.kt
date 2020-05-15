@@ -1,10 +1,8 @@
 package com.example.better.model
 
-import android.graphics.ColorSpace
 import kotlin.math.cos
 import kotlin.math.sin
-import com.example.better.contract.ContractInterface.*
-import com.example.better.presenter.CubeActivityPresenter
+import com.example.better.contract.MainContract.*
 
 class CubeActivityModel(): Model_ {
     var cubeReal: Array<RealPoint> = arrayOf(

@@ -1,14 +1,8 @@
 package com.example.better.presenter
 
 
-import android.graphics.ColorSpace
-import android.view.SurfaceView
-import android.view.View
-import com.example.better.contract.ContractInterface
-import com.example.better.contract.ContractInterface.*
+import com.example.better.contract.MainContract.*
 import com.example.better.model.CubeActivityModel
-import com.example.better.model.MainActivityModel
-import com.example.better.view.CubeActivityView
 
 class CubeActivityPresenter(_view: View_): Presenter_ {
 
