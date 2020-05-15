@@ -29,7 +29,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     private var selectedImage: ImageView? = null
     private var currentImage: Bitmap? = null
 
-    private var presenter: MainActivityPresenter? = null
+    private var presenter: MainContract.Presenter_? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
