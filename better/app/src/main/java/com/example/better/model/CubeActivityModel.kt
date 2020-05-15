@@ -9,13 +9,13 @@ import com.example.better.presenter.CubeActivityPresenter
 class CubeActivityModel(): Model_ {
     var cubeReal: Array<RealPoint> = arrayOf(
         RealPoint(50F, 50F, 50F),
-        RealPoint(100F, 50F, 50F),
-        RealPoint(100F, 100F, 50F),
-        RealPoint(50F, 100F, 50F),
-        RealPoint(50F, 50F, 100F),
-        RealPoint(100F, 50F, 100F),
-        RealPoint(100F, 100F, 100F),
-        RealPoint(50F, 100F, 100F)
+        RealPoint(150F, 50F, 50F),
+        RealPoint(150F, 150F, 50F),
+        RealPoint(50F, 150F, 50F),
+        RealPoint(50F, 50F, 150F),
+        RealPoint(150F, 50F, 150F),
+        RealPoint(150F, 150F, 150F),
+        RealPoint(50F, 150F, 150F)
     )
 
     var cubeView: Array<ViewPoint> = arrayOf(
@@ -37,8 +37,8 @@ class CubeActivityModel(): Model_ {
     }
 
     override fun rotateCube(diffX: Float, diffY: Float) {
-        rotateCubeX(diffX/100)
-        rotateCubeY(diffY/100)
+        rotateCubeX(-diffY/100)
+        rotateCubeY(diffX/100)
     }
 
 

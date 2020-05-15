@@ -81,9 +81,18 @@ class CubeActivityView : Activity() {
         override fun draw(canvas: Canvas) {
             super.draw(canvas)
             if (drawing) {
-                for (i in 0 until cube.size){
-                    canvas.drawPoint(cube[i].getX()+500, cube[i].getY()+500, paint)
-                }
+                canvas.drawLine(cube[0].getX()+500, cube[0].getY()+500, cube[1].getX()+500,cube[1].getY()+500, paint)
+                canvas.drawLine(cube[1].getX()+500, cube[1].getY()+500, cube[2].getX()+500,cube[2].getY()+500, paint)
+                canvas.drawLine(cube[2].getX()+500, cube[2].getY()+500, cube[3].getX()+500,cube[3].getY()+500, paint)
+                canvas.drawLine(cube[3].getX()+500, cube[3].getY()+500, cube[0].getX()+500,cube[0].getY()+500, paint)
+                canvas.drawLine(cube[0].getX()+500, cube[0].getY()+500, cube[4].getX()+500,cube[4].getY()+500, paint)
+                canvas.drawLine(cube[1].getX()+500, cube[1].getY()+500, cube[5].getX()+500,cube[5].getY()+500, paint)
+                canvas.drawLine(cube[2].getX()+500, cube[2].getY()+500, cube[6].getX()+500,cube[6].getY()+500, paint)
+                canvas.drawLine(cube[3].getX()+500, cube[3].getY()+500, cube[7].getX()+500,cube[7].getY()+500, paint)
+                canvas.drawLine(cube[4].getX()+500, cube[4].getY()+500, cube[5].getX()+500,cube[5].getY()+500, paint)
+                canvas.drawLine(cube[5].getX()+500, cube[5].getY()+500, cube[6].getX()+500,cube[6].getY()+500, paint)
+                canvas.drawLine(cube[6].getX()+500, cube[6].getY()+500, cube[7].getX()+500,cube[7].getY()+500, paint)
+                canvas.drawLine(cube[7].getX()+500, cube[7].getY()+500, cube[4].getX()+500,cube[4].getY()+500, paint)
             }
         }
 
@@ -120,9 +129,9 @@ class CubeActivityView : Activity() {
                 movedY = event.y
                 presenter?.moveCube()
             } else if (action == MotionEvent.ACTION_DOWN) {
-                initX = movedX
+                initX = event.x
                 movedX = event.x
-                initY = movedY
+                initY = event.y
                 movedY = event.y
                 presenter?.moveCube()
                 drawing = true
