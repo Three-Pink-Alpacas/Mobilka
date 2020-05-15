@@ -1,4 +1,4 @@
-package com.example.better.view
+package com.example.better.mainScreen.view
 
 import android.app.Activity
 import android.content.Intent
@@ -14,10 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.better.EditorActivity
+import com.example.better.editorScreen.view.EditorActivityView
 import com.example.better.R
-import com.example.better.contract.MainContract
-import com.example.better.presenter.MainActivityPresenter
+import com.example.better.mainScreen.contract.MainContract
+import com.example.better.mainScreen.presenter.MainActivityPresenter
+import com.example.better.cubeScreen.view.CubeActivityView
 import java.io.File
 
 class MainActivityView : AppCompatActivity(), MainContract.View_ {
@@ -63,7 +64,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     }
 
     private fun startEditor(imageUri: Uri) {
-        val intent = Intent(this, EditorActivity::class.java)
+        val intent = Intent(this, EditorActivityView::class.java)
         intent.putExtra("img", imageUri)
         startActivity(intent)
     }
@@ -83,17 +84,6 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         )
     }
 
-    override fun absoluteDifferenceX(): Float {
-        TODO("Not yet implemented")
-    }
-
-    override fun absoluteDifferenceY(): Float {
-        TODO("Not yet implemented")
-    }
-
-    override fun updateViewData() {
-        TODO("Not yet implemented")
-    }
 
     override fun initView() {
 

@@ -1,13 +1,9 @@
-package com.example.better.contract
-
-import com.example.better.model.CubeActivityModel
-
-interface MainContract {
+package com.example.better.cubeScreen.contract
+import com.example.better.cubeScreen.model.CubeActivityModel
+interface CubeContract {
 
     interface View_ {
         fun initView()
-        fun checkHasPermission(permission: String): Boolean
-        fun requestPermissions(permissions: Array<String>)
         fun absoluteDifferenceX(): Float
         fun absoluteDifferenceY(): Float
         fun updateViewData()
@@ -24,5 +20,4 @@ interface MainContract {
         fun getCubeCoordinates():Array<CubeActivityModel.ViewPoint>
         fun rotateCube(diffX: Float, diffY: Float)
     }
-
 }
