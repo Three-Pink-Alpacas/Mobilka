@@ -1,4 +1,4 @@
-package com.example.better.view
+package com.example.better.cubeScreen.view
 
 import android.app.Activity
 import android.content.Context
@@ -13,8 +13,10 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import com.example.better.R
-import com.example.better.contract.MainContract
-import com.example.better.presenter.CubeActivityPresenter
+import com.example.better.cubeScreen.contract.CubeContract
+import com.example.better.cubeScreen.view.CubeActivityView
+import com.example.better.cubeScreen.presenter.CubeActivityPresenter
+import com.example.better.mainScreen.view.MainActivityView
 
 
 class CubeActivityView : Activity() {
@@ -58,7 +60,7 @@ class CubeActivityView : Activity() {
 
     }
 
-    class MySurfaceView : SurfaceView, SurfaceHolder.Callback, MainContract.View_ {
+    class MySurfaceView : SurfaceView, SurfaceHolder.Callback, CubeContract.View_ {
 
         private fun init() {
             holder.addCallback(this)
@@ -103,13 +105,6 @@ class CubeActivityView : Activity() {
             TODO("Not yet implemented")
         }
 
-        override fun checkHasPermission(permission: String): Boolean {
-            TODO("Not yet implemented")
-        }
-
-        override fun requestPermissions(permissions: Array<String>) {
-            TODO("Not yet implemented")
-        }
 
         override fun absoluteDifferenceX(): Float{
             return (movedX - initX)
@@ -150,7 +145,10 @@ class CubeActivityView : Activity() {
         override fun surfaceChanged(arg0: SurfaceHolder, arg1: Int, arg2: Int, arg3: Int) {}
 
         override fun surfaceCreated(holder: SurfaceHolder) {
-            thread = MySurfaceThread(getHolder(), this)
+            thread = MySurfaceThread(
+                getHolder(),
+                this
+            )
             thread!!.setRunning(true)
             thread!!.start()
         }

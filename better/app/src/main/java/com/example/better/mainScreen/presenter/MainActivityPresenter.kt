@@ -1,9 +1,9 @@
-package com.example.better.presenter
+package com.example.better.mainScreen.presenter
 
 import android.Manifest
-import com.example.better.contract.MainContract.*
-import com.example.better.model.CubeActivityModel
-import com.example.better.model.MainActivityModel
+import com.example.better.mainScreen.contract.MainContract.*
+import com.example.better.cubeScreen.model.CubeActivityModel
+import com.example.better.mainScreen.model.MainActivityModel
 
 class MainActivityPresenter(_view: View_): Presenter_ {
     private var view: View_ = _view
@@ -34,19 +34,4 @@ class MainActivityPresenter(_view: View_): Presenter_ {
         }
     }
 
-    override fun getCubeCoordinates(): Array<CubeActivityModel.ViewPoint> {
-        TODO("Not yet implemented")
-    }
-
-    override fun absoluteDifferenceX(): Float {
-        TODO("Not yet implemented")
-    }
-
-    override fun absoluteDifferenceY(): Float {
-        TODO("Not yet implemented")
-    }
-
-    override fun moveCube() {
-        TODO("Not yet implemented")
-    }
 }

@@ -1,8 +1,8 @@
-package com.example.better.model
+package com.example.better.cubeScreen.model
 
 import kotlin.math.cos
 import kotlin.math.sin
-import com.example.better.contract.MainContract.*
+import com.example.better.cubeScreen.contract.CubeContract.*
 
 class CubeActivityModel(): Model_ {
     var cubeReal: Array<RealPoint> = arrayOf(
@@ -38,8 +38,6 @@ class CubeActivityModel(): Model_ {
         rotateCubeX(-diffY/100)
         rotateCubeY(diffX/100)
     }
-
-
 
     fun rotateCubeX(angle: Float){
         for (i in 0 until cubeReal.size){
@@ -85,6 +83,7 @@ class CubeActivityModel(): Model_ {
             )
 
         }
+
         fun rotateX(angle: Float): RealPoint {
             val answerArr = floatArrayOf(0F, 0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)

@@ -1,8 +1,8 @@
-package com.example.better.presenter
+package com.example.better.cubeScreen.presenter
 
 
-import com.example.better.contract.MainContract.*
-import com.example.better.model.CubeActivityModel
+import com.example.better.cubeScreen.contract.CubeContract.*
+import com.example.better.cubeScreen.model.CubeActivityModel
 
 class CubeActivityPresenter(_view: View_): Presenter_ {
 
