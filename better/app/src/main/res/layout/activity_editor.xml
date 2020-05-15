@@ -32,17 +32,16 @@
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:padding="30dp"
+        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/imageButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:layout_marginStart="20dp"
-            android:layout_marginLeft="50dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/rotate_image"
             android:onClick="onRotate"
@@ -51,11 +50,10 @@
 
         <ImageButton
             android:id="@+id/imageButton2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:layout_marginStart="50dp"
-            android:layout_marginLeft="50dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/scale_image"
             android:scaleType="fitCenter"
@@ -73,9 +71,9 @@
 
         <ImageButton
             android:id="@+id/imageButton3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:background="#00FFFFFF"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,9 +82,9 @@
 
         <ImageButton
             android:id="@+id/imageButton4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
             android:background="#00FFFFFF"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,13 +98,12 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageButton3"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="@+id/imageButton3">
 
             <ImageButton
                 android:id="@+id/imageButton5"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
@@ -114,8 +111,8 @@
 
             <ImageButton
                 android:id="@+id/imageButton6"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/redo" />
