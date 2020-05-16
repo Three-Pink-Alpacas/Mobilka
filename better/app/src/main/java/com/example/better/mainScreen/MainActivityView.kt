@@ -95,13 +95,10 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 //File object of camera image
                 val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
                 //Uri of camera image
-                val photoUri = FileProvider.getUriForFile(
-                    this,
-                    this.applicationContext.packageName + ".provider",
-                    file
-                )
+                val photoUri = FileProvider.getUriForFile(this, this.applicationContext.packageName + ".provider", file)
                 if (photoUri != null) {
                     try {
+                        startEditor(photoUri)
                         currentImage =
                             MediaStore.Images.Media.getBitmap(this.contentResolver, photoUri)
                         selectedImage!!.setImageBitmap(currentImage)
@@ -113,8 +110,8 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             OPEN_GALLERY_CODE -> if (resultCode === Activity.RESULT_OK) {
                 val photoUri = data!!.data
                 if (photoUri != null) {
-                    startEditor(photoUri)
                     try {
+                        startEditor(photoUri)
                         currentImage =
                             MediaStore.Images.Media.getBitmap(this.contentResolver, photoUri)
                         selectedImage!!.setImageBitmap(currentImage)
