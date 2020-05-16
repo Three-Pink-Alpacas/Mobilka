@@ -10,23 +10,10 @@ class CubeActivityModel(): Model_ {
         RealPoint(150F, 50F, 50F),
         RealPoint(150F, 150F, 50F),
         RealPoint(50F, 150F, 50F),
-        RealPoint(50F, 50F, 150F
-        ),
-        RealPoint(
-            150F,
-            50F,
-            150F
-        ),
-        RealPoint(
-            150F,
-            150F,
-            150F
-        ),
-        RealPoint(
-            50F,
-            150F,
-            150F
-        )
+        RealPoint(50F, 50F, 150F),
+        RealPoint(150F, 50F, 150F),
+        RealPoint(150F, 150F, 150F),
+        RealPoint(50F, 150F, 150F)
     )
 
     var cubeView: Array<ViewPoint> = arrayOf(

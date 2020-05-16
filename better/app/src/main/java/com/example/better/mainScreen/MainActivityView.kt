@@ -24,17 +24,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     private val OPEN_GALLERY_CODE = 1
     private val OPEN_CAMERA_CODE = 2
 
-    private var selectedImage: ImageView? = null
-    private var currentImage: Bitmap? = null
-
     private var presenter: MainContract.Presenter_? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        selectedImage = findViewById(R.id.selectedImage);
-
-        presenter = MainActivityPresenter(this)
     }
 
     fun cubeMove(view: View) {
@@ -99,9 +93,6 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 if (photoUri != null) {
                     try {
                         startEditor(photoUri)
-                        currentImage =
-                            MediaStore.Images.Media.getBitmap(this.contentResolver, photoUri)
-                        selectedImage!!.setImageBitmap(currentImage)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -112,9 +103,6 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 if (photoUri != null) {
                     try {
                         startEditor(photoUri)
-                        currentImage =
-                            MediaStore.Images.Media.getBitmap(this.contentResolver, photoUri)
-                        selectedImage!!.setImageBitmap(currentImage)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -125,10 +113,5 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
 
     override fun onStop() {
         super.onStop()
-        if (currentImage != null) {
-            currentImage!!.recycle()
-            currentImage = null
-            System.gc()
-        }
     }
 }
