@@ -1,22 +1,21 @@
 package com.example.better.editorScreen
 
-import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.widget.LinearLayout
 
 interface EditorContract {
 
     interface Model {
-
+        fun rotate(bitmap: Bitmap, angle: Float): Bitmap
     }
 
     interface Presenter {
-        fun onClickButtonOnBottomBar()
-
+        fun onClickButtonOnBottomBar(customBar: CustomBar)
+        fun onRotate()
     }
 
     interface View {
         fun getBottomBar(): LinearLayout
+        fun getRotateBar(): LinearLayout
     }
 }

@@ -87,15 +87,15 @@ class CubeActivityModel(): Model_ {
         fun rotateX(angle: Float): RealPoint {
             val answerArr = floatArrayOf(0F, 0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)
-            val RxMatrix: Array<FloatArray> = arrayOf(
+            val rxMatrix: Array<FloatArray> = arrayOf(
                 floatArrayOf(1F, 0F, 0F),
                 floatArrayOf(0F, cos(angle), -sin(angle)),
                 floatArrayOf(0F, sin(angle), cos(angle)))
-            val rws = RxMatrix.size
-            val clmns = RxMatrix[0].size
+            val rws = rxMatrix.size
+            val clmns = rxMatrix[0].size
             for (i in 0 until rws){
                 for (j in 0 until clmns){
-                    answerArr[i] += RxMatrix[i][j] * pointArr[j]
+                    answerArr[i] += rxMatrix[i][j] * pointArr[j]
                 }
             }
             return RealPoint(
@@ -107,15 +107,15 @@ class CubeActivityModel(): Model_ {
         fun rotateY(angle: Float): RealPoint {
             val answerArr = floatArrayOf(0F, 0F, 0F)
             val pointArr = floatArrayOf(mX, mY, mZ)
-            val RyMatrix: Array<FloatArray> = arrayOf(
+            val ryMatrix: Array<FloatArray> = arrayOf(
                 floatArrayOf(cos(angle), 0F, sin(angle)),
                 floatArrayOf(0F, 1F, 0F),
                 floatArrayOf(-sin(angle), 0F, cos(angle)))
-            val rws = RyMatrix.size
-            val clmns = RyMatrix[0].size
+            val rws = ryMatrix.size
+            val clmns = ryMatrix[0].size
             for (i in 0 until rws){
                 for (j in 0 until clmns){
-                    answerArr[i] += RyMatrix[i][j] * pointArr[j]
+                    answerArr[i] += ryMatrix[i][j] * pointArr[j]
                 }
             }
             return RealPoint(
