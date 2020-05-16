@@ -25,7 +25,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val startColor = window.statusBarColor
             val endColor = ContextCompat.getColor(context, R.color.colorStatusBarInEditor)
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             ObjectAnimator.ofArgb(window, "statusBarColor", startColor, endColor).start()
         }
     }
