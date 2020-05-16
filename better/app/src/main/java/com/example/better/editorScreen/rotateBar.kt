@@ -1,9 +1,7 @@
 package com.example.better.editorScreen
 
-import android.content.Context
-import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
-import kotlinx.android.synthetic.main.activity_editor.*
 
 
 class RotateBar(_linearLayout: LinearLayout): CustomBar {
@@ -16,4 +14,5 @@ class RotateBar(_linearLayout: LinearLayout): CustomBar {
     override fun show() {
         linearLayout.translationY = 0f
     }
+
 }

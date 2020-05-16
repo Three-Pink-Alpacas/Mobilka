@@ -16,7 +16,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     private var selectedImage: ImageView? = null
     private var currentImage: Bitmap? = null
 
-    private var presenter: EditorContract.Presenter? = null
+    private lateinit var presenter: EditorContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,15 +24,18 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         selectedImage = editableImage
 
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
-        currentImage =
-            MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
-        selectedImage!!.setImageBitmap(currentImage)
+        currentImage = MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
+        selectedImage?.setImageBitmap(currentImage)
 
         presenter = EditorActivityPresenter(this)
     }
 
     fun onRotate(view: View) {
-        presenter?.onRotate()
+        presenter.onRotate()
+    }
+
+    fun onRotateRight90(view: View) {
+        presenter.onRotateRight90()
     }
 
     override fun getBottomBar(): LinearLayout {
@@ -41,5 +44,13 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     override fun getRotateBar(): LinearLayout {
         return rotateBar
+    }
+
+    override fun setBitmap(bitmap: Bitmap) {
+        editableImage.setImageBitmap(bitmap)
+    }
+
+    override fun getBitmap(): Bitmap {
+        return currentImage!!
     }
 }

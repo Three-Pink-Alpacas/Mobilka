@@ -12,10 +12,13 @@ interface EditorContract {
     interface Presenter {
         fun onClickButtonOnBottomBar(customBar: CustomBar)
         fun onRotate()
+        fun onRotateRight90()
     }
 
     interface View {
         fun getBottomBar(): LinearLayout
         fun getRotateBar(): LinearLayout
+        fun setBitmap(bitmap: Bitmap)
+        fun getBitmap(): Bitmap
     }
 }

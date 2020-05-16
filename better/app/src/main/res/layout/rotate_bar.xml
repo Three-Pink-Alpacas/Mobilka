@@ -21,6 +21,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:background="#00FFFFFF"
+            android:onClick="onRotateRight90"
             app:srcCompat="@drawable/rotate_right_90" />
     </LinearLayout>
 
