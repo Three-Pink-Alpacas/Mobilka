@@ -3,7 +3,7 @@ package com.example.better.editorScreen.presenter
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
-import com.example.better.editorScreen.contract.EditorContract
+import com.example.better.editorScreen.EditorContract
 
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
     private val view: EditorContract.View = _view

@@ -1,4 +1,4 @@
-package com.example.better.mainScreen.view
+package com.example.better.mainScreen
 
 import android.app.Activity
 import android.content.Intent
@@ -14,11 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.example.better.editorScreen.view.EditorActivityView
+import com.example.better.editorScreen.EditorActivityView
 import com.example.better.R
-import com.example.better.mainScreen.contract.MainContract
-import com.example.better.mainScreen.presenter.MainActivityPresenter
-import com.example.better.cubeScreen.view.CubeActivityView
+import com.example.better.cubeScreen.CubeActivityView
 import java.io.File
 
 class MainActivityView : AppCompatActivity(), MainContract.View_ {

@@ -1,5 +1,5 @@
-package com.example.better.cubeScreen.contract
-import com.example.better.cubeScreen.model.CubeActivityModel
+package com.example.better.cubeScreen
+
 interface CubeContract {
 
     interface View_ {

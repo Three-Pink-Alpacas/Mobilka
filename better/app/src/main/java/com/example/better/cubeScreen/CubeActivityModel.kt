@@ -1,8 +1,8 @@
-package com.example.better.cubeScreen.model
+package com.example.better.cubeScreen
 
 import kotlin.math.cos
 import kotlin.math.sin
-import com.example.better.cubeScreen.contract.CubeContract.*
+import com.example.better.cubeScreen.CubeContract.*
 
 class CubeActivityModel(): Model_ {
     var cubeReal: Array<RealPoint> = arrayOf(
@@ -10,10 +10,23 @@ class CubeActivityModel(): Model_ {
         RealPoint(150F, 50F, 50F),
         RealPoint(150F, 150F, 50F),
         RealPoint(50F, 150F, 50F),
-        RealPoint(50F, 50F, 150F),
-        RealPoint(150F, 50F, 150F),
-        RealPoint(150F, 150F, 150F),
-        RealPoint(50F, 150F, 150F)
+        RealPoint(50F, 50F, 150F
+        ),
+        RealPoint(
+            150F,
+            50F,
+            150F
+        ),
+        RealPoint(
+            150F,
+            150F,
+            150F
+        ),
+        RealPoint(
+            50F,
+            150F,
+            150F
+        )
     )
 
     var cubeView: Array<ViewPoint> = arrayOf(

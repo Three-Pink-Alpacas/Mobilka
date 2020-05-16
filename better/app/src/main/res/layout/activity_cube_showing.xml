@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context="com.example.better.cubeScreen.view.CubeActivityView">
+    tools:context="com.example.better.cubeScreen.CubeActivityView">
 
 
-    <view class="com.example.better.cubeScreen.view.CubeActivityView$MySurfaceView"
+    <view class="com.example.better.cubeScreen.CubeActivityView$MySurfaceView"
         android:id="@+id/surface"
         android:layout_width="0dp"
         android:layout_height="0dp"

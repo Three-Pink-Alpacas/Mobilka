@@ -1,4 +1,4 @@
-package com.example.better.editorScreen.contract
+package com.example.better.editorScreen
 
 import android.widget.LinearLayout
 

@@ -1,4 +1,4 @@
-package com.example.better.editorScreen.view
+package com.example.better.editorScreen
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.example.better.R
-import com.example.better.editorScreen.contract.EditorContract
+import com.example.better.editorScreen.EditorContract
 import com.example.better.editorScreen.presenter.EditorActivityPresenter
 import kotlinx.android.synthetic.main.activity_editor.*
 

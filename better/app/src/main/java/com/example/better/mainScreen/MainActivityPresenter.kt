@@ -1,9 +1,7 @@
-package com.example.better.mainScreen.presenter
+package com.example.better.mainScreen
 
 import android.Manifest
-import com.example.better.mainScreen.contract.MainContract.*
-import com.example.better.cubeScreen.model.CubeActivityModel
-import com.example.better.mainScreen.model.MainActivityModel
+import com.example.better.mainScreen.MainContract.*
 
 class MainActivityPresenter(_view: View_): Presenter_ {
     private var view: View_ = _view

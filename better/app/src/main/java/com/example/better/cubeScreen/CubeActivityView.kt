@@ -1,4 +1,4 @@
-package com.example.better.cubeScreen.view
+package com.example.better.cubeScreen
 
 import android.app.Activity
 import android.content.Context
@@ -13,10 +13,7 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import com.example.better.R
-import com.example.better.cubeScreen.contract.CubeContract
-import com.example.better.cubeScreen.view.CubeActivityView
-import com.example.better.cubeScreen.presenter.CubeActivityPresenter
-import com.example.better.mainScreen.view.MainActivityView
+import com.example.better.mainScreen.MainActivityView
 
 
 class CubeActivityView : Activity() {
@@ -78,22 +75,25 @@ class CubeActivityView : Activity() {
         var movedY = 0F
         var radius = 0F
         var drawing = false
+
         private var thread: MySurfaceThread? = null
         override fun draw(canvas: Canvas) {
             super.draw(canvas)
+            val canvMidX: Float = canvas.width.toFloat()/2
+            val canvMidY: Float = canvas.height.toFloat()/2
             if (drawing) {
-                canvas.drawLine(cube[0].getX()+500, cube[0].getY()+500, cube[1].getX()+500,cube[1].getY()+500, paint)
-                canvas.drawLine(cube[1].getX()+500, cube[1].getY()+500, cube[2].getX()+500,cube[2].getY()+500, paint)
-                canvas.drawLine(cube[2].getX()+500, cube[2].getY()+500, cube[3].getX()+500,cube[3].getY()+500, paint)
-                canvas.drawLine(cube[3].getX()+500, cube[3].getY()+500, cube[0].getX()+500,cube[0].getY()+500, paint)
-                canvas.drawLine(cube[0].getX()+500, cube[0].getY()+500, cube[4].getX()+500,cube[4].getY()+500, paint)
-                canvas.drawLine(cube[1].getX()+500, cube[1].getY()+500, cube[5].getX()+500,cube[5].getY()+500, paint)
-                canvas.drawLine(cube[2].getX()+500, cube[2].getY()+500, cube[6].getX()+500,cube[6].getY()+500, paint)
-                canvas.drawLine(cube[3].getX()+500, cube[3].getY()+500, cube[7].getX()+500,cube[7].getY()+500, paint)
-                canvas.drawLine(cube[4].getX()+500, cube[4].getY()+500, cube[5].getX()+500,cube[5].getY()+500, paint)
-                canvas.drawLine(cube[5].getX()+500, cube[5].getY()+500, cube[6].getX()+500,cube[6].getY()+500, paint)
-                canvas.drawLine(cube[6].getX()+500, cube[6].getY()+500, cube[7].getX()+500,cube[7].getY()+500, paint)
-                canvas.drawLine(cube[7].getX()+500, cube[7].getY()+500, cube[4].getX()+500,cube[4].getY()+500, paint)
+                canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[1].getX()+canvMidX,cube[1].getY()+canvMidY, paint)
+                canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[2].getX()+canvMidX,cube[2].getY()+canvMidY, paint)
+                canvas.drawLine(cube[2].getX()+canvMidX, cube[2].getY()+canvMidY, cube[3].getX()+canvMidX,cube[3].getY()+canvMidY, paint)
+                canvas.drawLine(cube[3].getX()+canvMidX, cube[3].getY()+canvMidY, cube[0].getX()+canvMidX,cube[0].getY()+canvMidY, paint)
+                canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[4].getX()+canvMidX,cube[4].getY()+canvMidY, paint)
+                canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[5].getX()+canvMidX,cube[5].getY()+canvMidY, paint)
+                canvas.drawLine(cube[2].getX()+canvMidX, cube[2].getY()+canvMidY, cube[6].getX()+canvMidX,cube[6].getY()+canvMidY, paint)
+                canvas.drawLine(cube[3].getX()+canvMidX, cube[3].getY()+canvMidY, cube[7].getX()+canvMidX,cube[7].getY()+canvMidY, paint)
+                canvas.drawLine(cube[4].getX()+canvMidX, cube[4].getY()+canvMidY, cube[5].getX()+canvMidX,cube[5].getY()+canvMidY, paint)
+                canvas.drawLine(cube[5].getX()+canvMidX, cube[5].getY()+canvMidY, cube[6].getX()+canvMidX,cube[6].getY()+canvMidY, paint)
+                canvas.drawLine(cube[6].getX()+canvMidX, cube[6].getY()+canvMidY, cube[7].getX()+canvMidX,cube[7].getY()+canvMidY, paint)
+                canvas.drawLine(cube[7].getX()+canvMidX, cube[7].getY()+canvMidY, cube[4].getX()+canvMidX,cube[4].getY()+canvMidY, paint)
             }
         }
 
@@ -145,10 +145,11 @@ class CubeActivityView : Activity() {
         override fun surfaceChanged(arg0: SurfaceHolder, arg1: Int, arg2: Int, arg3: Int) {}
 
         override fun surfaceCreated(holder: SurfaceHolder) {
-            thread = MySurfaceThread(
-                getHolder(),
-                this
-            )
+            thread =
+                MySurfaceThread(
+                    getHolder(),
+                    this
+                )
             thread!!.setRunning(true)
             thread!!.start()
         }

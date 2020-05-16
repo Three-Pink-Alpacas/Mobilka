@@ -1,6 +1,4 @@
-package com.example.better.mainScreen.contract
-
-import com.example.better.cubeScreen.model.CubeActivityModel
+package com.example.better.mainScreen
 
 interface MainContract {
 
