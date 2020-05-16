@@ -9,9 +9,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.example.better.R
-import com.example.better.editorScreen.EditorContract
-import com.example.better.editorScreen.presenter.EditorActivityPresenter
 import kotlinx.android.synthetic.main.activity_editor.*
+import kotlinx.android.synthetic.main.rotate_bar.*
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
     private var selectedImage: ImageView? = null
@@ -22,7 +21,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editor)
-        selectedImage = findViewById(R.id.editableImage)
+        selectedImage = editableImage
 
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
         currentImage =
@@ -33,10 +32,14 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
     fun onRotate(view: View) {
-        presenter?.onClickButtonOnBottomBar()
+        presenter?.onRotate()
     }
 
     override fun getBottomBar(): LinearLayout {
         return bottomBar
+    }
+
+    override fun getRotateBar(): LinearLayout {
+        return rotateBar
     }
 }

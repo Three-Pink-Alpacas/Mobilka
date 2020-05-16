@@ -1,16 +1,22 @@
-package com.example.better.editorScreen.presenter
+package com.example.better.editorScreen
 
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
-import com.example.better.editorScreen.EditorContract
 
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
     private val view: EditorContract.View = _view
     private var bottomBarAnimator: ValueAnimator? = null
+    private val model: EditorContract.Model = EditorActivityModel()
 
-    override fun onClickButtonOnBottomBar() {
+    override fun onClickButtonOnBottomBar(customBar: CustomBar) {
         hideBottomBar()
+        customBar.show()
+    }
+
+    override fun onRotate() {
+        val rotateBar = RotateBar(view.getRotateBar())
+        onClickButtonOnBottomBar(rotateBar)
     }
 
     private fun hideBottomBar() {
