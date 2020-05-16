@@ -1,5 +1,6 @@
 package com.example.better.editorScreen
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,6 +10,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.example.better.R
+import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
 import kotlinx.android.synthetic.main.rotate_bar.*
 
@@ -33,6 +35,12 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     fun onRotate(view: View) {
         presenter?.onRotate()
+    }
+
+    // button for getting in main menu
+    fun mainMenuMove(view: View) {
+        val intent = Intent(this, MainActivityView::class.java);
+        startActivity(intent);
     }
 
     override fun getBottomBar(): LinearLayout {
