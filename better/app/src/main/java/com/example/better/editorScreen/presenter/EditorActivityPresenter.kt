@@ -2,31 +2,39 @@ package com.example.better.editorScreen.presenter
 
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator
+import android.widget.LinearLayout
 import com.example.better.editorScreen.contract.EditorContract
 
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
     private val view: EditorContract.View = _view
-    private var hideBottomBarAnimator: ValueAnimator? = null
+    private var bottomBarAnimator: ValueAnimator? = null
 
     override fun onClickButtonOnBottomBar() {
         hideBottomBar()
     }
 
     private fun hideBottomBar() {
-        hideBottomBarAnimator?: initValueAnimator()
-        hideBottomBarAnimator?.start()
+        val bottomBar = view.getBottomBar()
+        bottomBarAnimator ?: initHideBottomBarValueAnimator(bottomBar)
+        bottomBarAnimator?.setFloatValues(0f, bottomBar.height.toFloat())
+        bottomBarAnimator?.start()
     }
 
-    private fun initValueAnimator() {
+    private fun showBottomBar() {
         val bottomBar = view.getBottomBar()
-        println(bottomBar.height)
-        hideBottomBarAnimator = ValueAnimator.ofFloat(0f, bottomBar.height.toFloat())
-        hideBottomBarAnimator?.setFloatValues()
-        hideBottomBarAnimator?.addUpdateListener {
+        bottomBarAnimator ?: initHideBottomBarValueAnimator(bottomBar)
+        bottomBarAnimator?.setFloatValues(bottomBar.height.toFloat(), 0f)
+        bottomBarAnimator?.start()
+    }
+
+    private fun initHideBottomBarValueAnimator(bottomBar: LinearLayout) {
+        bottomBarAnimator = ValueAnimator()
+        bottomBarAnimator?.setFloatValues()
+        bottomBarAnimator?.addUpdateListener {
             val value = it.animatedValue as Float
             bottomBar.translationY = value
         }
-        hideBottomBarAnimator?.interpolator = LinearInterpolator()
-        hideBottomBarAnimator?.duration = 300
+        bottomBarAnimator?.interpolator = LinearInterpolator()
+        bottomBarAnimator?.duration = 300
     }
 }

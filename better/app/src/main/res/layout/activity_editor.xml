@@ -59,6 +59,15 @@
             android:contentDescription="@string/scale_image"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/scale" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/filter"
+            tools:src="@drawable/filter" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
