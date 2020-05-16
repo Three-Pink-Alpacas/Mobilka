@@ -3,8 +3,6 @@ package com.example.better.mainScreen
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -17,11 +15,7 @@ import androidx.core.content.FileProvider
 import com.example.better.R
 import com.example.better.cubeScreen.CubeActivityView
 import com.example.better.editorScreen.EditorActivityView
-import me.echodev.resizer.Resizer
 import java.io.File
-import java.io.FileNotFoundException
-import java.io.InputStream
-
 
 class MainActivityView : AppCompatActivity(), MainContract.View_ {
     private val REQUEST_PERMISSION_CODE = 100

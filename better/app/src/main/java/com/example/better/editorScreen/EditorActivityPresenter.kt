@@ -2,17 +2,31 @@ package com.example.better.editorScreen
 
 import android.animation.ValueAnimator
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
     private val view: EditorContract.View = _view
     private var bottomBarAnimator: ValueAnimator? = null
     private val model: EditorContract.Model = EditorActivityModel()
-    private lateinit var bitmapImage: Bitmap
+    private var originalBitmapImage: Bitmap
+    private var bitmapImage: Bitmap
 
     init {
-        bitmapImage = view.getBitmap()
+        originalBitmapImage = view.getBitmap()
+        val stream = ByteArrayOutputStream()
+        val options = BitmapFactory.Options()
+        options.inSampleSize = 6
+        originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 50, stream)
+        bitmapImage = BitmapFactory.decodeStream(
+            ByteArrayInputStream(stream.toByteArray()),
+            Rect(0, 0, originalBitmapImage.width, originalBitmapImage.height),
+            options
+        )!!
     }
 
     override fun onClickButtonOnBottomBar(customBar: CustomBar) {
@@ -26,7 +40,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onRotateRight90() {
-        bitmapImage = model.rotate(bitmapImage, 45f)
+        bitmapImage = model.rotate(bitmapImage, 90f)
         view.setBitmap(bitmapImage)
     }
 

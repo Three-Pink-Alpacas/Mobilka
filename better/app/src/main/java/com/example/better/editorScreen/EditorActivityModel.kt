@@ -17,12 +17,12 @@ class EditorActivityModel : EditorContract.Model {
         val resSin = sin(rad)
         val resCos = cos(rad)
 
-        val x1 = -bitmap.height*resSin
-        val y1 = bitmap.height*resCos
-        val x2 = bitmap.width*resCos - bitmap.height*resSin
-        val y2 = bitmap.height*resCos + bitmap.width*resSin
-        val x3 = bitmap.width*resCos
-        val y3 = bitmap.width*resSin
+        val x1 = -bitmap.height * resSin
+        val y1 = bitmap.height * resCos
+        val x2 = bitmap.width * resCos - bitmap.height * resSin
+        val y2 = bitmap.height * resCos + bitmap.width * resSin
+        val x3 = bitmap.width * resCos
+        val y3 = bitmap.width * resSin
 
         val minX = minOf(minOf(0.0, x1, x2), x3)
         val minY = minOf(minOf(0.0, y1, y2), y3)
@@ -32,7 +32,8 @@ class EditorActivityModel : EditorContract.Model {
         val newWidth = bitmap.width
         val newHeight = bitmap.height
 
-        val newBitmap = Bitmap.createBitmap(newWidth.toInt(), newHeight.toInt(), Bitmap.Config.ARGB_8888)
+        val newBitmap =
+            Bitmap.createBitmap(newWidth.toInt(), newHeight.toInt(), Bitmap.Config.ARGB_8888)
 
         for (x in 0 until bitmap.width) {
             for (y in 0 until bitmap.height) {
@@ -45,6 +46,8 @@ class EditorActivityModel : EditorContract.Model {
                 }
             }
         }
+
+        println(newHeight*newWidth)
 
         return newBitmap
     }
