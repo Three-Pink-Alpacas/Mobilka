@@ -90,15 +90,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/imageButton3"
+            android:id="@+id/backMenuButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="#00FFFFFF"
             android:scaleType="fitCenter"
+            android:onClick="mainMenuMove"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/close" />
+            app:srcCompat="@drawable/close"
+/>
 
         <ImageButton
             android:id="@+id/imageButton4"
@@ -118,7 +120,7 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageButton3">
+            app:layout_constraintStart_toStartOf="@+id/backMenuButton">
 
             <ImageButton
                 android:id="@+id/imageButton5"
