@@ -33,12 +33,21 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
     <include
         layout="@layout/filter_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <include
+        layout="@layout/editor_top_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/bottomBar"
@@ -85,6 +94,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:translationY="-40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,24 +128,24 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:contentDescription="@string/undoredolayout"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/backMenuButton"
-            android:layout_marginEnd="10dp">
+            app:layout_constraintStart_toStartOf="@+id/backMenuButton">
 
             <ImageButton
                 android:id="@+id/undoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
                 android:layout_marginRight="20dp"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/undobutton"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/undo"
-                android:layout_marginEnd="20dp" />
+                app:srcCompat="@drawable/undo" />
 
             <ImageButton
                 android:id="@+id/redoButton"
