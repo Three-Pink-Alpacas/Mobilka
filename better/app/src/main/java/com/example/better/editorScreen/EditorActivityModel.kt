@@ -1,7 +1,7 @@
 package com.example.better.editorScreen
 
 import android.graphics.Bitmap
-import com.example.better.editorScreen.EditorContract
+import android.graphics.Color
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
@@ -52,4 +52,58 @@ class EditorActivityModel : EditorContract.Model {
         return newBitmap
     }
 
+    override fun blackAndWhiteFilter(bitmap: Bitmap): Bitmap {
+        val oldBitmap = bitmap
+        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        for (x in 0..(bitmap.width-1)) {
+            for (y in 0..(bitmap.height-1)) {
+                val pixel=oldBitmap.getPixel(x,y)
+                var r = (pixel and 0x00FF0000 shr 16).toFloat()
+                var g= (pixel and 0x0000FF00 shr 8).toFloat()
+                var b = (pixel and 0x000000FF).toFloat()
+
+                r = (r + g + b) / 3.0f
+                g = r
+                b = r
+                val newPixel = -0x1000000 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
+               newBitmap.setPixel(x,y,newPixel)
+            }
+        }
+        return newBitmap
+    }
+    override fun violetFilter(bitmap: Bitmap): Bitmap {
+        val oldBitmap = bitmap
+        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        for (x in 0..(bitmap.width-1)) {
+            for (y in 0..(bitmap.height-1)) {
+                val pixel=oldBitmap.getPixel(x,y)
+                var a = Color.alpha(pixel)
+                var r = Color.red(pixel)
+                var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100) as Int
+                var b = Color.blue(pixel)
+
+                if (g<0)  g = 0  else if (g>255)  g=255
+                val newPixel = Color.argb(a,r,g,b)
+                newBitmap.setPixel(x,y,newPixel)
+            }
+        }
+        return newBitmap
+    }
+    override fun negativeFilter(bitmap: Bitmap): Bitmap {
+        val oldBitmap = bitmap
+        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+        for (x in 0..(bitmap.width-1)) {
+            for (y in 0..(bitmap.height-1)) {
+                val pixel=oldBitmap.getPixel(x,y)
+                var a = Color.alpha(pixel)
+                var r = 255 - (pixel and 0x00FF0000 shr 16)
+                var g = 255 - (pixel and 0x0000FF00 shr 8)
+                var b = 255 - (pixel and 0x000000FF)
+
+                val newPixel = Color.argb(a,r,g,b)
+                newBitmap.setPixel(x,y,newPixel)
+            }
+        }
+        return newBitmap
+    }
 }

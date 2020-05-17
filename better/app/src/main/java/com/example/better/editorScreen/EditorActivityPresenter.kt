@@ -34,9 +34,26 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         customBar.show()
     }
 
+    override fun onBlackAndWhiteFilter(){
+        bitmapImage = model.blackAndWhiteFilter(bitmapImage)
+        view.setBitmap(bitmapImage)
+    }
+    override fun onVioletFilter(){
+        bitmapImage = model.violetFilter(bitmapImage)
+        view.setBitmap(bitmapImage)
+    }
+    override fun onNegativeFilter(){
+        bitmapImage = model.negativeFilter(bitmapImage)
+        view.setBitmap(bitmapImage)
+    }
+
     override fun onRotate() {
         val rotateBar = RotateBar(view.getRotateBar())
         onClickButtonOnBottomBar(rotateBar)
+    }
+    override fun onFilter() {
+        val filterBar = FilterBar(view.getFilterBar())
+        onClickButtonOnBottomBar(filterBar)
     }
 
     override fun onRotateRight90() {

@@ -33,7 +33,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
+    <include
+        layout="@layout/filter_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="wrap_content"
@@ -71,10 +76,11 @@
             android:layout_marginLeft="50dp" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/filterButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:onClick="onFilter"
             android:background="#00FFFFFF"
             app:srcCompat="@drawable/filter"
             tools:src="@drawable/filter" />
@@ -141,5 +147,6 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
+import kotlinx.android.synthetic.main.filter_bar.*
 import kotlinx.android.synthetic.main.rotate_bar.*
 
 
@@ -73,6 +74,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         builder.show()
     }
 
+    fun onFilter(view: View) {
+        presenter.onFilter()
+    }
     override fun getBottomBar(): LinearLayout {
         return bottomBar
     }
@@ -87,5 +91,17 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     override fun getBitmap(): Bitmap {
         return currentImage!!
+    }
+    override fun getFilterBar(): LinearLayout {
+        return filterBar
+    }
+    fun onClickBlackAndWhiteFilter(view: View) {
+        presenter.onBlackAndWhiteFilter()
+    }
+    fun onClickVioletFilter(view: View) {
+        presenter.onVioletFilter()
+    }
+    fun onClickNegativeFilter(view: View) {
+        presenter.onNegativeFilter()
     }
 }
