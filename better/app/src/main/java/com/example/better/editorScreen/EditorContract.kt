@@ -1,6 +1,10 @@
 package com.example.better.editorScreen
 
+import android.content.Context
 import android.graphics.Bitmap
+import android.view.MotionEvent
+import android.view.View.OnTouchListener
+import android.widget.ImageView
 import android.widget.LinearLayout
 
 interface EditorContract {
@@ -27,6 +31,9 @@ interface EditorContract {
         fun getRotateBar(): LinearLayout
         fun setBitmap(bitmap: Bitmap)
         fun getBitmap(): Bitmap
+        fun setImageRotation(angle: Float)
+        fun getImageView(): ImageView?
         fun getFilterBar(): LinearLayout
+        fun setOnTouchListener(onTouchListener: OnTouchListener)
     }
 }

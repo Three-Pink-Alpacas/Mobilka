@@ -1,6 +1,7 @@
 package com.example.better.editorScreen
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -11,6 +12,7 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,7 +24,7 @@ import kotlinx.android.synthetic.main.rotate_bar.*
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
-    fun changeStatusBarColor(context: Context){
+    private fun changeStatusBarColor(context: Context){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val startColor = window.statusBarColor
             val endColor = ContextCompat.getColor(context, R.color.colorStatusBarInEditor)
@@ -34,6 +36,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     private lateinit var presenter: EditorContract.Presenter
 
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         changeStatusBarColor(this)
@@ -61,18 +64,16 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
     // button for getting in main menu
     fun mainMenuMove(view: View) {
-        val alertDialogBuilder = AlertDialog.Builder(this)
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("are you sure?")
-        builder.setMessage("changes will not be saved.")
+        builder.setTitle("Are you sure?")
+        builder.setMessage("Changes will not be saved.")
 
-
-        builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-            val intent = Intent(this, MainActivityView::class.java);
-            startActivity(intent);
+        builder.setPositiveButton(android.R.string.yes) { _, _ ->
+            val intent = Intent(this, MainActivityView::class.java)
+            startActivity(intent)
         }
 
-        builder.setNegativeButton(android.R.string.no) { dialog, which -> }
+        builder.setNegativeButton(android.R.string.no) { _, _ -> }
         builder.show()
     }
 
@@ -94,6 +95,14 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun getBitmap(): Bitmap {
         return currentImage!!
     }
+
+    override fun setImageRotation(angle: Float) {
+        selectedImage?.rotation = angle
+    }
+
+    override fun getImageView(): ImageView? {
+        return selectedImage
+    }
     override fun getFilterBar(): LinearLayout {
         return filterBar
     }
@@ -105,5 +114,10 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
     fun onClickNegativeFilter(view: View) {
         presenter.onNegativeFilter()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun setOnTouchListener(onTouchListener: View.OnTouchListener) {
+        selectedImage?.setOnTouchListener(onTouchListener)
     }
 }

@@ -121,13 +121,13 @@ class CubeActivityView : Activity() {
                 movedX = event.x
                 initY = movedY
                 movedY = event.y
-                presenter?.moveCube()
+                presenter.moveCube()
             } else if (action == MotionEvent.ACTION_DOWN) {
                 initX = event.x
                 movedX = event.x
                 initY = event.y
                 movedY = event.y
-                presenter?.moveCube()
+                presenter.moveCube()
                 drawing = true
             } else if (action == MotionEvent.ACTION_UP) {
                 drawing = true

@@ -82,6 +82,7 @@
             android:layout_margin="15dp"
             android:onClick="onFilter"
             android:background="#00FFFFFF"
+            android:rotation="0"
             app:srcCompat="@drawable/filter"
             tools:src="@drawable/filter" />
     </LinearLayout>
