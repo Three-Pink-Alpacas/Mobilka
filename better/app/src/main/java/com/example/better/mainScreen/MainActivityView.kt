@@ -17,21 +17,24 @@ import com.example.better.cubeScreen.CubeActivityView
 import com.example.better.editorScreen.EditorActivityView
 import java.io.File
 
+
 class MainActivityView : AppCompatActivity(), MainContract.View_ {
     private val REQUEST_PERMISSION_CODE = 100
     private val OPEN_GALLERY_CODE = 1
     private val OPEN_CAMERA_CODE = 2
 
-    private var presenter: MainContract.Presenter_? = null
+    var presenter = MainActivityPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        presenter.checkPermissions()
     }
 
     fun cubeMove(view: View) {
         val intent = Intent(this, CubeActivityView::class.java);
         startActivity(intent);
+        presenter?.checkPermissions()
     }
 
     fun plusMove(view: View) {}
@@ -60,18 +63,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     }
 
     override fun checkHasPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
-            permission
-        ) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun requestPermissions(permissions: Array<String>) {
-        ActivityCompat.requestPermissions(
-            this@MainActivityView,
-            permissions,
-            REQUEST_PERMISSION_CODE
-        )
+        ActivityCompat.requestPermissions(this@MainActivityView, permissions, REQUEST_PERMISSION_CODE)
     }
 
 
