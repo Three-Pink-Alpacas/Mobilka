@@ -7,10 +7,11 @@ interface MainContract {
         fun checkHasPermission(permission: String): Boolean
         fun requestPermissions(permissions: Array<String>)
 
+
     }
 
     interface Presenter_ {
-
+        fun checkPermissions()
     }
 
     interface Model_ {
