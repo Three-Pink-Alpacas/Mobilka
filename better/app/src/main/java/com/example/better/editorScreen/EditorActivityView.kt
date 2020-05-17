@@ -45,8 +45,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
         currentImage = MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
-        selectedImage?.setImageBitmap(currentImage)
-
         presenter = EditorActivityPresenter(this)
     }
 

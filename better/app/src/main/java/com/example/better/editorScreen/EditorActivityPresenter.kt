@@ -1,44 +1,36 @@
 package com.example.better.editorScreen
 
 import android.animation.ValueAnimator
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Rect
 import android.os.Build
+import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.better.R
 import com.example.better.utils.OnMoveTouchListener
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.util.*
+
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
     private val view: EditorContract.View = _view
     private var bottomBarAnimator: ValueAnimator? = null
     private val model: EditorContract.Model = EditorActivityModel()
-    private var originalBitmapImage: Bitmap
-    private var bitmapImage: Bitmap
+    private var originalBitmapImage: Bitmap = view.getBitmap()
+    private var bitmapImage: Bitmap = model.getSqueezedBitmap(originalBitmapImage, this.getImageView()?.clipBounds)
     private val onTouchListener: View.OnTouchListener
-
     private var imageRotation: Float = 0f
 
     init {
-        originalBitmapImage = view.getBitmap()
-        val stream = ByteArrayOutputStream()
-        val options = BitmapFactory.Options()
-        options.inSampleSize = 6
-        originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 50, stream)
-        bitmapImage = BitmapFactory.decodeStream(
-            ByteArrayInputStream(stream.toByteArray()), view.getImageView()?.clipBounds,
-            options
-        )!!
-
         view.setBitmap(bitmapImage)
-
         onTouchListener = object : OnMoveTouchListener() {
             override fun onMoveLeft(diff: Float) {
                 changeImageRotation(-diff)
@@ -58,6 +50,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         }
     }
 
+
     override fun onClickButtonOnBottomBar(customBar: CustomBar) {
         hideBottomBar()
         customBar.show()
@@ -76,6 +69,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onNegativeFilter() {
         bitmapImage = model.negativeFilter(bitmapImage)
         view.setBitmap(bitmapImage)
+    }
+
+    override fun getImageView(): ImageView? {
+        return view.getImageView()
     }
 
     override fun onRotate() {

@@ -1,14 +1,19 @@
 package com.example.better.editorScreen
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Rect
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
 class EditorActivityModel : EditorContract.Model {
-
     override fun rotate(bitmap: Bitmap, angle: Float): Bitmap {
         val rad = angle * PI / 180f
         val centerX = bitmap.width / 2
@@ -105,5 +110,28 @@ class EditorActivityModel : EditorContract.Model {
             }
         }
         return newBitmap
+    }
+
+
+    override fun getSqueezedBitmap(originalBitmapImage: Bitmap, rect:Rect?): Bitmap {
+        var bitmapImage: Bitmap? = null
+        val runnable = Runnable {
+            val stream = ByteArrayOutputStream()
+            val options = BitmapFactory.Options()
+            options.inSampleSize = 6
+            originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 50, stream)
+            bitmapImage = BitmapFactory.decodeStream(
+                ByteArrayInputStream(stream.toByteArray()), rect,
+                options
+            )!!
+
+        }
+        val thread = Thread(runnable)
+        thread.start()
+        thread.join()
+        return if (bitmapImage!=null)
+            bitmapImage as Bitmap
+        else
+            originalBitmapImage
     }
 }
