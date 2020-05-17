@@ -6,8 +6,8 @@
 
     <LinearLayout
         android:id="@+id/rotateBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:translationY="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -16,9 +16,8 @@
 
         <ImageButton
             android:id="@+id/imageButton7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#00FFFFFF"
             android:onClick="onRotateRight90"

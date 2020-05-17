@@ -118,4 +118,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun setOnTouchListener(onTouchListener: View.OnTouchListener) {
         selectedImage?.setOnTouchListener(onTouchListener)
     }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun detachOnTouchListener() {
+        selectedImage?.setOnTouchListener(null)
+    }
 }

@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/editableImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:contentDescription="@string/editable_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <LinearLayout
         android:id="@+id/bottomBar"
         android:layout_width="wrap_content"
@@ -46,45 +47,38 @@
         android:animateLayoutChanges="true"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:padding="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageButton
             android:id="@+id/rotateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_marginStart="20dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/rotate_image"
             android:onClick="onRotate"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/rotate"
-            android:layout_marginLeft="20dp" />
+            android:scaleType="center"
+            app:srcCompat="@drawable/rotate" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_marginStart="50dp"
+            android:id="@+id/scaleButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/scale_image"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/scale"
-            android:layout_marginLeft="50dp" />
+            app:srcCompat="@drawable/scale" />
 
         <ImageButton
             android:id="@+id/filterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:onClick="onFilter"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:background="#00FFFFFF"
+            android:contentDescription="@string/filterbutton"
+            android:onClick="onFilter"
             android:rotation="0"
             app:srcCompat="@drawable/filter"
             tools:src="@drawable/filter" />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -102,19 +96,20 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="#00FFFFFF"
-            android:scaleType="fitCenter"
+            android:contentDescription="@string/backbutton"
             android:onClick="mainMenuMove"
+            android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/close"
-/>
+            app:srcCompat="@drawable/close" />
 
         <ImageButton
-            android:id="@+id/imageButton4"
+            android:id="@+id/acceptButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:background="#00FFFFFF"
+            android:contentDescription="@string/acceptbutton"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -124,25 +119,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:contentDescription="@string/undoredolayout"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/backMenuButton">
+            app:layout_constraintStart_toStartOf="@+id/backMenuButton"
+            android:layout_marginEnd="10dp">
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/undoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:background="#00FFFFFF"
+                android:contentDescription="@string/undobutton"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/undo" />
+                app:srcCompat="@drawable/undo"
+                android:layout_marginEnd="20dp" />
 
             <ImageButton
-                android:id="@+id/imageButton6"
+                android:id="@+id/redoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
+                android:contentDescription="@string/redobutton"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/redo" />
         </LinearLayout>

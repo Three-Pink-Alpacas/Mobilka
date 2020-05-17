@@ -27,7 +27,7 @@
             android:onClick="onClickBlackAndWhiteFilter"
             app:srcCompat="@drawable/scale" />
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/scaleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -38,7 +38,7 @@
             android:onClick="onClickVioletFilter"
             app:srcCompat="@drawable/scale" />
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/scaleButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"

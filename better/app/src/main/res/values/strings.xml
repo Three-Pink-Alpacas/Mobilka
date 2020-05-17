@@ -7,4 +7,10 @@
     <string name="scale_image">slace_image</string>
     <string name="rotate_image">rotate_image</string>
     <string name="editable_image">editable_image</string>
+    <string name="filterbutton">filterButton</string>
+    <string name="backbutton">backButton</string>
+    <string name="acceptbutton">acceptButton</string>
+    <string name="undobutton">undoButton</string>
+    <string name="redobutton">redoButton</string>
+    <string name="undoredolayout">undoRedoLayout</string>
 </resources>

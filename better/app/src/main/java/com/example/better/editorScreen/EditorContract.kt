@@ -38,5 +38,6 @@ interface EditorContract {
         fun getImageView(): ImageView?
         fun getFilterBar(): LinearLayout
         fun setOnTouchListener(onTouchListener: OnTouchListener)
+        fun detachOnTouchListener()
     }
 }
