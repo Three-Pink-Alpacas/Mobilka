@@ -56,7 +56,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
 
-
+    override fun onBackPressed() {
+        mainMenuMove(View(this))
+    }
     // button for getting in main menu
     fun mainMenuMove(view: View) {
         val alertDialogBuilder = AlertDialog.Builder(this)
