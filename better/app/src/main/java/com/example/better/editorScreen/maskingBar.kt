@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 
-class FilterBar(_linearLayout: LinearLayout): CustomBar {
+class MaskingBar(_linearLayout: LinearLayout): CustomBar {
     private val linearLayout: LinearLayout = _linearLayout
 
     override fun hide() {
