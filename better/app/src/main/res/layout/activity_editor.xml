@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
@@ -11,10 +12,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomBar"
+        app:layout_constraintBottom_toTopOf="@+id/bottomBarView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/editTopBar">
 
         <ImageView
             android:id="@+id/editableImage"
@@ -28,26 +29,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <include
-        layout="@layout/rotate_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <include
-        layout="@layout/filter_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <include
-        layout="@layout/masking_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <include
+        android:id="@+id/topBar"
         layout="@layout/editor_top_bar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -55,60 +37,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/bottomBar"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bottomBarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:animateLayoutChanges="true"
-        android:gravity="bottom"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-            android:id="@+id/rotateButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/rotate_image"
-            android:onClick="onRotate"
-            android:scaleType="center"
-            app:srcCompat="@drawable/rotate" />
-
-        <ImageButton
-            android:id="@+id/scaleButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            app:srcCompat="@drawable/scale" />
-
-        <ImageButton
-            android:id="@+id/filterButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/filterbutton"
-            android:onClick="onFilter"
-            android:rotation="0"
-            app:srcCompat="@drawable/filter"
-            tools:src="@drawable/filter" />
-
-        <ImageButton
-            android:id="@+id/maskingButton"
+        <LinearLayout
+            android:id="@+id/bottomBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:onClick="onMasking"
-            android:contentDescription="@string/maskingbutton"
-            android:background="#00FFFFFF"
-            app:srcCompat="@drawable/filter"
-            tools:src="@drawable/filter" />
+            android:animateLayoutChanges="true"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-    </LinearLayout>
+            <ImageButton
+                android:id="@+id/rotateButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/rotate_image"
+                android:onClick="onRotate"
+                android:scaleType="center"
+                app:srcCompat="@drawable/rotate" />
+
+            <ImageButton
+                android:id="@+id/violetButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/scale_image"
+                app:srcCompat="@drawable/scale" />
+
+            <ImageButton
+                android:id="@+id/filterButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/filterbutton"
+                android:onClick="onFilter"
+                android:rotation="0"
+                app:srcCompat="@drawable/filter"
+                tools:src="@drawable/filter" />
+
+            <ImageButton
+                android:id="@+id/maskingButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="@string/maskingbutton"
+                android:onClick="onMasking"
+                app:srcCompat="@drawable/filter"
+                tools:src="@drawable/filter" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+        android:id="@+id/editTopBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:translationY="-40dp"

@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View.OnTouchListener
 import android.widget.ImageView
-import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 
 interface EditorContract {
 
@@ -31,16 +31,16 @@ interface EditorContract {
     }
 
     interface View {
-        fun getBottomBar(): LinearLayout
-        fun getRotateBar(): LinearLayout
+        fun getBottomBar(): ConstraintLayout
+        fun getTopBar(): ConstraintLayout
+        fun getEditTopBar(): ConstraintLayout
         fun setBitmap(bitmap: Bitmap)
         fun getBitmap(): Bitmap
         fun setImageRotation(angle: Float)
         fun getImageView(): ImageView?
-        fun getFilterBar(): LinearLayout
         fun setOnTouchListener(onTouchListener: OnTouchListener)
         fun detachOnTouchListener()
-        fun getMaskingBar(): LinearLayout
+        fun createView(resource: Int): android.view.View
         fun getProgress():Int
     }
 }

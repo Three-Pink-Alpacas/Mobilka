@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -17,6 +18,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
@@ -27,13 +29,14 @@ import kotlinx.android.synthetic.main.rotate_bar.*
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
-    private fun changeStatusBarColor(context: Context){
+    private fun changeStatusBarColor(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val startColor = window.statusBarColor
             val endColor = ContextCompat.getColor(context, R.color.colorStatusBarInEditor)
             ObjectAnimator.ofArgb(window, "statusBarColor", startColor, endColor).start()
         }
     }
+
     private var selectedImage: ImageView? = null
     private var currentImage: Bitmap? = null
     private var maskingSeekBar: SeekBar? = null
@@ -66,10 +69,10 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter.onRotateRight90()
     }
 
-
     override fun onBackPressed() {
         mainMenuMove(View(this))
     }
+
     // button for getting in main menu
     fun mainMenuMove(view: View) {
         val builder = AlertDialog.Builder(this)
@@ -88,17 +91,17 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     fun onFilter(view: View) {
         presenter.onFilter()
     }
+
     fun onMasking(view: View) {
         presenter.onMasking()
     }
-    override fun getBottomBar(): LinearLayout {
-        return bottomBar
+
+    override fun getBottomBar(): ConstraintLayout {
+        return bottomBarView
     }
-    override fun getMaskingBar(): LinearLayout {
-        return maskingBar
-    }
-    override fun getRotateBar(): LinearLayout {
-        return rotateBar
+
+    override fun getTopBar(): ConstraintLayout {
+        return topBar as ConstraintLayout
     }
 
     override fun setBitmap(bitmap: Bitmap) {
@@ -116,18 +119,23 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun getImageView(): ImageView? {
         return selectedImage
     }
+
+    override fun getEditTopBar(): ConstraintLayout {
+        return editTopBar
+    }
+
     override fun getProgress():Int{
         return maskingSeekBar!!.progress
     }
-    override fun getFilterBar(): LinearLayout {
-        return filterBar
-    }
+
     fun onClickBlackAndWhiteFilter(view: View) {
         presenter.onBlackAndWhiteFilter()
     }
+
     fun onClickVioletFilter(view: View) {
         presenter.onVioletFilter()
     }
+
     fun onClickNegativeFilter(view: View) {
         presenter.onNegativeFilter()
     }
@@ -140,5 +148,11 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     @SuppressLint("ClickableViewAccessibility")
     override fun detachOnTouchListener() {
         selectedImage?.setOnTouchListener(null)
+    }
+
+    override fun createView(resource: Int): View {
+        val view = LayoutInflater.from(this).inflate(resource, mainLayout, false)
+        mainLayout.addView(view)
+        return view
     }
 }
