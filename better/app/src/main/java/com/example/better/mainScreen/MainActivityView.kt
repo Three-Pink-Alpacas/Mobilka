@@ -22,6 +22,7 @@ import com.example.better.CubeFragment
 import com.example.better.R
 import com.example.better.StartFragment
 import com.example.better.editorScreen.EditorActivityView
+import com.example.better.utils.CustomViewPager
 import java.io.File
 
 
@@ -39,7 +40,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         setContentView(R.layout.activity_main)
         presenter.checkPermissions()
         val adapter = MyAdapter(supportFragmentManager)
-        val viewPager: ViewPager = findViewById(R.id.viewpager)
+        val viewPager: CustomViewPager = findViewById(R.id.viewpager)
         var houseButton: Button = findViewById(R.id.houseButton)
         var universeButton: Button = findViewById(R.id.moveToCanvasButton)
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
@@ -53,9 +54,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             override fun onPageSelected(position: Int) {
                 when (position) {
                     1 ->{houseButton.isEnabled = false
-                        universeButton.isEnabled = true}
+                        universeButton.isEnabled = true
+                        viewPager.setPagingEnabled(true)}
                     0 -> {houseButton.isEnabled = true
-                        universeButton.isEnabled = false}
+                        universeButton.isEnabled = false
+                        viewPager.setPagingEnabled(false)}
                 }
             }
         })

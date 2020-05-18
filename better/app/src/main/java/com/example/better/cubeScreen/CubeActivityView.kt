@@ -10,7 +10,9 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.viewpager.widget.ViewPager
 import com.example.better.R
+import com.example.better.utils.CustomViewPager
 
 
 class CubeActivityView : Activity() {
@@ -107,6 +109,7 @@ class CubeActivityView : Activity() {
             return (movedY - initY)
         }
 
+
         override fun onTouchEvent(event: MotionEvent): Boolean {
             // return super.onTouchEvent(event);
             val action = event.action
@@ -117,6 +120,7 @@ class CubeActivityView : Activity() {
                 movedY = event.y
                 presenter.moveCube()
             } else if (action == MotionEvent.ACTION_DOWN) {
+
                 initX = event.x
                 movedX = event.x
                 initY = event.y
@@ -124,6 +128,7 @@ class CubeActivityView : Activity() {
                 presenter.moveCube()
                 drawing = true
             } else if (action == MotionEvent.ACTION_UP) {
+
                 drawing = true
             }
             return true
