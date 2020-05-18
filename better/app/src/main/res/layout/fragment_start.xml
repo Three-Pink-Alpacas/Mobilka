@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:aapt="http://schemas.android.com/aapt"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StartFragment">
+
+    <TextView
+        android:id="@+id/rectangle"
+        android:layout_width="220dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginLeft="57dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/rectangle_main_menu"
+        android:viewportWidth="223"
+        android:viewportHeight="44"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/companyName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginTop="52dp"
+        android:autoText="false"
+        android:fontFamily="@font/monsterrat_light"
+        android:text="@string/better_txt"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="72sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="235sp"
+        android:layout_height="189sp"
+        android:layout_marginStart="37dp"
+        android:layout_marginLeft="37dp"
+        android:layout_marginTop="198dp"
+        android:fontFamily="@font/monsterrat_light"
+        android:lineSpacingExtra="0sp"
+        android:text="Photo redactor.                                                                        Made by                                                                        Three Pink Alpacas.                                                                        Kirill Zharkov,                                                                        Galina Zabelina,                                                                        Daniil Krivelev.                                                                        Special project for HIT’s."
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

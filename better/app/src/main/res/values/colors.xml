@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#FFF9F2</color>
     <color name="colorAccent">#A1BEAF</color>
     <color name="colorStatusBarInEditor">#000000</color>
+    <color name="rectangleClr">#FF6C57</color>
 </resources>
