@@ -39,6 +39,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+    <include
+        layout="@layout/masking_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:id="@+id/bottomBar"
@@ -76,6 +82,17 @@
             android:contentDescription="@string/filterbutton"
             android:onClick="onFilter"
             android:rotation="0"
+            app:srcCompat="@drawable/filter"
+            tools:src="@drawable/filter" />
+
+        <ImageButton
+            android:id="@+id/maskingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:onClick="onMasking"
+            android:contentDescription="@string/maskingbutton"
+            android:background="#00FFFFFF"
             app:srcCompat="@drawable/filter"
             tools:src="@drawable/filter" />
 

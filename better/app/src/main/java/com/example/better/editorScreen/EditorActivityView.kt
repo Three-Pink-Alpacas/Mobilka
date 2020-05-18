@@ -13,6 +13,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,6 +22,7 @@ import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
 import kotlinx.android.synthetic.main.filter_bar.*
+import kotlinx.android.synthetic.main.masking_bar.*
 import kotlinx.android.synthetic.main.rotate_bar.*
 
 
@@ -33,6 +36,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
     private var selectedImage: ImageView? = null
     private var currentImage: Bitmap? = null
+    private var maskingSeekBar: SeekBar? = null
 
     private lateinit var presenter: EditorContract.Presenter
 
@@ -46,6 +50,12 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
         currentImage = MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
         presenter = EditorActivityPresenter(this)
+        maskingSeekBar = maskingDegree
+        maskingSeekBar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {presenter.onMaskingSeekBar(getProgress())}
+        })
     }
 
     fun onRotate(view: View) {
@@ -78,10 +88,15 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     fun onFilter(view: View) {
         presenter.onFilter()
     }
+    fun onMasking(view: View) {
+        presenter.onMasking()
+    }
     override fun getBottomBar(): LinearLayout {
         return bottomBar
     }
-
+    override fun getMaskingBar(): LinearLayout {
+        return maskingBar
+    }
     override fun getRotateBar(): LinearLayout {
         return rotateBar
     }
@@ -100,6 +115,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     override fun getImageView(): ImageView? {
         return selectedImage
+    }
+    override fun getProgress():Int{
+        return maskingSeekBar!!.progress
     }
     override fun getFilterBar(): LinearLayout {
         return filterBar

@@ -1,5 +1,6 @@
 package com.example.better.editorScreen
 
+import android.R.color
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -12,8 +13,11 @@ import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import kotlin.math.*
+
 
 class EditorActivityModel : EditorContract.Model {
+
     override fun rotate(bitmap: Bitmap, angle: Float): Bitmap {
         val rad = angle * PI / 180f
         val centerX = bitmap.width / 2
@@ -82,10 +86,10 @@ class EditorActivityModel : EditorContract.Model {
         for (x in 0..(bitmap.width-1)) {
             for (y in 0..(bitmap.height-1)) {
                 val pixel=oldBitmap.getPixel(x,y)
-                var a = Color.alpha(pixel)
-                var r = Color.red(pixel)
+                val a = Color.alpha(pixel)
+                val r = Color.red(pixel)
                 var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100) as Int
-                var b = Color.blue(pixel)
+                val b = Color.blue(pixel)
 
                 if (g<0)  g = 0  else if (g>255)  g=255
                 val newPixel = Color.argb(a,r,g,b)
@@ -100,13 +104,48 @@ class EditorActivityModel : EditorContract.Model {
         for (x in 0..(bitmap.width-1)) {
             for (y in 0..(bitmap.height-1)) {
                 val pixel=oldBitmap.getPixel(x,y)
-                var a = Color.alpha(pixel)
-                var r = 255 - (pixel and 0x00FF0000 shr 16)
-                var g = 255 - (pixel and 0x0000FF00 shr 8)
-                var b = 255 - (pixel and 0x000000FF)
+                val r = 255 - (pixel and 0x00FF0000 shr 16)
+                val g = 255 - (pixel and 0x0000FF00 shr 8)
+                val b = 255 - (pixel and 0x000000FF)
 
-                val newPixel = Color.argb(a,r,g,b)
+                val newPixel = Color.rgb(r,g,b)
                 newBitmap.setPixel(x,y,newPixel)
+            }
+        }
+        return newBitmap
+    }
+
+    override fun masking(bitmap: Bitmap, progress: Int): Bitmap {
+        val oldBitmap = bitmap
+        val newBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true)
+        val sharpenForce = progress.toFloat()
+        val kernel = arrayOf(
+            floatArrayOf(0f, -1 * sharpenForce, 0f),
+            floatArrayOf(-1 * sharpenForce, 4 * sharpenForce + 1, -1 * sharpenForce),
+            floatArrayOf(0f, -1 * sharpenForce, 0f)
+        )
+        for (y in 1 until oldBitmap.height - 1) {
+            for (x in 1 until oldBitmap.width - 1) {
+                var newR = 0
+                var newG = 0
+                var newB = 0
+                for (yk in -1..1) {
+                    for (xk in -1..1) {
+                        val pixel=oldBitmap.getPixel(x+xk, y+yk)
+                        val r: Float = Color.red(pixel).toFloat()
+                        val g: Float = Color.green(pixel).toFloat()
+                        val b: Float = Color.blue(pixel).toFloat()
+                        newR += (kernel[yk + 1][xk + 1] * r).toInt()
+                        newG += (kernel[yk + 1][xk + 1] * g).toInt()
+                        newB += (kernel[yk + 1][xk + 1] * b).toInt()
+                    }
+                }
+                if (newR<0) newR=0 else if (newR>255) newR=255
+                if (newG<0) newG=0 else if (newG>255) newG=255
+                if (newB<0) newB=0 else if (newB>255) newB=255
+
+                val newPixel = Color.rgb(newR, newG, newB)
+                newBitmap.setPixel(x, y, newPixel)
             }
         }
         return newBitmap

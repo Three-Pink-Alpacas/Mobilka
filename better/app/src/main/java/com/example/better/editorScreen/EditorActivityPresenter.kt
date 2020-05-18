@@ -75,12 +75,20 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         return view.getImageView()
     }
 
+    override fun onMaskingSeekBar(progress: Int){
+        bitmapImage = model.masking(bitmapImage, progress)
+        view.setBitmap(bitmapImage)
+    }
     override fun onRotate() {
         val rotateBar = RotateBar(view.getRotateBar())
         onClickButtonOnBottomBar(rotateBar)
         view.setOnTouchListener(onTouchListener)
     }
 
+    override fun onMasking() {
+        val maskingBar = MaskingBar(view.getMaskingBar())
+        onClickButtonOnBottomBar(maskingBar)
+    }
     override fun onFilter() {
         val filterBar = FilterBar(view.getFilterBar())
         onClickButtonOnBottomBar(filterBar)
