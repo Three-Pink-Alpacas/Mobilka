@@ -7,4 +7,7 @@
     <string name="scale_image">slace_image</string>
     <string name="rotate_image">rotate_image</string>
     <string name="editable_image">editable_image</string>
+    <string name="better_txt">better.</string>
+    <string name="cube_txt">cube.</string>
+
 </resources>

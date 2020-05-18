@@ -84,7 +84,7 @@ class EditorActivityModel : EditorContract.Model {
                 val pixel=oldBitmap.getPixel(x,y)
                 var a = Color.alpha(pixel)
                 var r = Color.red(pixel)
-                var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100) as Int
+                var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100)
                 var b = Color.blue(pixel)
 
                 if (g<0)  g = 0  else if (g>255)  g=255

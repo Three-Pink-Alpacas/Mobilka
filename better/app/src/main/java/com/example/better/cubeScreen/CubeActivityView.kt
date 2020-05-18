@@ -2,7 +2,6 @@ package com.example.better.cubeScreen
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -11,23 +10,17 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.View
 import com.example.better.R
-import com.example.better.mainScreen.MainActivityView
 
 
 class CubeActivityView : Activity() {
 
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
-        setContentView(R.layout.activity_cube_showing)
+        setContentView(R.layout.fragment_cube)
 
     }
-    // button for getting in main menu
-    fun mainMenuMove(view: View) {
-        val intent = Intent(this, MainActivityView::class.java);
-        startActivity(intent);
-    }
+
 
 
     class MySurfaceThread(private val myThreadSurfaceHolder: SurfaceHolder, private val myThreadSurfaceView: MySurfaceView) : Thread() {
@@ -62,6 +55,7 @@ class CubeActivityView : Activity() {
         private fun init() {
             holder.addCallback(this)
             isFocusable = true // make sure we get key events
+
             paint.setStyle(Paint.Style.STROKE)
             paint.setStrokeWidth(3F)
             paint.setColor(Color.WHITE)
