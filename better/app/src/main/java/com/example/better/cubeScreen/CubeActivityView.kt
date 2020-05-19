@@ -76,7 +76,7 @@ class CubeActivityView : Activity() {
         override fun draw(canvas: Canvas) {
             super.draw(canvas)
             val canvMidX: Float = canvas.width.toFloat()/2
-            val canvMidY: Float = canvas.height.toFloat()/3
+            val canvMidY: Float = (canvas.height.toFloat()/8)*3
             if (drawing) {
                 canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[1].getX()+canvMidX,cube[1].getY()+canvMidY, paint)
                 canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[2].getX()+canvMidX,cube[2].getY()+canvMidY, paint)
