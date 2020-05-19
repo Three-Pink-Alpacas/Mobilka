@@ -7,16 +7,17 @@
     android:background="@drawable/gradient"
     tools:context=".mainScreen.MainActivityView">
 
+
     <com.example.better.utils.CustomViewPager
+        android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/viewpager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </com.example.better.utils.CustomViewPager>
-
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"></com.example.better.utils.CustomViewPager>
 
     <Button
         android:id="@+id/houseButton"
@@ -48,19 +49,6 @@
         app:layout_constraintVertical_bias="0.976" />
 
     <Button
-        android:id="@+id/plusButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="plusMove"
-        android:text="@string/plus_btn_txt"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.853" />
-
-    <Button
         android:id="@+id/openInGalleryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,5 +71,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.713" />
+
+    <Button
+        android:id="@+id/plusButton"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:background="@drawable/button_plus"
+        android:onClick="plusMove"
+        android:text="@string/plus_btn_txt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.94" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
