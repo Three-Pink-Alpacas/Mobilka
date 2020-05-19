@@ -1,9 +1,13 @@
 package com.example.better.mainScreen
 
+import android.animation.ObjectAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -32,7 +36,28 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     private val OPEN_CAMERA_CODE = 2
 
     var presenter = MainActivityPresenter(this)
-
+    private fun changeStatusBarColor(context: Context, num:Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val startColor: Int
+            val endColor: Int
+            if (num==0)
+            {
+                startColor = window.statusBarColor
+                endColor = ContextCompat.getColor(context, R.color.colorStatusBarInEditor)
+            }
+            else if (num==1)
+            {
+                startColor = window.statusBarColor
+                endColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
+            }
+            else
+            {
+                startColor = window.statusBarColor
+                endColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
+            }
+            ObjectAnimator.ofArgb(window, "statusBarColor", startColor, endColor).start()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -43,6 +68,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         val viewPager: CustomViewPager = findViewById(R.id.viewpager)
         var houseButton: Button = findViewById(R.id.houseButton)
         var universeButton: Button = findViewById(R.id.moveToCanvasButton)
+
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -55,9 +81,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 when (position) {
                     1 ->{houseButton.isEnabled = false
                         universeButton.isEnabled = true
+                        changeStatusBarColor(this@MainActivityView, 1)
                         viewPager.setPagingEnabled(true)}
                     0 -> {houseButton.isEnabled = true
                         universeButton.isEnabled = false
+                        changeStatusBarColor(this@MainActivityView, 0)
                         viewPager.setPagingEnabled(false)}
                 }
             }

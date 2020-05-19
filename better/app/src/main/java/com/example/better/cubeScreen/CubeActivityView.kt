@@ -1,22 +1,24 @@
 package com.example.better.cubeScreen
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Build
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.example.better.R
 import com.example.better.utils.CustomViewPager
 
 
 class CubeActivityView : Activity() {
-
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
         setContentView(R.layout.fragment_cube)
@@ -57,7 +59,6 @@ class CubeActivityView : Activity() {
         private fun init() {
             holder.addCallback(this)
             isFocusable = true // make sure we get key events
-
             paint.setStyle(Paint.Style.STROKE)
             paint.setStrokeWidth(3F)
             paint.setColor(Color.WHITE)
@@ -69,14 +70,13 @@ class CubeActivityView : Activity() {
         var initY = 0F
         var movedX = 0F
         var movedY = 0F
-        var radius = 0F
         var drawing = false
 
         private var thread: MySurfaceThread? = null
         override fun draw(canvas: Canvas) {
             super.draw(canvas)
             val canvMidX: Float = canvas.width.toFloat()/2
-            val canvMidY: Float = canvas.height.toFloat()/2
+            val canvMidY: Float = canvas.height.toFloat()/3
             if (drawing) {
                 canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[1].getX()+canvMidX,cube[1].getY()+canvMidY, paint)
                 canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[2].getX()+canvMidX,cube[2].getY()+canvMidY, paint)
