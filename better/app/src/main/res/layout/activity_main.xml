@@ -75,15 +75,15 @@
     <Button
         android:id="@+id/plusButton"
         style="?android:attr/borderlessButtonStyle"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_plus"
         android:onClick="plusMove"
-        android:text="@string/plus_btn_txt"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/viewpager"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.94" />
+        app:layout_constraintVertical_bias="0.93" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
