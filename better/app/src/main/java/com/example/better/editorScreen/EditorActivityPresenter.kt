@@ -7,8 +7,8 @@ import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
+import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
-import kotlinx.android.synthetic.main.fragment_start.view.*
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
@@ -42,9 +42,18 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
                 changeImageRotation(diff)
             }
         }
-        bottomBar = CustomBar(view.getBottomBar(), CustomBar.Type.BOTTOM)
-        topBar = CustomBar(view.getTopBar(), CustomBar.Type.TOP)
-        editTopBar = CustomBar(view.getEditTopBar(), CustomBar.Type.TOP)
+        bottomBar = CustomBar(
+            view.getBottomBar(),
+            CustomBar.Type.BOTTOM
+        )
+        topBar = CustomBar(
+            view.getTopBar(),
+            CustomBar.Type.TOP
+        )
+        editTopBar = CustomBar(
+            view.getEditTopBar(),
+            CustomBar.Type.TOP
+        )
     }
 
     override fun onClickButtonOnBottomBar(customBar: CustomBar) {
@@ -80,20 +89,29 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
     override fun onRotate() {
         val rotateBarView = view.createView(R.layout.rotate_bar)
-        val rotateBar = CustomBar(rotateBarView as ConstraintLayout, CustomBar.Type.BOTTOM)
+        val rotateBar = CustomBar(
+            rotateBarView as ConstraintLayout,
+            CustomBar.Type.BOTTOM
+        )
         onClickButtonOnBottomBar(rotateBar)
         view.setOnTouchListener(onTouchListener)
     }
 
     override fun onMasking() {
         val maskingBarView = view.createView(R.layout.masking_bar)
-        val maskingBar = CustomBar(maskingBarView as ConstraintLayout, CustomBar.Type.BOTTOM)
+        val maskingBar = CustomBar(
+            maskingBarView as ConstraintLayout,
+            CustomBar.Type.BOTTOM
+        )
         onClickButtonOnBottomBar(maskingBar)
     }
 
     override fun onFilter() {
         val filterBarView = view.createView(R.layout.filter_bar)
-        val filterBar = CustomBar(filterBarView as ConstraintLayout, CustomBar.Type.BOTTOM)
+        val filterBar = CustomBar(
+            filterBarView as ConstraintLayout,
+            CustomBar.Type.BOTTOM
+        )
         onClickButtonOnBottomBar(filterBar)
     }
 

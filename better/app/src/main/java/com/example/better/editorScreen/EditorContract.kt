@@ -5,6 +5,7 @@ import android.graphics.Rect
 import android.view.View.OnTouchListener
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.example.better.utils.CustomBar
 
 interface EditorContract {
 

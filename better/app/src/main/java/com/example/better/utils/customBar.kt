@@ -1,4 +1,4 @@
-package com.example.better.editorScreen
+package com.example.better.utils
 
 import android.animation.ValueAnimator
 import android.view.animation.LinearInterpolator

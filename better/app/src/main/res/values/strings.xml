@@ -16,6 +16,7 @@
     <string name="undoredolayout">undoRedoLayout</string>
     <string name="better_txt">better.</string>
     <string name="cube_txt">cube.</string>
+    <string name="open_in_gallery_txt">open in gallery.</string>
     <string name="filterbarlayout">filterBarLayout</string>
 
 </resources>

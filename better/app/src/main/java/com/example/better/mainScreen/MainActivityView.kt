@@ -1,6 +1,7 @@
 package com.example.better.mainScreen
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,8 +13,10 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
+import android.view.animation.LinearInterpolator
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -26,7 +29,9 @@ import com.example.better.CubeFragment
 import com.example.better.R
 import com.example.better.StartFragment
 import com.example.better.editorScreen.EditorActivityView
+import com.example.better.utils.CustomBar
 import com.example.better.utils.CustomViewPager
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 
 
@@ -118,7 +123,30 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         val viewPager: ViewPager = findViewById(R.id.viewpager)
         viewPager.setCurrentItem(1)
     }
-    fun plusMove(view: View) {}
+    fun plusMove(view: View) {
+        val viewPlus = this.plusView as ConstraintLayout
+        val animator: ValueAnimator = ValueAnimator()
+        animator.addUpdateListener {
+            val value = it.animatedValue as Float
+            viewPlus.translationY = value
+        }
+        animator.interpolator = LinearInterpolator()
+        animator.duration = 300
+        animator.setFloatValues(viewPlus.translationY, 450f)
+        animator.start()
+    }
+    override fun onBackPressed() {
+        val viewPlus = this.plusView as ConstraintLayout
+        val animator = ValueAnimator()
+        animator.addUpdateListener {
+            val value = it.animatedValue as Float
+            viewPlus.translationY = value
+        }
+        animator.interpolator = LinearInterpolator()
+        animator.duration = 300
+        animator.setFloatValues(viewPlus.translationY, viewPlus.height.toFloat())
+        animator.start()
+    }
     fun galleryOpen(view: View) {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
