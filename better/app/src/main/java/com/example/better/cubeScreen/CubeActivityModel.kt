@@ -6,14 +6,14 @@ import com.example.better.cubeScreen.CubeContract.*
 
 class CubeActivityModel(): Model_ {
     var cubeReal: Array<RealPoint> = arrayOf(
-        RealPoint(-150F, -150F, -150F),
-        RealPoint(150F, -150F, -150F),
-        RealPoint(150F, 150F, -150F),
-        RealPoint(-150F, 150F, -150F),
-        RealPoint(-150F, -150F, 150F),
-        RealPoint(150F, -150F, 150F),
-        RealPoint(150F, 150F, 150F),
-        RealPoint(-150F, 150F, 150F)
+        RealPoint(-100F, -100F, -100F),
+        RealPoint(100F, -100F, -100F),
+        RealPoint(100F, 100F, -100F),
+        RealPoint(-100F, 100F, -100F),
+        RealPoint(-100F, -100F, 100F),
+        RealPoint(100F, -100F, 100F),
+        RealPoint(100F, 100F, 100F),
+        RealPoint(-100F, 100F, 100F)
     )
 
     var cubeView: Array<ViewPoint> = arrayOf(
