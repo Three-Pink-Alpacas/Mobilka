@@ -8,6 +8,15 @@
     tools:context=".mainScreen.MainActivityView">
 
 
+    <ImageButton
+        android:id="@+id/makePhoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="-1dp"
+        android:layout_marginLeft="-1dp"
+        android:onClick="cameraOpen"
+        app:srcCompat="@android:drawable/ic_menu_camera" />
+
     <com.example.better.utils.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
@@ -76,26 +85,14 @@
         tools:layout_editor_absoluteY="750dp">
 
 
-        <ImageButton
-            android:id="@+id/makePhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="cameraOpen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.25"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
-            android:text="@string/open_in_gallery_txt"
             android:onClick="galleryOpen"
+            android:text="@string/open_in_gallery_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -104,6 +101,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <GridView
+            android:id="@+id/galleryGridView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:columnWidth="280dp"
+            android:gravity="center"
+            android:horizontalSpacing="2dp"
+            android:numColumns="2"
+            android:padding="2dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"></GridView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,8 @@ import androidx.viewpager.widget.ViewPager
 
 class CustomViewPager(context: Context?, attrs: AttributeSet?) : ViewPager(context!!, attrs) {
     var enbld = true
+
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
         return if (enbld) {
             super.onTouchEvent(event)

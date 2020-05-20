@@ -2,19 +2,22 @@ package com.example.better.mainScreen
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
-import android.widget.Button
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -23,16 +26,19 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import com.bumptech.glide.Glide
 import com.example.better.CubeFragment
 import com.example.better.R
 import com.example.better.StartFragment
 import com.example.better.editorScreen.EditorActivityView
-import com.example.better.utils.CustomBar
 import com.example.better.utils.CustomViewPager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
+import java.util.ArrayList
 
 
 class MainActivityView : AppCompatActivity(), MainContract.View_ {
@@ -63,7 +69,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             ObjectAnimator.ofArgb(window, "statusBarColor", startColor, endColor).start()
         }
     }
-
+    private var images: ArrayList<String?>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -73,7 +79,17 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         val viewPager: CustomViewPager = findViewById(R.id.viewpager)
         var houseButton: Button = findViewById(R.id.houseButton)
         var universeButton: Button = findViewById(R.id.moveToCanvasButton)
-
+        var plusButton: Button = findViewById(R.id.plusButton)
+        val gallery = findViewById<View>(R.id.galleryGridView) as GridView
+        gallery.adapter = ImageAdapter(this)
+        gallery.onItemClickListener =
+            AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
+                if (null != images && !images!!.isEmpty()) Toast.makeText(
+                    applicationContext,
+                    "position " + position + " " + images!!.get(position),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -124,6 +140,10 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         viewPager.setCurrentItem(1)
     }
     fun plusMove(view: View) {
+        showViewPlus()
+    }
+
+    fun showViewPlus(){
         val viewPlus = this.plusView as ConstraintLayout
         val animator: ValueAnimator = ValueAnimator()
         animator.addUpdateListener {
@@ -134,8 +154,9 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         animator.duration = 300
         animator.setFloatValues(viewPlus.translationY, 450f)
         animator.start()
+        plusButton.isEnabled = false
     }
-    override fun onBackPressed() {
+    fun hideViewPlus(){
         val viewPlus = this.plusView as ConstraintLayout
         val animator = ValueAnimator()
         animator.addUpdateListener {
@@ -146,6 +167,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         animator.duration = 300
         animator.setFloatValues(viewPlus.translationY, viewPlus.height.toFloat())
         animator.start()
+        plusButton.isEnabled = true
+    }
+
+    override fun onBackPressed() {
+        hideViewPlus()
     }
     fun galleryOpen(view: View) {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -216,5 +242,86 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
 
     override fun onStop() {
         super.onStop()
+    }
+
+    /**
+     * The Class ImageAdapter.
+     */
+    private inner class ImageAdapter(
+        /** The context.  */
+        private val context: Activity
+    ) : BaseAdapter() {
+        override fun getCount(): Int {
+            return images!!.size
+        }
+
+        override fun getItem(position: Int): Any {
+            return position
+        }
+
+        override fun getItemId(position: Int): Long {
+            return position.toLong()
+        }
+
+        override fun getView(
+            position: Int, convertView: View?,
+            parent: ViewGroup
+        ): View {
+            val picturesView: ImageView
+            if (convertView == null) {
+                picturesView = ImageView(context)
+                picturesView.scaleType = ImageView.ScaleType.FIT_CENTER
+                picturesView.layoutParams = AbsListView.LayoutParams(270, 270)
+            } else {
+                picturesView = convertView as ImageView
+            }
+            Glide.with(context).load(images!![position])
+                .placeholder(R.drawable.ic_launcher_background).centerCrop()
+                .into(picturesView)
+            return picturesView
+        }
+
+        /**
+         * Getting All Images Path.
+         *
+         * @param activity
+         * the activity
+         * @return ArrayList with images Path
+         */
+        private fun getAllShownImagesPath(activity: Activity): ArrayList<String?> {
+            val uri: Uri
+            val cursor: Cursor?
+            val column_index_data: Int
+            val column_index_folder_name: Int
+            val listOfAllImages =
+                ArrayList<String?>()
+            var absolutePathOfImage: String? = null
+            uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            val projection = arrayOf(
+                MediaStore.MediaColumns.DATA,
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+            )
+            cursor = activity.contentResolver.query(
+                uri, projection, null,
+                null, null
+            )
+            column_index_data = cursor!!.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+            column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+            while (cursor.moveToNext()) {
+                absolutePathOfImage = cursor.getString(column_index_data)
+                listOfAllImages.add(absolutePathOfImage)
+            }
+            return listOfAllImages
+        }
+
+        /**
+         * Instantiates a new image adapter.
+         *
+         * @param localContext
+         * the local context
+         */
+        init {
+            images = getAllShownImagesPath(context)
+        }
     }
 }
