@@ -271,7 +271,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             if (convertView == null) {
                 picturesView = ImageView(context)
                 picturesView.scaleType = ImageView.ScaleType.FIT_CENTER
-                picturesView.layoutParams = AbsListView.LayoutParams(270, 270)
+                picturesView.layoutParams = AbsListView.LayoutParams(360, 360)
             } else {
                 picturesView = convertView as ImageView
             }
