@@ -69,10 +69,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/plusView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="600dp"
         android:background="@drawable/rectangle_plus"
         android:translationY="750dp"
-        tools:layout_editor_absoluteY="750dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <TextView
@@ -114,20 +117,20 @@
 
         <GridView
             android:id="@+id/galleryGridView"
-            android:layout_width="wrap_content"
-            android:layout_height="480dp"
-            android:layout_marginBottom="150dp"
-            android:columnWidth="358dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="106dp"
             android:gravity="center"
-            android:horizontalSpacing="3dp"
+            android:horizontalSpacing="2dp"
             android:numColumns="3"
+            android:padding="2dp"
             android:stretchMode="columnWidth"
             android:verticalSpacing="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textGallery"
-            app:layout_constraintVertical_bias="1.0"></GridView>
+            app:layout_constraintTop_toBottomOf="@+id/textGallery"
+            app:layout_constraintVertical_bias="0.0"></GridView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
