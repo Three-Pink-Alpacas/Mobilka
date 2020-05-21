@@ -11,7 +11,7 @@ interface MainContract {
     }
 
     interface Presenter_ {
-        fun checkPermissions(): Boolean
+        fun checkPermissions()
     }
 
     interface Model_ {

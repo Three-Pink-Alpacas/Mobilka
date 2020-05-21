@@ -2,7 +2,6 @@ package com.example.better.mainScreen
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -13,7 +12,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
@@ -26,8 +24,6 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.bumptech.glide.Glide
@@ -38,7 +34,7 @@ import com.example.better.editorScreen.EditorActivityView
 import com.example.better.utils.CustomViewPager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
-import java.util.ArrayList
+import java.util.*
 
 
 class MainActivityView : AppCompatActivity(), MainContract.View_ {
@@ -129,7 +125,13 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         viewPager.setCurrentItem(1)
     }
     fun plusMove(view: View) {
-        val gotAllPermissions = presenter.checkPermissions()
+        var gotAllPermissions: Boolean = true
+        presenter.checkPermissions()
+        for (permission in presenter.neededPermissions) {
+            if (!checkHasPermission(permission)) {
+                gotAllPermissions = false
+            }
+        }
         if (gotAllPermissions) {
             val gallery = findViewById<View>(R.id.galleryGridView) as GridView
             gallery.adapter = ImageAdapter(this)
@@ -303,9 +305,10 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 MediaStore.MediaColumns.DATA,
                 MediaStore.Images.Media.BUCKET_DISPLAY_NAME
             )
+            val orderBy = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC"
             cursor = activity.contentResolver.query(
                 uri, projection, null,
-                null, null
+                null, orderBy
             )
             column_index_data = cursor!!.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
             column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
