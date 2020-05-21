@@ -21,6 +21,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -137,11 +138,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             gallery.adapter = ImageAdapter(this)
             gallery.onItemClickListener =
                 AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
-                    if (null != images && !images!!.isEmpty()) Toast.makeText(
-                        applicationContext,
-                        "position " + position + " " + images!!.get(position),
-                        Toast.LENGTH_LONG
-                    ).show()
+                    if (null != images && images!!.isNotEmpty()) startEditor(Uri.fromFile(File(images!![position])))
                 }
             showViewPlus()
         }
