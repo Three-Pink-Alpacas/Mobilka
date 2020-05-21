@@ -5,4 +5,5 @@
     <color name="colorAccent">#A1BEAF</color>
     <color name="colorStatusBarInEditor">#000000</color>
     <color name="rectangleClr">#FF6C57</color>
+    <color name="colorPlus">#6C6C6C</color>
 </resources>

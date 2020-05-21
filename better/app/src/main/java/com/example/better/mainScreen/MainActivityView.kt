@@ -273,12 +273,12 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             if (convertView == null) {
                 picturesView = ImageView(context)
                 picturesView.scaleType = ImageView.ScaleType.FIT_CENTER
-                picturesView.layoutParams = AbsListView.LayoutParams(360, 360)
+                picturesView.layoutParams = AbsListView.LayoutParams(358, 358)
             } else {
                 picturesView = convertView as ImageView
             }
             Glide.with(context).load(images!![position])
-                .placeholder(R.drawable.ic_launcher_background).centerCrop()
+                .placeholder(R.drawable.gradient).centerCrop()
                 .into(picturesView)
             return picturesView
         }

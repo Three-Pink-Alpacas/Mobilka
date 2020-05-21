@@ -8,15 +8,6 @@
     tools:context=".mainScreen.MainActivityView">
 
 
-    <ImageButton
-        android:id="@+id/makePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="-1dp"
-        android:layout_marginLeft="-1dp"
-        android:onClick="cameraOpen"
-        app:srcCompat="@android:drawable/ic_menu_camera" />
-
     <com.example.better.utils.CustomViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
@@ -78,7 +69,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/plusView"
         android:layout_width="match_parent"
-
         android:layout_height="match_parent"
         android:background="@drawable/rectangle_plus"
         android:translationY="750dp"
@@ -86,14 +76,34 @@
 
 
         <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
+            android:id="@+id/textCamera"
+            android:layout_width="205dp"
+            android:layout_height="61dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:gravity="center"
+            android:onClick="cameraOpen"
+            android:text="@string/camera_btn_txt"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF"
+            android:textSize="27sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <TextView
+            android:id="@+id/textGallery"
+            android:layout_width="205dp"
             android:layout_height="61dp"
             android:fontFamily="@font/montserrat_medium"
             android:gravity="center"
             android:onClick="galleryOpen"
             android:text="@string/open_in_gallery_txt"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#FFFFFF"
             android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,18 +115,19 @@
         <GridView
             android:id="@+id/galleryGridView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
-            android:columnWidth="360dp"
+            android:layout_height="480dp"
+            android:layout_marginBottom="150dp"
+            android:columnWidth="358dp"
             android:gravity="center"
-            android:horizontalSpacing="0dp"
+            android:horizontalSpacing="3dp"
             android:numColumns="3"
             android:stretchMode="columnWidth"
-            android:verticalSpacing="0dp"
+            android:verticalSpacing="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"></GridView>
+            app:layout_constraintTop_toTopOf="@+id/textGallery"
+            app:layout_constraintVertical_bias="1.0"></GridView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
