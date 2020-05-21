@@ -74,22 +74,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        presenter.checkPermissions()
         val adapter = MyAdapter(supportFragmentManager)
         val viewPager: CustomViewPager = findViewById(R.id.viewpager)
         var houseButton: Button = findViewById(R.id.houseButton)
         var universeButton: Button = findViewById(R.id.moveToCanvasButton)
         var plusButton: Button = findViewById(R.id.plusButton)
-        val gallery = findViewById<View>(R.id.galleryGridView) as GridView
-        gallery.adapter = ImageAdapter(this)
-        gallery.onItemClickListener =
-            AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
-                if (null != images && !images!!.isEmpty()) Toast.makeText(
-                    applicationContext,
-                    "position " + position + " " + images!!.get(position),
-                    Toast.LENGTH_LONG
-                ).show()
-            }
         viewPager.addOnPageChangeListener(object : OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
@@ -140,7 +129,20 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         viewPager.setCurrentItem(1)
     }
     fun plusMove(view: View) {
-        showViewPlus()
+        val gotAllPermissions = presenter.checkPermissions()
+        if (gotAllPermissions) {
+            val gallery = findViewById<View>(R.id.galleryGridView) as GridView
+            gallery.adapter = ImageAdapter(this)
+            gallery.onItemClickListener =
+                AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
+                    if (null != images && !images!!.isEmpty()) Toast.makeText(
+                        applicationContext,
+                        "position " + position + " " + images!!.get(position),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            showViewPlus()
+        }
     }
 
     fun showViewPlus(){

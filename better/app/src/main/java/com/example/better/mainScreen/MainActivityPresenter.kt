@@ -13,7 +13,7 @@ class MainActivityPresenter(_view: View_): Presenter_ {
         view.initView()
     }
 
-    override fun checkPermissions() {
+    override fun checkPermissions(): Boolean {
 
         val permissionsNotGranted = ArrayList<String>()
         for (permission in neededPermissions) {
@@ -25,6 +25,14 @@ class MainActivityPresenter(_view: View_): Presenter_ {
         if (permissionsNotGranted.size > 0) {
             view.requestPermissions(permissionsNotGranted.toTypedArray())
         }
+
+        for (permission in neededPermissions) {
+            if (!view.checkHasPermission(permission)) {
+                return false
+            }
+        }
+        return true
     }
+
 
 }
