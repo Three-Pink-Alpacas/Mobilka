@@ -5,7 +5,10 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Build
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.annotation.RequiresApi
+import com.example.better.mainScreen.MainActivityView
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import kotlin.math.PI
@@ -121,8 +124,7 @@ class EditorActivityModel : EditorContract.Model {
         val kernel = arrayOf(
             floatArrayOf(0f, -1 * sharpenForce, 0f),
             floatArrayOf(-1 * sharpenForce, 4 * sharpenForce + 1, -1 * sharpenForce),
-            floatArrayOf(0f, -1 * sharpenForce, 0f)
-        )
+            floatArrayOf(0f, -1 * sharpenForce, 0f))
         for (y in 1 until oldBitmap.height - 1) {
             for (x in 1 until oldBitmap.width - 1) {
                 var newR = 0
@@ -139,7 +141,7 @@ class EditorActivityModel : EditorContract.Model {
                         newB += (kernel[yk + 1][xk + 1] * b).toInt()
                     }
                 }
-                if (newR<0) newR=0 else if (newR>255) newR=255
+                if (newR<0) newR=0 else if (newR> 255) newR=255
                 if (newG<0) newG=0 else if (newG>255) newG=255
                 if (newB<0) newB=0 else if (newB>255) newB=255
 
@@ -147,6 +149,7 @@ class EditorActivityModel : EditorContract.Model {
                 newBitmap.setPixel(x, y, newPixel)
             }
         }
+
         return newBitmap
     }
 

@@ -16,6 +16,7 @@ import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -39,7 +40,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     private var selectedImage: ImageView? = null
     private var currentImage: Bitmap? = null
-    private var maskingSeekBar: SeekBar? = null
 
     private lateinit var presenter: EditorContract.Presenter
 
@@ -53,12 +53,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
         currentImage = MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
         presenter = EditorActivityPresenter(this)
-        maskingSeekBar = maskingDegree
-        maskingSeekBar?.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {presenter.onMaskingSeekBar(getProgress())}
-        })
     }
 
     fun onRotate(view: View) {
@@ -124,9 +118,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         return editTopBar
     }
 
-    override fun getProgress():Int{
-        return maskingSeekBar!!.progress
-    }
 
     fun onClickBlackAndWhiteFilter(view: View) {
         presenter.onBlackAndWhiteFilter()

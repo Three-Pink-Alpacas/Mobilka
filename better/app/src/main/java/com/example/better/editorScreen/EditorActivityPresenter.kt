@@ -4,11 +4,14 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.view.View
 import android.widget.ImageView
+import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
+import kotlinx.android.synthetic.main.masking_bar.*
+import kotlinx.android.synthetic.main.masking_bar.view.*
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
@@ -22,6 +25,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private val bottomBar: CustomBar
     private val topBar: CustomBar
     private val editTopBar: CustomBar
+    var maskingSeekBar: SeekBar? = null
 
     init {
         view.setBitmap(bitmapImage)
@@ -103,7 +107,14 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             maskingBarView as ConstraintLayout,
             CustomBar.Type.BOTTOM
         )
+        maskingSeekBar = maskingBarView.maskingDegree
+        maskingSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {onMaskingSeekBar(maskingSeekBar!!.progress)}
+        })
         onClickButtonOnBottomBar(maskingBar)
+
     }
 
     override fun onFilter() {

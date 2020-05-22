@@ -42,6 +42,5 @@ interface EditorContract {
         fun setOnTouchListener(onTouchListener: OnTouchListener)
         fun detachOnTouchListener()
         fun createView(resource: Int): android.view.View
-        fun getProgress():Int
     }
 }
