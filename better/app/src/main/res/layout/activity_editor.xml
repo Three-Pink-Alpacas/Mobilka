@@ -64,13 +64,14 @@
                 android:onClick="onRotate"
                 android:scaleType="center"
                 app:srcCompat="@drawable/rotate" />
-
             <ImageButton
-                android:id="@+id/violetButton"
+                android:id="@+id/scaleButton"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
+                android:onClick="onScale"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/scale_image"
+
                 app:srcCompat="@drawable/scale" />
 
             <ImageButton

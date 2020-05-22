@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_editor.*
 import kotlinx.android.synthetic.main.filter_bar.*
 import kotlinx.android.synthetic.main.masking_bar.*
 import kotlinx.android.synthetic.main.rotate_bar.*
+import kotlinx.android.synthetic.main.scale_bar.*
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
@@ -92,6 +93,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     override fun getBottomBar(): ConstraintLayout {
         return bottomBarView
+    }
+    fun onScale(view: View) {
+        presenter.onScale()
     }
 
     override fun getTopBar(): ConstraintLayout {

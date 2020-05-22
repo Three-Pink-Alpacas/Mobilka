@@ -58,7 +58,7 @@ class EditorActivityModel : EditorContract.Model {
             }
         }
 
-        println(newHeight*newWidth)
+        println(newHeight * newWidth)
 
         return newBitmap
     }
@@ -66,18 +66,18 @@ class EditorActivityModel : EditorContract.Model {
     override fun blackAndWhiteFilter(bitmap: Bitmap): Bitmap {
         val oldBitmap = bitmap
         val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        for (x in 0..(bitmap.width-1)) {
-            for (y in 0..(bitmap.height-1)) {
-                val pixel=oldBitmap.getPixel(x,y)
+        for (x in 0..(bitmap.width - 1)) {
+            for (y in 0..(bitmap.height - 1)) {
+                val pixel = oldBitmap.getPixel(x, y)
                 var r = (pixel and 0x00FF0000 shr 16).toFloat()
-                var g= (pixel and 0x0000FF00 shr 8).toFloat()
+                var g = (pixel and 0x0000FF00 shr 8).toFloat()
                 var b = (pixel and 0x000000FF).toFloat()
 
                 r = (r + g + b) / 3.0f
                 g = r
                 b = r
                 val newPixel = -0x1000000 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
-               newBitmap.setPixel(x,y,newPixel)
+                newBitmap.setPixel(x, y, newPixel)
             }
         }
         return newBitmap
@@ -85,17 +85,17 @@ class EditorActivityModel : EditorContract.Model {
     override fun violetFilter(bitmap: Bitmap): Bitmap {
         val oldBitmap = bitmap
         val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        for (x in 0..(bitmap.width-1)) {
-            for (y in 0..(bitmap.height-1)) {
-                val pixel=oldBitmap.getPixel(x,y)
+        for (x in 0..(bitmap.width - 1)) {
+            for (y in 0..(bitmap.height - 1)) {
+                val pixel = oldBitmap.getPixel(x, y)
                 val a = Color.alpha(pixel)
                 val r = Color.red(pixel)
                 var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100) as Int
                 val b = Color.blue(pixel)
 
-                if (g<0)  g = 0  else if (g>255)  g=255
-                val newPixel = Color.argb(a,r,g,b)
-                newBitmap.setPixel(x,y,newPixel)
+                if (g < 0) g = 0 else if (g > 255) g = 255
+                val newPixel = Color.argb(a, r, g, b)
+                newBitmap.setPixel(x, y, newPixel)
             }
         }
         return newBitmap
@@ -103,15 +103,15 @@ class EditorActivityModel : EditorContract.Model {
     override fun negativeFilter(bitmap: Bitmap): Bitmap {
         val oldBitmap = bitmap
         val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        for (x in 0..(bitmap.width-1)) {
-            for (y in 0..(bitmap.height-1)) {
-                val pixel=oldBitmap.getPixel(x,y)
+        for (x in 0..(bitmap.width - 1)) {
+            for (y in 0..(bitmap.height - 1)) {
+                val pixel = oldBitmap.getPixel(x, y)
                 val r = 255 - (pixel and 0x00FF0000 shr 16)
                 val g = 255 - (pixel and 0x0000FF00 shr 8)
                 val b = 255 - (pixel and 0x000000FF)
 
-                val newPixel = Color.rgb(r,g,b)
-                newBitmap.setPixel(x,y,newPixel)
+                val newPixel = Color.rgb(r, g, b)
+                newBitmap.setPixel(x, y, newPixel)
             }
         }
         return newBitmap
@@ -124,7 +124,8 @@ class EditorActivityModel : EditorContract.Model {
         val kernel = arrayOf(
             floatArrayOf(0f, -1 * sharpenForce, 0f),
             floatArrayOf(-1 * sharpenForce, 4 * sharpenForce + 1, -1 * sharpenForce),
-            floatArrayOf(0f, -1 * sharpenForce, 0f))
+            floatArrayOf(0f, -1 * sharpenForce, 0f)
+        )
         for (y in 1 until oldBitmap.height - 1) {
             for (x in 1 until oldBitmap.width - 1) {
                 var newR = 0
@@ -132,7 +133,7 @@ class EditorActivityModel : EditorContract.Model {
                 var newB = 0
                 for (yk in -1..1) {
                     for (xk in -1..1) {
-                        val pixel=oldBitmap.getPixel(x+xk, y+yk)
+                        val pixel = oldBitmap.getPixel(x + xk, y + yk)
                         val r: Float = Color.red(pixel).toFloat()
                         val g: Float = Color.green(pixel).toFloat()
                         val b: Float = Color.blue(pixel).toFloat()
@@ -141,20 +142,19 @@ class EditorActivityModel : EditorContract.Model {
                         newB += (kernel[yk + 1][xk + 1] * b).toInt()
                     }
                 }
-                if (newR<0) newR=0 else if (newR> 255) newR=255
-                if (newG<0) newG=0 else if (newG>255) newG=255
-                if (newB<0) newB=0 else if (newB>255) newB=255
+                if (newR < 0) newR = 0 else if (newR > 255) newR = 255
+                if (newG < 0) newG = 0 else if (newG > 255) newG = 255
+                if (newB < 0) newB = 0 else if (newB > 255) newB = 255
 
                 val newPixel = Color.rgb(newR, newG, newB)
                 newBitmap.setPixel(x, y, newPixel)
             }
         }
-
         return newBitmap
     }
 
 
-    override fun getSqueezedBitmap(originalBitmapImage: Bitmap, rect:Rect?): Bitmap {
+    override fun getSqueezedBitmap(originalBitmapImage: Bitmap, rect: Rect?): Bitmap {
         var bitmapImage: Bitmap? = null
         val runnable = Runnable {
             val stream = ByteArrayOutputStream()
@@ -170,9 +170,69 @@ class EditorActivityModel : EditorContract.Model {
         val thread = Thread(runnable)
         thread.start()
         thread.join()
-        return if (bitmapImage!=null)
+        return if (bitmapImage != null)
             bitmapImage as Bitmap
         else
             originalBitmapImage
+    }
+
+
+    override fun scale(bitmap: Bitmap, progress: Int): Bitmap {
+        val oldBitmap = bitmap
+        val width = oldBitmap.width.toInt()
+        val height = oldBitmap.height.toInt()
+        val coeff: Double
+        when (progress) {
+            0 -> coeff = 0.125
+            1 -> coeff = 0.25
+            2 -> coeff = 0.5
+            3 -> return oldBitmap
+            else -> {
+                coeff = (progress - 2).toDouble()
+            }
+        }
+        val newWidth = (ceil(width * coeff)).toInt()
+        val newHeight = (ceil(height * coeff)).toInt()
+        val newBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
+        val pixels = IntArray(height * width)
+        val newPixels = IntArray(newHeight * newWidth)
+        oldBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+        var a: Int
+        var b: Int
+        var c: Int
+        var d: Int
+        var x: Int
+        var y: Int
+        var index: Int
+        val xRatio: Float = (width - 1).toFloat() / newWidth
+        val yRatio: Float = (height - 1).toFloat() / newHeight
+        var xDiff: Float
+        var yDiff: Float
+        var blue: Float
+        var red: Float
+        var green: Float
+        var offset = 0
+        for (i in 0 until newHeight) {
+            for (j in 0 until newWidth) {
+                x = (xRatio * j).toInt()
+                y = (yRatio * i).toInt()
+                xDiff = xRatio * j - x
+                yDiff = yRatio * i - y
+                index = (y * width + x)
+                a = pixels[index]
+                b = pixels[index + 1]
+                c = pixels[index + width]
+                d = pixels[index + width + 1]
+                blue = (a and 0xff) * (1 - xDiff) * (1 - yDiff) + (b and 0xff) * xDiff * (1 - yDiff) + (c and 0xff) * yDiff * (1 - xDiff) + (d and 0xff) * (xDiff * yDiff)
+                green = (a shr 8 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 8 and 0xff) * xDiff * (1 - yDiff) + (c shr 8 and 0xff) * yDiff * (1 - xDiff) + (d shr 8 and 0xff) * (xDiff * yDiff)
+                red = (a shr 16 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 16 and 0xff) * xDiff * (1 - yDiff) + (c shr 16 and 0xff) * yDiff * (1 - xDiff) + (d shr 16 and 0xff) * (xDiff * yDiff)
+                newPixels[offset++] = -0x1000000 or
+                        (red.toInt() shl 16 and 0xff0000) or
+                        (green.toInt() shl 8 and 0xff00) or
+                        blue.toInt()
+            }
+        }
+        newBitmap.setPixels(newPixels, 0, newWidth, 0, 0, newWidth, newHeight)
+        return newBitmap
     }
 }

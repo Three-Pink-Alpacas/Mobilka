@@ -12,6 +12,7 @@ import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
 import kotlinx.android.synthetic.main.masking_bar.*
 import kotlinx.android.synthetic.main.masking_bar.view.*
+import kotlinx.android.synthetic.main.scale_bar.view.*
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
@@ -25,7 +26,8 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private val bottomBar: CustomBar
     private val topBar: CustomBar
     private val editTopBar: CustomBar
-    var maskingSeekBar: SeekBar? = null
+    private var maskingSeekBar: SeekBar? = null
+    private var scaleSeekBar: SeekBar? = null
 
     init {
         view.setBitmap(bitmapImage)
@@ -90,7 +92,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         bitmapImage = model.masking(bitmapImage, progress)
         view.setBitmap(bitmapImage)
     }
-
+    override fun onScaleSeekBar(progress: Int){
+        bitmapImage = model.scale(bitmapImage, progress)
+        view.setBitmap(bitmapImage)
+    }
     override fun onRotate() {
         val rotateBarView = view.createView(R.layout.rotate_bar)
         val rotateBar = CustomBar(
@@ -115,6 +120,21 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         })
         onClickButtonOnBottomBar(maskingBar)
 
+    }
+
+    override fun onScale() {
+        val scaleBarView = view.createView(R.layout.scale_bar)
+        val scaleBar = CustomBar(
+            scaleBarView as ConstraintLayout,
+            CustomBar.Type.BOTTOM
+        )
+        scaleSeekBar = scaleBarView.scaleDegree
+        scaleSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {onScaleSeekBar(scaleSeekBar!!.progress)}
+        })
+        onClickButtonOnBottomBar(scaleBar)
     }
 
     override fun onFilter() {
