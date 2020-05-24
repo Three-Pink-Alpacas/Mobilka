@@ -11,15 +11,26 @@ interface EditorContract {
 
     interface Model {
         fun rotate(bitmap: Bitmap, angle: Float): Bitmap
+        fun rotate90(bitmap: Bitmap): Bitmap
         fun blackAndWhiteFilter(bitmap: Bitmap): Bitmap
         fun violetFilter(bitmap: Bitmap): Bitmap
         fun negativeFilter(bitmap: Bitmap): Bitmap
-        fun getSqueezedBitmap(originalBitmapImage: Bitmap, rect: Rect?):Bitmap
+        fun getSqueezedBitmap(
+            originalBitmapImage: Bitmap,
+            rect: Rect?,
+            reqWidth: Int,
+            reqHeight: Int
+        ): Bitmap?
+
         fun masking(bitmap: Bitmap, progress: Int): Bitmap
     }
 
     interface Presenter {
-        fun onClickButtonOnBottomBar(customBar: CustomBar)
+        fun onClickButtonOnBottomBar()
+        fun onAcceptChanges()
+        fun onCancelChanges()
+        fun onUndoChanges()
+        fun onRedoChanges()
         fun onRotate()
         fun onRotateRight90()
         fun onFilter()
@@ -42,6 +53,6 @@ interface EditorContract {
         fun setOnTouchListener(onTouchListener: OnTouchListener)
         fun detachOnTouchListener()
         fun createView(resource: Int): android.view.View
-        fun getProgress():Int
+        fun getProgress(): Int
     }
 }

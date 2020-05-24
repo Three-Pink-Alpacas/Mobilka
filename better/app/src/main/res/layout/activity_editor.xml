@@ -126,6 +126,7 @@
             android:layout_margin="15dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/acceptbutton"
+            android:onClick="onAcceptChanges"
             android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -150,6 +151,7 @@
                 android:layout_marginRight="20dp"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/undobutton"
+                android:onClick="onUndo"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/undo" />
 

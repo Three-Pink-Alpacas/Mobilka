@@ -26,6 +26,8 @@ import kotlinx.android.synthetic.main.activity_editor.*
 import kotlinx.android.synthetic.main.filter_bar.*
 import kotlinx.android.synthetic.main.masking_bar.*
 import kotlinx.android.synthetic.main.rotate_bar.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
@@ -49,7 +51,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         changeStatusBarColor(this)
         setContentView(R.layout.activity_editor)
         selectedImage = editableImage
-
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
         currentImage = MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
         presenter = EditorActivityPresenter(this)
@@ -71,6 +72,14 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     override fun onBackPressed() {
         mainMenuMove(View(this))
+    }
+
+    fun onAcceptChanges(view: View) {
+        presenter.onAcceptChanges()
+    }
+
+    fun onUndo(view: View) {
+        presenter.onUndoChanges()
     }
 
     // button for getting in main menu

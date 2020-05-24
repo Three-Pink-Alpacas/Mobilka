@@ -1,8 +1,5 @@
 package com.example.better.utils
 
-import android.content.Context
-import android.view.GestureDetector
-import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -30,15 +27,15 @@ open class OnMoveTouchListener : OnTouchListener {
                 startY = event.y
                 if (abs(diffX) > abs(diffY)) {
                     if (diffX < 0) {
-                        onMoveLeft(abs(diffX))
+                        onMoveLeft(abs(diffX), event.x, event.y)
                     } else {
-                        onMoveRight(diffX)
+                        onMoveRight(diffX, event.x, event.y)
                     }
                 } else {
                     if (diffY < 0) {
-                        onMoveTop(abs(diffY))
+                        onMoveTop(abs(diffY), event.x, event.y)
                     } else {
-                        onMoveBottom(diffY)
+                        onMoveBottom(diffY, event.x, event.y)
                     }
                 }
                 return true
@@ -47,8 +44,8 @@ open class OnMoveTouchListener : OnTouchListener {
         return false
     }
 
-    open fun onMoveLeft(diff: Float) {}
-    open fun onMoveRight(diff: Float) {}
-    open fun onMoveTop(diff: Float) {}
-    open fun onMoveBottom(diff: Float) {}
+    open fun onMoveLeft(diff: Float, x: Float, y: Float) {}
+    open fun onMoveRight(diff: Float, x: Float, y: Float) {}
+    open fun onMoveTop(diff: Float, x: Float, y: Float) {}
+    open fun onMoveBottom(diff: Float, x: Float, y: Float) {}
 }
