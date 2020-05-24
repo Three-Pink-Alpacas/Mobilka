@@ -3,6 +3,8 @@ package com.example.better.cubeScreen
 import kotlin.math.cos
 import kotlin.math.sin
 import com.example.better.cubeScreen.CubeContract.*
+import kotlin.math.sqrt
+
 
 class CubeActivityModel(): Model_ {
     var cubeReal: Array<RealPoint> = arrayOf(
@@ -27,11 +29,64 @@ class CubeActivityModel(): Model_ {
         cubeReal[7].into2D()
     )
 
+
     override fun getCubeCoordinates():Array<ViewPoint> {
         for (i in 0 until cubeView.size){
             cubeView[i] = cubeReal[i].into2D()
         }
         return cubeView
+    }
+
+    override fun getNormalVector(firstPoint: RealPoint, secondPoint: RealPoint, thirdPoint: RealPoint): RealPoint{
+        var line1 = RealPoint(
+            secondPoint.getX() - firstPoint.getX(),
+            secondPoint.getY() - firstPoint.getY(),
+            secondPoint.getZ() - firstPoint.getZ())
+
+        var line2 = RealPoint(
+            thirdPoint.getX() - firstPoint.getX(),
+            thirdPoint.getY() - firstPoint.getY(),
+            thirdPoint.getZ() - firstPoint.getZ())
+
+        var vectorNormalBoomer = RealPoint(
+            line1.getY() * line2.getZ() - line1.getZ() * line2.getY(),
+            line1.getZ() * line2.getX() - line1.getX() * line2.getZ(),
+            line1.getX() * line2.getY() - line1.getY() * line2.getX() )
+
+        var length = sqrt(
+            vectorNormalBoomer.getX()*vectorNormalBoomer.getX()+
+            vectorNormalBoomer.getY()*vectorNormalBoomer.getY()+
+            vectorNormalBoomer.getZ()*vectorNormalBoomer.getZ())
+
+        var vectorNormalZoomer = RealPoint(vectorNormalBoomer.getX() / length, vectorNormalBoomer.getY() / length, vectorNormalBoomer.getZ() / length)
+
+        return vectorNormalZoomer
+
+    }
+
+    override fun getAllowableFaces(): Array<Boolean> {
+        var toDrawOrNotToDraw: Array<Boolean> = arrayOf(false, false, false, false, false, false)
+
+        if (getNormalVector(cubeReal[0], cubeReal[1], cubeReal[2]).getZ() < 0)
+            toDrawOrNotToDraw[0] = true
+
+        if (getNormalVector(cubeReal[0], cubeReal[3], cubeReal[7]).getZ() < 0)
+            toDrawOrNotToDraw[1] = true
+
+        if (getNormalVector(cubeReal[3], cubeReal[2], cubeReal[6]).getZ() < 0)
+            toDrawOrNotToDraw[2] = true
+
+        if (getNormalVector(cubeReal[1], cubeReal[5], cubeReal[6]).getZ() < 0)
+            toDrawOrNotToDraw[3] = true
+
+        if (getNormalVector(cubeReal[5], cubeReal[4], cubeReal[7]).getZ() < 0)
+            toDrawOrNotToDraw[4] = true
+
+        if (getNormalVector(cubeReal[1], cubeReal[0], cubeReal[4]).getZ() < 0)
+            toDrawOrNotToDraw[5] = true
+
+
+        return toDrawOrNotToDraw
     }
 
     override fun rotateCube(diffX: Float, diffY: Float) {
@@ -61,6 +116,8 @@ class CubeActivityModel(): Model_ {
     }
 
     class RealPoint(private val mX: Float = 0F, private val mY: Float = 0F, private val mZ: Float = 0F): ViewPoint(mX, mY){
+
+
         fun getZ(): Float { return mZ }
 
         val orthographicMatrix: Array<FloatArray> = arrayOf(

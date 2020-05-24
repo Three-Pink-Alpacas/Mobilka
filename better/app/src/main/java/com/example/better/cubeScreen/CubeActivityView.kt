@@ -1,21 +1,16 @@
 package com.example.better.cubeScreen
 
-import android.animation.ObjectAnimator
+import android.R.attr
 import android.app.Activity
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.os.Build
+import android.graphics.*
+import android.graphics.Shader.TileMode
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
 import com.example.better.R
-import com.example.better.utils.CustomViewPager
 
 
 class CubeActivityView : Activity() {
@@ -78,18 +73,69 @@ class CubeActivityView : Activity() {
             val canvMidX: Float = canvas.width.toFloat()/2
             val canvMidY: Float = (canvas.height.toFloat()/8)*3
             if (drawing) {
-                canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[1].getX()+canvMidX,cube[1].getY()+canvMidY, paint)
-                canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[2].getX()+canvMidX,cube[2].getY()+canvMidY, paint)
-                canvas.drawLine(cube[2].getX()+canvMidX, cube[2].getY()+canvMidY, cube[3].getX()+canvMidX,cube[3].getY()+canvMidY, paint)
-                canvas.drawLine(cube[3].getX()+canvMidX, cube[3].getY()+canvMidY, cube[0].getX()+canvMidX,cube[0].getY()+canvMidY, paint)
-                canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[4].getX()+canvMidX,cube[4].getY()+canvMidY, paint)
-                canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[5].getX()+canvMidX,cube[5].getY()+canvMidY, paint)
-                canvas.drawLine(cube[2].getX()+canvMidX, cube[2].getY()+canvMidY, cube[6].getX()+canvMidX,cube[6].getY()+canvMidY, paint)
-                canvas.drawLine(cube[3].getX()+canvMidX, cube[3].getY()+canvMidY, cube[7].getX()+canvMidX,cube[7].getY()+canvMidY, paint)
-                canvas.drawLine(cube[4].getX()+canvMidX, cube[4].getY()+canvMidY, cube[5].getX()+canvMidX,cube[5].getY()+canvMidY, paint)
-                canvas.drawLine(cube[5].getX()+canvMidX, cube[5].getY()+canvMidY, cube[6].getX()+canvMidX,cube[6].getY()+canvMidY, paint)
-                canvas.drawLine(cube[6].getX()+canvMidX, cube[6].getY()+canvMidY, cube[7].getX()+canvMidX,cube[7].getY()+canvMidY, paint)
-                canvas.drawLine(cube[7].getX()+canvMidX, cube[7].getY()+canvMidY, cube[4].getX()+canvMidX,cube[4].getY()+canvMidY, paint)
+                val wallPath = Path()
+                val wallPaint = Paint()
+                wallPaint.reset() // precaution when resusing Paint object, here shader replaces solid GRAY anyway
+
+
+                // canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[1].getX()+canvMidX,cube[1].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[2].getX()+canvMidX,cube[2].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[2].getX()+canvMidX, cube[2].getY()+canvMidY, cube[3].getX()+canvMidX,cube[3].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[3].getX()+canvMidX, cube[3].getY()+canvMidY, cube[0].getX()+canvMidX,cube[0].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[0].getX()+canvMidX, cube[0].getY()+canvMidY, cube[4].getX()+canvMidX,cube[4].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[1].getX()+canvMidX, cube[1].getY()+canvMidY, cube[5].getX()+canvMidX,cube[5].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[2].getX()+canvMidX, cube[2].getY()+canvMidY, cube[6].getX()+canvMidX,cube[6].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[3].getX()+canvMidX, cube[3].getY()+canvMidY, cube[7].getX()+canvMidX,cube[7].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[4].getX()+canvMidX, cube[4].getY()+canvMidY, cube[5].getX()+canvMidX,cube[5].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[5].getX()+canvMidX, cube[5].getY()+canvMidY, cube[6].getX()+canvMidX,cube[6].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[6].getX()+canvMidX, cube[6].getY()+canvMidY, cube[7].getX()+canvMidX,cube[7].getY()+canvMidY, paint)
+                // canvas.drawLine(cube[7].getX()+canvMidX, cube[7].getY()+canvMidY, cube[4].getX()+canvMidX,cube[4].getY()+canvMidY, paint)
+
+
+
+                fun faceDraw(firstPoint: CubeActivityModel.ViewPoint, secondPoint: CubeActivityModel.ViewPoint, thirdPoint: CubeActivityModel.ViewPoint, fourthPoint: CubeActivityModel.ViewPoint, color: Int){
+                    wallPath.reset() // only needed when reusing this path for a new build
+                    wallPath.moveTo(firstPoint.getX()+canvMidX, firstPoint.getY()+canvMidY) // used for first point
+                    wallPath.lineTo(secondPoint.getX()+canvMidX, secondPoint.getY()+canvMidY)
+                    wallPath.lineTo(thirdPoint.getX()+canvMidX, thirdPoint.getY()+canvMidY)
+                    wallPath.lineTo(fourthPoint.getX()+canvMidX, fourthPoint.getY()+canvMidY)
+                    wallPath.lineTo(firstPoint.getX()+canvMidX, firstPoint.getY()+canvMidY) // there is a setLastPoint action but i found it not to work as expected
+                    wallPaint.shader = LinearGradient(
+                        firstPoint.getX()+canvMidX,
+                        firstPoint.getX()+canvMidX,
+                        secondPoint.getX()+canvMidX,
+                        firstPoint.getX()+canvMidX,
+                        color,
+                        color,
+                        TileMode.CLAMP
+                    )
+                    canvas.drawPath(wallPath, wallPaint)
+                }
+
+                val allowableFaces = presenter.getAllowableFaces()
+
+                if (allowableFaces[0])
+                    faceDraw(cube[0],cube[1],cube[2],cube[3],Color.GREEN)
+
+                if (allowableFaces[1])
+                    faceDraw(cube[0],cube[3],cube[7],cube[4],Color.RED)
+
+                if (allowableFaces[2])
+                    faceDraw(cube[3],cube[2],cube[6],cube[7],Color.BLUE)
+
+                if (allowableFaces[3])
+                    faceDraw(cube[1],cube[5],cube[6],cube[2],Color.YELLOW)
+
+                if (allowableFaces[4])
+                    faceDraw(cube[5],cube[4],cube[7],cube[6],Color.WHITE)
+
+                if (allowableFaces[5])
+                    faceDraw(cube[0],cube[4],cube[5],cube[1],Color.GRAY)
+
+
+
+
+
             }
         }
 

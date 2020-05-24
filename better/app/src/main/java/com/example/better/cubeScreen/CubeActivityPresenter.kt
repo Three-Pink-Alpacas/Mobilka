@@ -10,6 +10,9 @@ class CubeActivityPresenter(_view: View_): Presenter_ {
 
 
     override fun getCubeCoordinates() = model.getCubeCoordinates()
+    override fun getAllowableFaces(): Array<Boolean> {
+        return model.getAllowableFaces()
+    }
 
     override fun absoluteDifferenceX():Float {
         return view.absoluteDifferenceX()
