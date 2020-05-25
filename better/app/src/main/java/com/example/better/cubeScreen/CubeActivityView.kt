@@ -1,6 +1,5 @@
 package com.example.better.cubeScreen
 
-import android.R.attr
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
@@ -93,7 +92,7 @@ class CubeActivityView : Activity() {
 
 
 
-                fun faceDraw(firstPoint: CubeActivityModel.ViewPoint, secondPoint: CubeActivityModel.ViewPoint, thirdPoint: CubeActivityModel.ViewPoint, fourthPoint: CubeActivityModel.ViewPoint, color: Int){
+                fun faceDraw(firstPoint: CubeActivityModel.ViewPoint, secondPoint: CubeActivityModel.ViewPoint, thirdPoint: CubeActivityModel.ViewPoint, fourthPoint: CubeActivityModel.ViewPoint, color: Int, number: Int){
                     wallPath.reset() // only needed when reusing this path for a new build
                     wallPath.moveTo(firstPoint.getX()+canvMidX, firstPoint.getY()+canvMidY) // used for first point
                     wallPath.lineTo(secondPoint.getX()+canvMidX, secondPoint.getY()+canvMidY)
@@ -110,27 +109,45 @@ class CubeActivityView : Activity() {
                         TileMode.CLAMP
                     )
                     canvas.drawPath(wallPath, wallPaint)
+                    if (number == 1)
+                    {
+                        var firstLineFirstDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + fourthPoint.getX())/2 + secondPoint.getX())/2, ((firstPoint.getY() + fourthPoint.getY())/2 + secondPoint.getY())/2)
+                        var firstLineSecondDot = CubeActivityModel.ViewPoint(((thirdPoint.getX() + secondPoint.getX())/2 + fourthPoint.getX())/2, ((thirdPoint.getY() + secondPoint.getY())/2 + fourthPoint.getY())/2)
+                        var secondLineFirstDot: CubeActivityModel.ViewPoint
+                        var secondLineSecondDot: CubeActivityModel.ViewPoint
+                        canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                    }
+                    else if (number == 2)
+                    {
+                        var firstLineFirstDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + fourthPoint.getX())/2 + secondPoint.getX())/2, ((firstPoint.getY() + fourthPoint.getY())/2 + secondPoint.getY())/2)
+                        var firstLineSecondDot = CubeActivityModel.ViewPoint(((thirdPoint.getX() + secondPoint.getX())/2 + fourthPoint.getX())/2, ((thirdPoint.getY() + secondPoint.getY())/2 + fourthPoint.getY())/2)
+
+                        var secondLineFirstDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + secondPoint.getX())/2 + fourthPoint.getX())/2, ((firstPoint.getY() + secondPoint.getY())/2 + fourthPoint.getY())/2)
+                        var secondLineSecondDot = CubeActivityModel.ViewPoint(((thirdPoint.getX() + fourthPoint.getX())/2 + secondPoint.getX())/2, ((thirdPoint.getY() + fourthPoint.getY())/2 + secondPoint.getY())/2)
+                        canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+
+                    }
                 }
 
                 val allowableFaces = presenter.getAllowableFaces()
 
                 if (allowableFaces[0])
-                    faceDraw(cube[0],cube[1],cube[2],cube[3],Color.GREEN)
+                    faceDraw(cube[0],cube[1],cube[2],cube[3],Color.GREEN, 3)
 
                 if (allowableFaces[1])
-                    faceDraw(cube[0],cube[3],cube[7],cube[4],Color.RED)
+                    faceDraw(cube[0],cube[3],cube[7],cube[4],Color.RED, 4)
 
                 if (allowableFaces[2])
-                    faceDraw(cube[3],cube[2],cube[6],cube[7],Color.BLUE)
+                    faceDraw(cube[3],cube[2],cube[6],cube[7],Color.BLUE, 6)
 
                 if (allowableFaces[3])
-                    faceDraw(cube[1],cube[5],cube[6],cube[2],Color.YELLOW)
+                    faceDraw(cube[1],cube[5],cube[6],cube[2],Color.YELLOW, 2)
 
                 if (allowableFaces[4])
-                    faceDraw(cube[5],cube[4],cube[7],cube[6],Color.WHITE)
+                    faceDraw(cube[5],cube[4],cube[7],cube[6],Color.CYAN, 1)
 
                 if (allowableFaces[5])
-                    faceDraw(cube[0],cube[4],cube[5],cube[1],Color.GRAY)
+                    faceDraw(cube[0],cube[4],cube[5],cube[1],Color.GRAY, 5)
 
 
 
