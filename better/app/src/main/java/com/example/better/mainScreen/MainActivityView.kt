@@ -166,7 +166,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         }
         animator.interpolator = LinearInterpolator()
         animator.duration = 300
-        animator.setFloatValues(viewPlus.translationY, viewPlus.height.toFloat())
+        animator.setFloatValues(viewPlus.translationY, viewPlus.height.toFloat() + 150)
         animator.start()
         plusButton.isEnabled = true
     }

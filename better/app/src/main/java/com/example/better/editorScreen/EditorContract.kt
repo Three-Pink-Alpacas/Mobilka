@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View.OnTouchListener
 import android.widget.ImageView
+import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.utils.CustomBar
 
@@ -23,6 +24,7 @@ interface EditorContract {
         ): Bitmap?
 
         fun masking(bitmap: Bitmap, progress: Int): Bitmap
+        fun scale(bitmap: Bitmap, progress: Int): Bitmap
     }
 
     interface Presenter {
@@ -35,11 +37,13 @@ interface EditorContract {
         fun onRotateRight90()
         fun onFilter()
         fun onMasking()
+        fun onScale()
         fun onBlackAndWhiteFilter()
         fun onVioletFilter()
         fun onNegativeFilter()
         fun getImageView(): ImageView?
         fun onMaskingSeekBar(progress: Int)
+        fun onScaleSeekBar(progress: Int)
     }
 
     interface View {
@@ -53,6 +57,5 @@ interface EditorContract {
         fun setOnTouchListener(onTouchListener: OnTouchListener)
         fun detachOnTouchListener()
         fun createView(resource: Int): android.view.View
-        fun getProgress(): Int
     }
 }

@@ -9,7 +9,7 @@
     app:layout_constraintStart_toStartOf="parent">
 
     <LinearLayout
-        android:id="@+id/maskingBar"
+        android:id="@+id/scaleBar"
         android:layout_width="300dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,13 +17,13 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <SeekBar
-            android:id="@+id/maskingDegree"
+            android:id="@+id/scaleDegree"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:max="5"
-            android:progress="0" />
+            android:max="6"
+            android:progress="3" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

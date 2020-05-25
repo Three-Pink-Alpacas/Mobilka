@@ -4,12 +4,18 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.Build
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
+import androidx.annotation.RequiresApi
+import com.example.better.mainScreen.MainActivityView
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import kotlin.math.*
 
 
 class EditorActivityModel : EditorContract.Model {
@@ -201,5 +207,65 @@ class EditorActivityModel : EditorContract.Model {
         }
 
         return inSampleSize
+    }
+
+
+    override fun scale(bitmap: Bitmap, progress: Int): Bitmap {
+        val oldBitmap = bitmap
+        val width = oldBitmap.width.toInt()
+        val height = oldBitmap.height.toInt()
+        val coeff: Double
+        when (progress) {
+            0 -> coeff = 0.125
+            1 -> coeff = 0.25
+            2 -> coeff = 0.5
+            3 -> return oldBitmap
+            else -> {
+                coeff = (progress - 2).toDouble()
+            }
+        }
+        val newWidth = (ceil(width * coeff)).toInt()
+        val newHeight = (ceil(height * coeff)).toInt()
+        val newBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
+        val pixels = IntArray(height * width)
+        val newPixels = IntArray(newHeight * newWidth)
+        oldBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+        var a: Int
+        var b: Int
+        var c: Int
+        var d: Int
+        var x: Int
+        var y: Int
+        var index: Int
+        val xRatio: Float = (width - 1).toFloat() / newWidth
+        val yRatio: Float = (height - 1).toFloat() / newHeight
+        var xDiff: Float
+        var yDiff: Float
+        var blue: Float
+        var red: Float
+        var green: Float
+        var offset = 0
+        for (i in 0 until newHeight) {
+            for (j in 0 until newWidth) {
+                x = (xRatio * j).toInt()
+                y = (yRatio * i).toInt()
+                xDiff = xRatio * j - x
+                yDiff = yRatio * i - y
+                index = (y * width + x)
+                a = pixels[index]
+                b = pixels[index + 1]
+                c = pixels[index + width]
+                d = pixels[index + width + 1]
+                blue = (a and 0xff) * (1 - xDiff) * (1 - yDiff) + (b and 0xff) * xDiff * (1 - yDiff) + (c and 0xff) * yDiff * (1 - xDiff) + (d and 0xff) * (xDiff * yDiff)
+                green = (a shr 8 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 8 and 0xff) * xDiff * (1 - yDiff) + (c shr 8 and 0xff) * yDiff * (1 - xDiff) + (d shr 8 and 0xff) * (xDiff * yDiff)
+                red = (a shr 16 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 16 and 0xff) * xDiff * (1 - yDiff) + (c shr 16 and 0xff) * yDiff * (1 - xDiff) + (d shr 16 and 0xff) * (xDiff * yDiff)
+                newPixels[offset++] = -0x1000000 or
+                        (red.toInt() shl 16 and 0xff0000) or
+                        (green.toInt() shl 8 and 0xff00) or
+                        blue.toInt()
+            }
+        }
+        newBitmap.setPixels(newPixels, 0, newWidth, 0, 0, newWidth, newHeight)
+        return newBitmap
     }
 }

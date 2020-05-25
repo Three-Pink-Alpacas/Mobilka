@@ -5,11 +5,15 @@ import android.os.Build
 import kotlinx.coroutines.*
 import android.view.View
 import android.widget.ImageView
+import android.widget.SeekBar
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
+import kotlinx.android.synthetic.main.masking_bar.*
+import kotlinx.android.synthetic.main.masking_bar.view.*
+import kotlinx.android.synthetic.main.scale_bar.view.*
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
@@ -144,7 +148,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         bitmapImage = model.masking(bitmapImage, progress)
         view.setBitmap(bitmapImage)
     }
-
+    override fun onScaleSeekBar(progress: Int){
+        bitmapImage = model.scale(bitmapImage, progress)
+        view.setBitmap(bitmapImage)
+    }
     override fun onRotate() {
         val rotateBarView = view.createView(R.layout.rotate_bar)
         customBar = CustomBar(
@@ -161,7 +168,29 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             maskingBarView as ConstraintLayout,
             CustomBar.Type.BOTTOM
         )
-        onClickButtonOnBottomBar()
+        maskingSeekBar = maskingBarView.maskingDegree
+        maskingSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {onMaskingSeekBar(maskingSeekBar!!.progress)}
+        })
+        onClickButtonOnBottomBar(maskingBar)
+
+    }
+
+    override fun onScale() {
+        val scaleBarView = view.createView(R.layout.scale_bar)
+        val scaleBar = CustomBar(
+            scaleBarView as ConstraintLayout,
+            CustomBar.Type.BOTTOM
+        )
+        scaleSeekBar = scaleBarView.scaleDegree
+        scaleSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {onScaleSeekBar(scaleSeekBar!!.progress)}
+        })
+        onClickButtonOnBottomBar(scaleBar)
     }
 
     override fun onFilter() {
