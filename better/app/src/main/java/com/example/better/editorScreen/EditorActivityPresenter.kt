@@ -11,7 +11,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
-import kotlinx.android.synthetic.main.masking_bar.*
 import kotlinx.android.synthetic.main.masking_bar.view.*
 import kotlinx.android.synthetic.main.scale_bar.view.*
 
@@ -103,7 +102,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         customBar?.hide()
         bottomBar.show()
         topBar.show()
-        globalHistory.Add(bitmapImage)
+        globalHistory.add(bitmapImage)
         localHistory = null
     }
 
@@ -112,16 +111,18 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         customBar?.hide()
         bottomBar.show()
         topBar.show()
+        bitmapImage = globalHistory.current()
+        view.setBitmap(bitmapImage)
         localHistory = null
     }
 
     override fun onUndoChanges() {
-        bitmapImage = localHistory?.Undo() ?: bitmapImage
+        bitmapImage = localHistory?.undo() ?: bitmapImage
         view.setBitmap(bitmapImage)
     }
 
     override fun onRedoChanges() {
-        bitmapImage = localHistory?.Redo() ?: bitmapImage
+        bitmapImage = localHistory?.redo() ?: bitmapImage
         view.setBitmap(bitmapImage)
     }
 
@@ -168,14 +169,13 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             maskingBarView as ConstraintLayout,
             CustomBar.Type.BOTTOM
         )
-        maskingSeekBar = maskingBarView.maskingDegree
+        val maskingSeekBar = maskingBarView.maskingDegree
         maskingSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {onMaskingSeekBar(maskingSeekBar!!.progress)}
         })
-        onClickButtonOnBottomBar(maskingBar)
-
+        onClickButtonOnBottomBar()
     }
 
     override fun onScale() {
@@ -184,13 +184,13 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             scaleBarView as ConstraintLayout,
             CustomBar.Type.BOTTOM
         )
-        scaleSeekBar = scaleBarView.scaleDegree
+        val scaleSeekBar = scaleBarView.scaleDegree
         scaleSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {onScaleSeekBar(scaleSeekBar!!.progress)}
         })
-        onClickButtonOnBottomBar(scaleBar)
+        onClickButtonOnBottomBar()
     }
 
     override fun onFilter() {
@@ -205,7 +205,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onRotateRight90() {
         bitmapImage = model.rotate90(bitmapImage)
         view.setBitmap(bitmapImage)
-        localHistory?.Add(bitmapImage)
+        localHistory?.add(bitmapImage)
     }
 
     private fun changeImageRotation(diff: Float) {

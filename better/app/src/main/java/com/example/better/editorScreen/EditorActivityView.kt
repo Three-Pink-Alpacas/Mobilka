@@ -71,8 +71,16 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter.onAcceptChanges()
     }
 
+    fun onCancelChanges(view: View) {
+        presenter.onCancelChanges()
+    }
+
     fun onUndo(view: View) {
         presenter.onUndoChanges()
+    }
+
+    fun onRedo(view: View) {
+        presenter.onRedoChanges()
     }
 
     // button for getting in main menu

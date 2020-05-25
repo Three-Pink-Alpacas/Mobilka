@@ -10,7 +10,7 @@ class HistoryHelper(initState: Bitmap) {
         states.add(initState)
     }
 
-    fun Add(bitmap: Bitmap) {
+    fun add(bitmap: Bitmap) {
         if (index == states.size-1) {
             states.add(bitmap)
         } else {
@@ -20,17 +20,21 @@ class HistoryHelper(initState: Bitmap) {
         index++
     }
 
-    fun Undo(): Bitmap? {
+    fun undo(): Bitmap? {
         if (index > 0) {
             index--
         }
         return states[index]
     }
 
-    fun Redo(): Bitmap? {
+    fun redo(): Bitmap? {
         if (index < states.size-1) {
             index++
         }
+        return states[index]
+    }
+
+    fun current(): Bitmap {
         return states[index]
     }
 }

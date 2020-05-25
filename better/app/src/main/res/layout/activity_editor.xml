@@ -115,7 +115,7 @@
             android:layout_margin="15dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/backbutton"
-            android:onClick="mainMenuMove"
+            android:onClick="onCancelChanges"
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -163,6 +163,7 @@
                 android:layout_height="wrap_content"
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/redobutton"
+                android:onClick="onRedo"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/redo" />
         </LinearLayout>
