@@ -180,7 +180,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
     override fun onScale() {
         val scaleBarView = view.createView(R.layout.scale_bar)
-        val scaleBar = CustomBar(
+        customBar = CustomBar(
             scaleBarView as ConstraintLayout,
             CustomBar.Type.BOTTOM
         )
