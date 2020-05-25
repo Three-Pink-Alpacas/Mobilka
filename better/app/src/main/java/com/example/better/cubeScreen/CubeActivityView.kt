@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.core.content.ContextCompat.getColor
 import com.example.better.R
 
 
@@ -109,45 +110,99 @@ class CubeActivityView : Activity() {
                         TileMode.CLAMP
                     )
                     canvas.drawPath(wallPath, wallPaint)
-                    if (number == 1)
-                    {
-                        var firstLineFirstDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + fourthPoint.getX())/2 + secondPoint.getX())/2, ((firstPoint.getY() + fourthPoint.getY())/2 + secondPoint.getY())/2)
-                        var firstLineSecondDot = CubeActivityModel.ViewPoint(((thirdPoint.getX() + secondPoint.getX())/2 + fourthPoint.getX())/2, ((thirdPoint.getY() + secondPoint.getY())/2 + fourthPoint.getY())/2)
-                        var secondLineFirstDot: CubeActivityModel.ViewPoint
-                        var secondLineSecondDot: CubeActivityModel.ViewPoint
-                        canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
-                    }
-                    else if (number == 2)
-                    {
-                        var firstLineFirstDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + fourthPoint.getX())/2 + secondPoint.getX())/2, ((firstPoint.getY() + fourthPoint.getY())/2 + secondPoint.getY())/2)
-                        var firstLineSecondDot = CubeActivityModel.ViewPoint(((thirdPoint.getX() + secondPoint.getX())/2 + fourthPoint.getX())/2, ((thirdPoint.getY() + secondPoint.getY())/2 + fourthPoint.getY())/2)
 
-                        var secondLineFirstDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + secondPoint.getX())/2 + fourthPoint.getX())/2, ((firstPoint.getY() + secondPoint.getY())/2 + fourthPoint.getY())/2)
-                        var secondLineSecondDot = CubeActivityModel.ViewPoint(((thirdPoint.getX() + fourthPoint.getX())/2 + secondPoint.getX())/2, ((thirdPoint.getY() + fourthPoint.getY())/2 + secondPoint.getY())/2)
-                        canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                    when (number) {
+                        1 -> {
+                            var firstLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + fourthPoint.getX())/4 + secondPoint.getX()/2, (firstPoint.getY() + fourthPoint.getY())/4 + secondPoint.getY()/2)
+                            var firstLineSecondDot = CubeActivityModel.ViewPoint((thirdPoint.getX() + secondPoint.getX())/4 + fourthPoint.getX()/2, (thirdPoint.getY() + secondPoint.getY())/4 + fourthPoint.getY()/2)
+                            var secondLineFirstDot: CubeActivityModel.ViewPoint
+                            var secondLineSecondDot: CubeActivityModel.ViewPoint
+                            canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                        }
+                        2 -> {
+                            var firstLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + thirdPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + thirdPoint.getY()/3)
+                            var firstLineSecondDot = CubeActivityModel.ViewPoint((thirdPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (thirdPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
 
+                            var secondLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + fourthPoint.getX())/3 + thirdPoint.getX()/3, (firstPoint.getY() + fourthPoint.getY())/3 + thirdPoint.getY()/3)
+                            var secondLineSecondDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+
+                            canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(secondLineFirstDot.getX()+canvMidX, secondLineFirstDot.getY()+canvMidY, secondLineSecondDot.getX()+canvMidX,secondLineSecondDot.getY()+canvMidY, paint)
+                        }
+                        3 -> {
+                            var firstLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + thirdPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + thirdPoint.getY()/3)
+                            var firstLineSecondDot = CubeActivityModel.ViewPoint((thirdPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (thirdPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+
+                            var secondLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + fourthPoint.getX())/3 + thirdPoint.getX()/3, (firstPoint.getY() + fourthPoint.getY())/3 + thirdPoint.getY()/3)
+                            var secondLineSecondDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+
+                            var thirdLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + fourthPoint.getX())/4 + secondPoint.getX()/2, (firstPoint.getY() + fourthPoint.getY())/4 + secondPoint.getY()/2)
+                            var thirdLineSecondDot = CubeActivityModel.ViewPoint((thirdPoint.getX() + secondPoint.getX())/4 + fourthPoint.getX()/2, (thirdPoint.getY() + secondPoint.getY())/4 + fourthPoint.getY()/2)
+
+                            canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(secondLineFirstDot.getX()+canvMidX, secondLineFirstDot.getY()+canvMidY, secondLineSecondDot.getX()+canvMidX,secondLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(thirdLineFirstDot.getX()+canvMidX, thirdLineFirstDot.getY()+canvMidY, thirdLineSecondDot.getX()+canvMidX,thirdLineSecondDot.getY()+canvMidY, paint)
+                        }
+                        4 -> {
+                            var firstLineFirstDot = CubeActivityModel.ViewPoint((fourthPoint.getX() + firstPoint.getX())/3 + thirdPoint.getX()/3, (fourthPoint.getY() + firstPoint.getY())/3 + thirdPoint.getY()/3)
+                            var firstLineSecondDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + secondPoint.getX())/2 + thirdPoint.getX())/2, ((firstPoint.getY() + secondPoint.getY())/2 + thirdPoint.getY())/2)
+
+                            var secondLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+                            var secondLineSecondDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + secondPoint.getX())/2 + thirdPoint.getX())/2, ((firstPoint.getY() + secondPoint.getY())/2 + thirdPoint.getY())/2)
+
+                            var thirdLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + thirdPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + thirdPoint.getY()/3)
+                            var thirdLineSecondDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+
+                            canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(secondLineFirstDot.getX()+canvMidX, secondLineFirstDot.getY()+canvMidY, secondLineSecondDot.getX()+canvMidX,secondLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(thirdLineFirstDot.getX()+canvMidX, thirdLineFirstDot.getY()+canvMidY, thirdLineSecondDot.getX()+canvMidX,thirdLineSecondDot.getY()+canvMidY, paint)
+                        }
+                        5 ->{
+                            var firstLineFirstDot = CubeActivityModel.ViewPoint((fourthPoint.getX() + firstPoint.getX())/3 + thirdPoint.getX()/3, (fourthPoint.getY() + firstPoint.getY())/3 + thirdPoint.getY()/3)
+                            var firstLineSecondDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + secondPoint.getX())/2 + thirdPoint.getX())/2, ((firstPoint.getY() + secondPoint.getY())/2 + thirdPoint.getY())/2)
+
+                            var secondLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+                            var secondLineSecondDot = CubeActivityModel.ViewPoint(((firstPoint.getX() + secondPoint.getX())/2 + thirdPoint.getX())/2, ((firstPoint.getY() + secondPoint.getY())/2 + thirdPoint.getY())/2)
+
+                            canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(secondLineFirstDot.getX()+canvMidX, secondLineFirstDot.getY()+canvMidY, secondLineSecondDot.getX()+canvMidX,secondLineSecondDot.getY()+canvMidY, paint)
+                        }
+                        6 ->{
+                            var firstLineFirstDot = CubeActivityModel.ViewPoint((fourthPoint.getX() + firstPoint.getX())/3 + thirdPoint.getX()/3, (fourthPoint.getY() + firstPoint.getY())/3 + thirdPoint.getY()/3)
+                            var firstLineSecondDot = CubeActivityModel.ViewPoint((firstPoint.getX() + fourthPoint.getX())/4 + secondPoint.getX()/2, (firstPoint.getY() + fourthPoint.getY())/4 + secondPoint.getY()/2)
+
+                            var secondLineFirstDot = CubeActivityModel.ViewPoint((thirdPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (thirdPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+                            var secondLineSecondDot = CubeActivityModel.ViewPoint((firstPoint.getX() + fourthPoint.getX())/4 + secondPoint.getX()/2, (firstPoint.getY() + fourthPoint.getY())/4 + secondPoint.getY()/2)
+
+                            var thirdLineFirstDot = CubeActivityModel.ViewPoint((firstPoint.getX() + secondPoint.getX())/3 + thirdPoint.getX()/3, (firstPoint.getY() + secondPoint.getY())/3 + thirdPoint.getY()/3)
+                            var thirdLineSecondDot = CubeActivityModel.ViewPoint((thirdPoint.getX() + secondPoint.getX())/3 + fourthPoint.getX()/3, (thirdPoint.getY() + secondPoint.getY())/3 + fourthPoint.getY()/3)
+
+                            canvas.drawLine(firstLineFirstDot.getX()+canvMidX, firstLineFirstDot.getY()+canvMidY, firstLineSecondDot.getX()+canvMidX,firstLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(secondLineFirstDot.getX()+canvMidX, secondLineFirstDot.getY()+canvMidY, secondLineSecondDot.getX()+canvMidX,secondLineSecondDot.getY()+canvMidY, paint)
+                            canvas.drawLine(thirdLineFirstDot.getX()+canvMidX, thirdLineFirstDot.getY()+canvMidY, thirdLineSecondDot.getX()+canvMidX,thirdLineSecondDot.getY()+canvMidY, paint)
+                        }
                     }
                 }
 
                 val allowableFaces = presenter.getAllowableFaces()
 
                 if (allowableFaces[0])
-                    faceDraw(cube[0],cube[1],cube[2],cube[3],Color.GREEN, 3)
+                    faceDraw(cube[0],cube[1],cube[2],cube[3], getColor(context, R.color.colorCube2), 3)
 
                 if (allowableFaces[1])
-                    faceDraw(cube[0],cube[3],cube[7],cube[4],Color.RED, 4)
+                    faceDraw(cube[0],cube[3],cube[7],cube[4],getColor(context, R.color.colorCube3), 4)
 
                 if (allowableFaces[2])
-                    faceDraw(cube[3],cube[2],cube[6],cube[7],Color.BLUE, 6)
+                    faceDraw(cube[3],cube[2],cube[6],cube[7],getColor(context, R.color.colorCube1), 6)
 
                 if (allowableFaces[3])
-                    faceDraw(cube[1],cube[5],cube[6],cube[2],Color.YELLOW, 2)
+                    faceDraw(cube[1],cube[5],cube[6],cube[2],getColor(context, R.color.colorCube4), 2)
 
                 if (allowableFaces[4])
-                    faceDraw(cube[5],cube[4],cube[7],cube[6],Color.CYAN, 1)
+                    faceDraw(cube[5],cube[4],cube[7],cube[6],getColor(context, R.color.colorCube5), 1)
 
                 if (allowableFaces[5])
-                    faceDraw(cube[0],cube[4],cube[5],cube[1],Color.GRAY, 5)
+                    faceDraw(cube[0],cube[4],cube[5],cube[1],getColor(context, R.color.colorCube1), 5)
 
 
 
