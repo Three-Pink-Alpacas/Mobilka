@@ -204,10 +204,6 @@ class CubeActivityView : Activity() {
                 if (allowableFaces[5])
                     faceDraw(cube[0],cube[4],cube[5],cube[1],getColor(context, R.color.colorCube1), 5)
 
-
-
-
-
             }
         }
 
