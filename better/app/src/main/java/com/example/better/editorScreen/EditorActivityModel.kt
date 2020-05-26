@@ -4,11 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Rect
-import android.os.Build
-import android.widget.Toast
-import android.widget.Toast.LENGTH_LONG
-import androidx.annotation.RequiresApi
-import com.example.better.mainScreen.MainActivityView
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import kotlin.math.PI
@@ -45,7 +40,6 @@ class EditorActivityModel : EditorContract.Model {
                 }
             }
         }
-
         return newBitmap
     }
 
@@ -76,11 +70,14 @@ class EditorActivityModel : EditorContract.Model {
     }
 
     override fun blackAndWhiteFilter(bitmap: Bitmap): Bitmap {
-        val oldBitmap = bitmap
-        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        for (x in 0..(bitmap.width - 1)) {
-            for (y in 0..(bitmap.height - 1)) {
-                val pixel = oldBitmap.getPixel(x, y)
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                val pixel = arr[bitmap.width * y + x]
                 var r = (pixel and 0x00FF0000 shr 16).toFloat()
                 var g = (pixel and 0x0000FF00 shr 8).toFloat()
                 var b = (pixel and 0x000000FF).toFloat()
@@ -88,47 +85,72 @@ class EditorActivityModel : EditorContract.Model {
                 r = (r + g + b) / 3.0f
                 g = r
                 b = r
-                val newPixel = -0x1000000 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
-                newBitmap.setPixel(x, y, newPixel)
+                newArr[bitmap.width * y + x] =
+                    -0x1000000 or (r.toInt() shl 16) or (g.toInt() shl 8) or b.toInt()
             }
         }
-        return newBitmap
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
     }
 
     override fun violetFilter(bitmap: Bitmap): Bitmap {
-        val oldBitmap = bitmap
-        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        for (x in 0..(bitmap.width - 1)) {
-            for (y in 0..(bitmap.height - 1)) {
-                val pixel = oldBitmap.getPixel(x, y)
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                val pixel = arr[bitmap.width * y + x]
                 val a = Color.alpha(pixel)
                 val r = Color.red(pixel)
                 var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100) as Int
                 val b = Color.blue(pixel)
 
                 if (g < 0) g = 0 else if (g > 255) g = 255
-                val newPixel = Color.argb(a, r, g, b)
-                newBitmap.setPixel(x, y, newPixel)
+                newArr[bitmap.width * y + x] = Color.argb(a, r, g, b)
             }
         }
-        return newBitmap
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
     }
 
     override fun negativeFilter(bitmap: Bitmap): Bitmap {
-        val oldBitmap = bitmap
-        val newBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
-        for (x in 0..(bitmap.width - 1)) {
-            for (y in 0..(bitmap.height - 1)) {
-                val pixel = oldBitmap.getPixel(x, y)
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                val pixel = arr[bitmap.width * y + x]
                 val r = 255 - (pixel and 0x00FF0000 shr 16)
                 val g = 255 - (pixel and 0x0000FF00 shr 8)
                 val b = 255 - (pixel and 0x000000FF)
 
-                val newPixel = Color.rgb(r, g, b)
-                newBitmap.setPixel(x, y, newPixel)
+                newArr[bitmap.width * y + x] = Color.rgb(r, g, b)
             }
         }
-        return newBitmap
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
     }
 
     override fun masking(bitmap: Bitmap, progress: Int): Bitmap {
@@ -179,7 +201,7 @@ class EditorActivityModel : EditorContract.Model {
             // Calculate inSampleSize
             inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
 
-            originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 50, stream)
 
             BitmapFactory.decodeStream(ByteArrayInputStream(stream.toByteArray()), rect, this)
         }
@@ -256,9 +278,12 @@ class EditorActivityModel : EditorContract.Model {
                 b = pixels[index + 1]
                 c = pixels[index + width]
                 d = pixels[index + width + 1]
-                blue = (a and 0xff) * (1 - xDiff) * (1 - yDiff) + (b and 0xff) * xDiff * (1 - yDiff) + (c and 0xff) * yDiff * (1 - xDiff) + (d and 0xff) * (xDiff * yDiff)
-                green = (a shr 8 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 8 and 0xff) * xDiff * (1 - yDiff) + (c shr 8 and 0xff) * yDiff * (1 - xDiff) + (d shr 8 and 0xff) * (xDiff * yDiff)
-                red = (a shr 16 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 16 and 0xff) * xDiff * (1 - yDiff) + (c shr 16 and 0xff) * yDiff * (1 - xDiff) + (d shr 16 and 0xff) * (xDiff * yDiff)
+                blue =
+                    (a and 0xff) * (1 - xDiff) * (1 - yDiff) + (b and 0xff) * xDiff * (1 - yDiff) + (c and 0xff) * yDiff * (1 - xDiff) + (d and 0xff) * (xDiff * yDiff)
+                green =
+                    (a shr 8 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 8 and 0xff) * xDiff * (1 - yDiff) + (c shr 8 and 0xff) * yDiff * (1 - xDiff) + (d shr 8 and 0xff) * (xDiff * yDiff)
+                red =
+                    (a shr 16 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 16 and 0xff) * xDiff * (1 - yDiff) + (c shr 16 and 0xff) * yDiff * (1 - xDiff) + (d shr 16 and 0xff) * (xDiff * yDiff)
                 newPixels[offset++] = -0x1000000 or
                         (red.toInt() shl 16 and 0xff0000) or
                         (green.toInt() shl 8 and 0xff00) or

@@ -127,18 +127,15 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onBlackAndWhiteFilter() {
-        bitmapImage = model.blackAndWhiteFilter(bitmapImage)
-        view.setBitmap(bitmapImage)
+        updateBitmap(model.blackAndWhiteFilter(bitmapImage))
     }
 
     override fun onVioletFilter() {
-        bitmapImage = model.violetFilter(bitmapImage)
-        view.setBitmap(bitmapImage)
+        updateBitmap(model.violetFilter(bitmapImage))
     }
 
     override fun onNegativeFilter() {
-        bitmapImage = model.negativeFilter(bitmapImage)
-        view.setBitmap(bitmapImage)
+        updateBitmap(model.negativeFilter(bitmapImage))
     }
 
     override fun getImageView(): ImageView? {
@@ -146,13 +143,13 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onMaskingSeekBar(progress: Int) {
-        bitmapImage = model.masking(bitmapImage, progress)
-        view.setBitmap(bitmapImage)
+        updateBitmap(model.masking(bitmapImage, progress))
     }
+
     override fun onScaleSeekBar(progress: Int){
-        bitmapImage = model.scale(bitmapImage, progress)
-        view.setBitmap(bitmapImage)
+        updateBitmap(model.scale(bitmapImage, progress))
     }
+
     override fun onRotate() {
         val rotateBarView = view.createView(R.layout.rotate_bar)
         customBar = CustomBar(
@@ -203,7 +200,11 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onRotateRight90() {
-        bitmapImage = model.rotate90(bitmapImage)
+        updateBitmap(model.rotate90(bitmapImage))
+    }
+
+    private fun updateBitmap(bitmap: Bitmap) {
+        bitmapImage = bitmap
         view.setBitmap(bitmapImage)
         localHistory?.add(bitmapImage)
     }
