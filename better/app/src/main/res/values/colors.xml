@@ -6,4 +6,12 @@
     <color name="colorStatusBarInEditor">#000000</color>
     <color name="rectangleClr">#FF6C57</color>
     <color name="colorPlus">#6C6C6C</color>
+
+    <color name="colorCube1">#FF4AAC</color>
+    <color name="colorCube2">#FF974A</color>
+    <color name="colorCube3">#E87143</color>
+    <color name="colorCube4">#FF6D57</color>
+    <color name="colorCube5">#E8434A</color>
+
+
 </resources>
