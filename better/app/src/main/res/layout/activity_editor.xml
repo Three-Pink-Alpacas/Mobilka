@@ -94,7 +94,15 @@
                 android:onClick="onMasking"
                 app:srcCompat="@drawable/filter"
                 tools:src="@drawable/filter" />
-
+            <ImageButton
+                android:id="@+id/shapesButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:background="#00FFFFFF"
+                android:contentDescription="shapesButton"
+                android:onClick="onShapes"
+                app:srcCompat="@drawable/filter"
+                tools:src="@drawable/filter" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,15 +1,17 @@
 package com.example.better.editorScreen
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Rect
+import android.widget.Toast
+import org.opencv.android.Utils
+import org.opencv.core.*
+import org.opencv.imgproc.Imgproc
+import org.opencv.imgproc.Imgproc.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.roundToInt
-import kotlin.math.sin
 import kotlin.math.*
 
 
@@ -234,8 +236,8 @@ class EditorActivityModel : EditorContract.Model {
 
     override fun scale(bitmap: Bitmap, progress: Int): Bitmap {
         val oldBitmap = bitmap
-        val width = oldBitmap.width.toInt()
-        val height = oldBitmap.height.toInt()
+        val width = oldBitmap.width
+        val height = oldBitmap.height
         val coeff: Double
         when (progress) {
             0 -> coeff = 0.125
@@ -291,6 +293,77 @@ class EditorActivityModel : EditorContract.Model {
             }
         }
         newBitmap.setPixels(newPixels, 0, newWidth, 0, 0, newWidth, newHeight)
+        return newBitmap
+    }
+
+    override fun findCircle(bitmap: Bitmap, context: Context): Bitmap {
+        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        val gray = Mat()
+        val tmp = Mat()
+        Utils.bitmapToMat(bitmap, tmp)
+        cvtColor(tmp, gray, Imgproc.COLOR_BGR2GRAY)
+        medianBlur(gray, gray, 5)
+        val circles = Mat()
+        Imgproc.HoughCircles(
+            gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+            gray.rows()/8.toDouble(),
+            100.0, 30.0, 1, 1000
+        )
+        if (circles.cols() !=0) {
+            for (x in 0 until circles.cols()) {
+                val c = circles[0, x]
+                val center = Point(c[0].roundToInt().toDouble(), c[1].roundToInt().toDouble())
+                circle(tmp, center, 1, Scalar(0.0, 100.0, 100.0), 3, 8, 0)
+                val radius = c[2].roundToInt()
+                circle(tmp, center, radius, Scalar(255.0, 0.0, 255.0), 3, 8, 0)
+            }
+            val newBitmap: Bitmap = bitmap
+            Utils.matToBitmap(tmp, newBitmap);
+            return newBitmap
+        }
+        else {
+            val text = "No circles found"
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(context, text, duration)
+            toast.show()
+            return bitmap
+        }
+    }
+
+    override fun findTriangle(bitmap: Bitmap, context: Context): Bitmap {
+
+        return bitmap
+    }
+
+    override fun findRectangle(bitmap: Bitmap, context: Context): Bitmap {
+
+        val gray = Mat()
+        val tmp = Mat()
+        Utils.bitmapToMat(bitmap, tmp)
+        cvtColor(tmp, gray, Imgproc.COLOR_BGR2GRAY)
+        medianBlur(gray, gray, 5)
+        val thres = Mat()
+        threshold(gray, thres, 130.0, 255.0, THRESH_BINARY_INV);
+        val contours: List<MatOfPoint> = listOf()
+        val hierarchy = Mat()
+        findContours(thres, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0.0, 0.0))
+        hierarchy.release()
+        for( i in contours.indices)
+        {
+            val brect: org.opencv.core.Rect = boundingRect(contours[i])
+            val k: Double = (brect.width+0.0)/brect.height;
+            if(brect.area() > 500 && brect.area() < 2000 && k > 0.9 && k < 1.1)
+            {
+
+                val minRect: RotatedRect = minAreaRect(MatOfPoint2f(contours[i]))
+                val rectPoints: Array<Point> = Array(4){Point(0.0, 0.0)}
+                minRect.points(rectPoints);
+                for(j in 0 until 4)
+                line(tmp, rectPoints[j], rectPoints[(j+1) % 4], Scalar(0.0,255.0,0.0), 2, 8 );
+            }
+        }
+        val newBitmap: Bitmap = bitmap
+        Utils.matToBitmap(tmp, newBitmap);
         return newBitmap
     }
 }

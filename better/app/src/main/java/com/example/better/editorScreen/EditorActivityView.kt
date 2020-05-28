@@ -12,11 +12,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
-import android.widget.SeekBar
-import android.widget.SeekBar.OnSeekBarChangeListener
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -24,10 +20,6 @@ import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
-import kotlinx.android.synthetic.main.filter_bar.*
-import kotlinx.android.synthetic.main.masking_bar.*
-import kotlinx.android.synthetic.main.rotate_bar.*
-import kotlinx.android.synthetic.main.scale_bar.*
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
@@ -111,6 +103,25 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
     fun onScale(view: View) {
         presenter.onScale()
+    }
+
+    fun onShapes(view: View) {
+        presenter.onShapes()
+    }
+
+    fun onCircle(view: View) {
+        val context: Context = applicationContext
+        presenter.onCircle(context)
+    }
+
+    fun onTriangle(view: View) {
+        val context: Context = applicationContext
+        presenter.onTriangle(context)
+    }
+
+    fun onRectangle(view: View) {
+        val context: Context = applicationContext
+        presenter.onRectangle(context)
     }
 
     override fun getTopBar(): ConstraintLayout {

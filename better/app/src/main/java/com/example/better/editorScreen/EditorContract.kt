@@ -1,12 +1,11 @@
 package com.example.better.editorScreen
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View.OnTouchListener
 import android.widget.ImageView
-import android.widget.SeekBar
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.better.utils.CustomBar
 
 interface EditorContract {
 
@@ -25,6 +24,9 @@ interface EditorContract {
 
         fun masking(bitmap: Bitmap, progress: Int): Bitmap
         fun scale(bitmap: Bitmap, progress: Int): Bitmap
+        fun findCircle(bitmap: Bitmap, context: Context): Bitmap
+        fun findTriangle(bitmap: Bitmap, context: Context): Bitmap
+        fun findRectangle(bitmap: Bitmap, context: Context): Bitmap
     }
 
     interface Presenter {
@@ -44,6 +46,10 @@ interface EditorContract {
         fun getImageView(): ImageView?
         fun onMaskingSeekBar(progress: Int)
         fun onScaleSeekBar(progress: Int)
+        fun onShapes()
+        fun onCircle(context: Context)
+        fun onTriangle(context: Context)
+        fun onRectangle(context: Context)
     }
 
     interface View {

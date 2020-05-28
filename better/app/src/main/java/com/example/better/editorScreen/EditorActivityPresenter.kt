@@ -1,8 +1,8 @@
 package com.example.better.editorScreen
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
-import kotlinx.coroutines.*
 import android.view.View
 import android.widget.ImageView
 import android.widget.SeekBar
@@ -13,6 +13,10 @@ import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
 import kotlinx.android.synthetic.main.masking_bar.view.*
 import kotlinx.android.synthetic.main.scale_bar.view.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
@@ -188,6 +192,30 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             override fun onStopTrackingTouch(seekBar: SeekBar?) {onScaleSeekBar(scaleSeekBar!!.progress)}
         })
         onClickButtonOnBottomBar()
+    }
+
+    override fun onShapes() {
+        val shapesBarView = view.createView(R.layout.shapes_bar)
+        customBar = CustomBar(
+            shapesBarView as ConstraintLayout,
+            CustomBar.Type.BOTTOM
+        )
+        onClickButtonOnBottomBar()
+    }
+
+    override fun onCircle(context: Context) {
+        bitmapImage = model.findCircle(bitmapImage, context)
+        view.setBitmap(bitmapImage)
+    }
+
+    override fun onTriangle(context: Context) {
+        bitmapImage = model.findTriangle(bitmapImage, context)
+        view.setBitmap(bitmapImage)
+    }
+
+    override fun onRectangle(context: Context) {
+        bitmapImage = model.findRectangle(bitmapImage, context)
+        view.setBitmap(bitmapImage)
     }
 
     override fun onFilter() {

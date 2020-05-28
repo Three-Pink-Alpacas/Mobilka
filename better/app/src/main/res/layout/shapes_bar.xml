@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:translationY="50dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <LinearLayout
+        android:id="@+id/shapesBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/circleButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/scale_image"
+            android:onClick="onCircle"
+            app:srcCompat="@drawable/scale" />
+
+        <ImageButton
+            android:id="@+id/triangleButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/scale_image"
+            android:onClick="onTriangle"
+            app:srcCompat="@drawable/scale" />
+
+        <ImageButton
+            android:id="@+id/rectangleButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/scale_image"
+            android:onClick="onRectangle"
+            app:srcCompat="@drawable/scale" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
