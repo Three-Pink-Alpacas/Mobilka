@@ -13,5 +13,8 @@
     <color name="colorCube4">#FF6D57</color>
     <color name="colorCube5">#E8434A</color>
 
+    <color name="seekBarBackgroundTint">#FFFFFF</color>
+    <color name="markTint">#FFFFFF</color>
+    <color name="progressText">#FFFFFF</color>
 
 </resources>
