@@ -114,11 +114,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter.onCircle(context)
     }
 
-    fun onTriangle(view: View) {
-        val context: Context = applicationContext
-        presenter.onTriangle(context)
-    }
-
     fun onRectangle(view: View) {
         val context: Context = applicationContext
         presenter.onRectangle(context)

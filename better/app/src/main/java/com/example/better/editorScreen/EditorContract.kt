@@ -25,7 +25,6 @@ interface EditorContract {
         fun masking(bitmap: Bitmap, progress: Int): Bitmap
         fun scale(bitmap: Bitmap, progress: Int): Bitmap
         fun findCircle(bitmap: Bitmap, context: Context): Bitmap
-        fun findTriangle(bitmap: Bitmap, context: Context): Bitmap
         fun findRectangle(bitmap: Bitmap, context: Context): Bitmap
     }
 
@@ -48,7 +47,6 @@ interface EditorContract {
         fun onScaleSeekBar(progress: Int)
         fun onShapes()
         fun onCircle(context: Context)
-        fun onTriangle(context: Context)
         fun onRectangle(context: Context)
     }
 

@@ -208,11 +208,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         view.setBitmap(bitmapImage)
     }
 
-    override fun onTriangle(context: Context) {
-        bitmapImage = model.findTriangle(bitmapImage, context)
-        view.setBitmap(bitmapImage)
-    }
-
     override fun onRectangle(context: Context) {
         bitmapImage = model.findRectangle(bitmapImage, context)
         view.setBitmap(bitmapImage)

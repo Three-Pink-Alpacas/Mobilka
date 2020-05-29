@@ -8,10 +8,10 @@ import android.graphics.Rect
 import android.widget.Toast
 import org.opencv.android.Utils
 import org.opencv.core.*
-import org.opencv.imgproc.Imgproc
 import org.opencv.imgproc.Imgproc.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.util.*
 import kotlin.math.*
 
 
@@ -297,15 +297,15 @@ class EditorActivityModel : EditorContract.Model {
     }
 
     override fun findCircle(bitmap: Bitmap, context: Context): Bitmap {
-        //System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
         val gray = Mat()
         val tmp = Mat()
         Utils.bitmapToMat(bitmap, tmp)
-        cvtColor(tmp, gray, Imgproc.COLOR_BGR2GRAY)
+        cvtColor(tmp, gray, COLOR_BGR2GRAY)
         medianBlur(gray, gray, 5)
         val circles = Mat()
-        Imgproc.HoughCircles(
-            gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+        HoughCircles(
+            gray, circles, HOUGH_GRADIENT, 1.0,
             gray.rows()/8.toDouble(),
             100.0, 30.0, 1, 1000
         )
@@ -330,40 +330,48 @@ class EditorActivityModel : EditorContract.Model {
         }
     }
 
-    override fun findTriangle(bitmap: Bitmap, context: Context): Bitmap {
-
-        return bitmap
-    }
-
     override fun findRectangle(bitmap: Bitmap, context: Context): Bitmap {
-
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
         val gray = Mat()
         val tmp = Mat()
         Utils.bitmapToMat(bitmap, tmp)
-        cvtColor(tmp, gray, Imgproc.COLOR_BGR2GRAY)
+        cvtColor(tmp, gray, COLOR_BGR2GRAY)
         medianBlur(gray, gray, 5)
         val thres = Mat()
         threshold(gray, thres, 130.0, 255.0, THRESH_BINARY_INV);
-        val contours: List<MatOfPoint> = listOf()
+        val contours: Vector<MatOfPoint> = Vector()
         val hierarchy = Mat()
         findContours(thres, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0.0, 0.0))
         hierarchy.release()
-        for( i in contours.indices)
-        {
-            val brect: org.opencv.core.Rect = boundingRect(contours[i])
-            val k: Double = (brect.width+0.0)/brect.height;
-            if(brect.area() > 500 && brect.area() < 2000 && k > 0.9 && k < 1.1)
-            {
+        if (contours.size != 0) {
+            for(contour in contours) {
 
-                val minRect: RotatedRect = minAreaRect(MatOfPoint2f(contours[i]))
-                val rectPoints: Array<Point> = Array(4){Point(0.0, 0.0)}
-                minRect.points(rectPoints);
-                for(j in 0 until 4)
-                line(tmp, rectPoints[j], rectPoints[(j+1) % 4], Scalar(0.0,255.0,0.0), 2, 8 );
+                val approxCurve = MatOfPoint2f()
+                val contour2f = MatOfPoint2f()
+                contour.convertTo(contour2f, CvType.CV_32FC2)
+                val approxDistance = arcLength(contour2f, true) * 0.02
+                approxPolyDP(contour2f, approxCurve, approxDistance, true)
+                val points = MatOfPoint()
+                //approxCurve.convertTo(points, CvType.CV_8UC4)
+                val rect = boundingRect(points)
+
+                rectangle(tmp, Point(rect.x.toDouble(), rect.y.toDouble()),
+                    Point((rect.x + rect.width).toDouble(), (rect.y + rect.height).toDouble()), Scalar(255.0, 0.0, 0.0, 255.0), 3)
             }
+            val newBitmap: Bitmap = bitmap
+            Utils.matToBitmap(tmp, newBitmap)
+            val text = "wtf"
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(context, text, duration)
+            toast.show()
+            return newBitmap
         }
-        val newBitmap: Bitmap = bitmap
-        Utils.matToBitmap(tmp, newBitmap);
-        return newBitmap
+        else {
+            val text = "No rectangles found"
+            val duration = Toast.LENGTH_SHORT
+            val toast = Toast.makeText(context, text, duration)
+            toast.show()
+            return bitmap
+        }
     }
 }

@@ -25,14 +25,6 @@
             android:onClick="onCircle"
             app:srcCompat="@drawable/scale" />
 
-        <ImageButton
-            android:id="@+id/triangleButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onTriangle"
-            app:srcCompat="@drawable/scale" />
 
         <ImageButton
             android:id="@+id/rectangleButton"
