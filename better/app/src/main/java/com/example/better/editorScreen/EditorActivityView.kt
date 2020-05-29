@@ -82,7 +82,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     // button for getting in main menu
     fun mainMenuMove(view: View) {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Are you sure?")
+        builder.setTitle("Leave editor?")
         builder.setMessage("Changes will not be saved")
 
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
