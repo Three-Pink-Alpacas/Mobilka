@@ -35,6 +35,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
     private var selectedImage: ImageView? = null
     private var currentImage: Bitmap? = null
+    private var isLoading: Boolean = false
 
     private lateinit var presenter: EditorContract.Presenter
 
@@ -54,12 +55,13 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun showProgressBar(){
         progressBar.visibility = ProgressBar.VISIBLE
         window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-
+        isLoading = true
 
     }
     override fun hideProgressBar(){
         progressBar.visibility = ProgressBar.INVISIBLE
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        isLoading = false
     }
 
     fun onRotate(view: View) {
@@ -71,10 +73,13 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
     override fun onBackPressed() {
-        if (presenter.isMainBarHidden())
-            {presenter.onCancelChanges()}
-        else
-            {mainMenuMove(View(this))}
+        if(!isLoading) {
+            if (presenter.isMainBarHidden()) {
+                presenter.onCancelChanges()
+            } else {
+                mainMenuMove(View(this))
+            }
+        }
     }
 
     fun onAcceptChanges(view: View) {
