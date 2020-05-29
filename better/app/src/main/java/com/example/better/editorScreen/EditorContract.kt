@@ -56,7 +56,7 @@ interface EditorContract {
         fun isMainBarHidden():Boolean
         fun showProgressBar()
         fun hideProgressBar()
-        fun save()
+        fun save():Bitmap
     }
 
     interface View {

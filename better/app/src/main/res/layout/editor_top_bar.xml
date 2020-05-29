@@ -19,6 +19,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="#00FFFFFF"
+        android:onClick="saveImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/save" />

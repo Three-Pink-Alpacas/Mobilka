@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -355,11 +356,13 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         onClickButtonOnBottomBar()
     }
 
-    override fun save() {
+    override fun save():Bitmap {
+
         val listFn = historyFn.getList()
-        listFn.forEach {
-            originalBitmapImage = it(originalBitmapImage)
-        }
+        listFn.forEach { originalBitmapImage = it(originalBitmapImage) }
+
+
+        return originalBitmapImage
     }
 
     override fun onRotateRight90() {
