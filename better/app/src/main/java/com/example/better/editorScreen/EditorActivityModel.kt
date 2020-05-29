@@ -5,7 +5,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Rect
+import android.os.AsyncTask
+import android.os.Build
+import android.os.Bundle
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import org.opencv.android.Utils
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc.*
@@ -16,6 +20,7 @@ import kotlin.math.*
 
 
 class EditorActivityModel : EditorContract.Model {
+    @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 
     override fun rotate(bitmap: Bitmap, angle: Float): Bitmap {
         val rad = angle * PI / 180f
@@ -53,6 +58,7 @@ class EditorActivityModel : EditorContract.Model {
 
         var newX: Int
         var newY: Int
+
         for (x in 0 until bitmap.width) {
             for (y in 0 until bitmap.height) {
                 newX = bitmap.height - y - 1

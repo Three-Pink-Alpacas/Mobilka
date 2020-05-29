@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
@@ -11,12 +12,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
+import kotlinx.android.synthetic.main.activity_editor.*
 import kotlinx.android.synthetic.main.masking_bar.view.*
 import kotlinx.android.synthetic.main.scale_bar.view.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Presenter {
@@ -37,21 +36,23 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private var historyFn: HistoryHelper<(Bitmap) -> Bitmap>
 
     init {
+        showProgressBar()
+
         GlobalScope.launch(Dispatchers.IO) {
-            bitmapImage = model.getSqueezedBitmap(
-                originalBitmapImage,
-                view.getImageView()?.clipBounds,
-                1024,
-                1024
-            )!!
+            bitmapImage = model.getSqueezedBitmap(originalBitmapImage, view.getImageView()?.clipBounds,
+                1024, 1024)!!
+
             withContext(Dispatchers.Main) {
                 view.setBitmap(bitmapImage)
                 globalHistory = HistoryHelper(bitmapImage)
+                hideProgressBar()
+
             }
         }
         historyFn = HistoryHelper { bitmapImage ->
             bitmapImage
         }
+
         val imageView = view.getImageView()!!
         val centerX = imageView.width.toFloat() / 2
         val centerY = imageView.height.toFloat() / 2
@@ -139,23 +140,60 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onBlackAndWhiteFilter() {
-        updateBitmap(model.blackAndWhiteFilter(bitmapImage))
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.blackAndWhiteFilter(bitmapImage)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
+
+
     }
 
     override fun onVioletFilter() {
-        updateBitmap(model.violetFilter(bitmapImage))
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.violetFilter(bitmapImage)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
     override fun onContrastFilter() {
-        updateBitmap(model.contrastFilter(bitmapImage))
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.contrastFilter(bitmapImage)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
     override fun onSepiaFilter() {
-        updateBitmap(model.sepiaFilter(bitmapImage))
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.sepiaFilter(bitmapImage)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
     override fun onNegativeFilter() {
-        updateBitmap(model.negativeFilter(bitmapImage))
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.negativeFilter(bitmapImage)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
     override fun getImageView(): ImageView? {
@@ -163,11 +201,25 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onMaskingSeekBar(progress: Int) {
-        updateBitmap(model.masking(bitmapImage, progress))
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.masking(bitmapImage, progress)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
-    override fun onScaleSeekBar(progress: Int) {
-        updateBitmap(model.scale(bitmapImage, progress))
+    override fun onScaleSeekBar(progress: Int){
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.scale(bitmapImage, progress)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
     override fun onRotate() {
@@ -224,18 +276,42 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onCircle(context: Context) {
-        bitmapImage = model.findCircle(bitmapImage, context)
-        view.setBitmap(bitmapImage)
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.findCircle(bitmapImage, context)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
     }
 
     override fun onRectangle(context: Context) {
-        bitmapImage = model.findRectangle(bitmapImage, context)
-        view.setBitmap(bitmapImage)
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.findRectangle(bitmapImage, context)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar()
+                }
+        }
     }
 
     override fun isMainBarHidden(): Boolean {
         return mainBarIsHidden
     }
+
+
+    override fun showProgressBar() {
+        view.showProgressBar()
+    }
+
+    override fun hideProgressBar() {
+        view.hideProgressBar()
+    }
+
+
 
     override fun onFilter() {
         val filterBarView = view.createView(R.layout.filter_bar)
@@ -254,7 +330,15 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onRotateRight90() {
-        updateBitmapFn { bitmap -> model.rotate90(bitmap) }
+        showProgressBar()
+
+        CoroutineScope(Dispatchers.Default).async {
+            var tmp = model.rotate90(bitmapImage)
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar() }
+        }
+
     }
 
     private fun updateBitmap(bitmap: Bitmap) {

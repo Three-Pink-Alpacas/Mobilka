@@ -53,6 +53,8 @@ interface EditorContract {
         fun onCircle(context: Context)
         fun onRectangle(context: Context)
         fun isMainBarHidden():Boolean
+        fun showProgressBar()
+        fun hideProgressBar()
         fun save()
     }
 
@@ -67,5 +69,8 @@ interface EditorContract {
         fun setOnTouchListener(onTouchListener: OnTouchListener)
         fun detachOnTouchListener()
         fun createView(resource: Int): android.view.View
+        fun showProgressBar()
+        fun hideProgressBar()
+
     }
 }

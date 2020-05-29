@@ -11,7 +11,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +23,10 @@ import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
@@ -42,17 +49,29 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         changeStatusBarColor(this)
         setContentView(R.layout.activity_editor)
         selectedImage = editableImage
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        progressBar.visibility = ProgressBar.VISIBLE
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
         currentImage = MediaStore.Images.Media.getBitmap(this.contentResolver, imgUri)
         presenter = EditorActivityPresenter(this)
     }
 
-    fun onRotate(view: View) {
+    override fun showProgressBar(){
+        progressBar.visibility = ProgressBar.VISIBLE
+        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
 
+
+    }
+    override fun hideProgressBar(){
+        progressBar.visibility = ProgressBar.INVISIBLE
+        window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+
+    fun onRotate(view: View) {
         presenter.onRotate()
     }
 
-    fun onRotateRight90(view: View) {
+    fun onRotateRight90(view: View){
         presenter.onRotateRight90()
     }
 
