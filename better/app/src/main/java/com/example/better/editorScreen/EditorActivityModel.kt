@@ -115,7 +115,7 @@ class EditorActivityModel : EditorContract.Model {
                 var g = ((pixel and 0x0000FF00 shr 8) - 20 * 128 / 100) as Int
                 val b = Color.blue(pixel)
 
-                if (g < 0) g = 0 else if (g > 255) g = 255
+                g = max(0,min(g,255))
                 newArr[bitmap.width * y + x] = Color.argb(a, r, g, b)
             }
         }
@@ -155,40 +155,112 @@ class EditorActivityModel : EditorContract.Model {
         )
     }
 
+    override fun contrastFilter(bitmap: Bitmap): Bitmap { //I = (I • 100 – 128 • N) / (100 – N)
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+        val k = 50
+
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                val pixel = arr[bitmap.width * y + x]
+                var r = (((pixel and 0x00FF0000 shr 16)*100 - 125*k)/k).toInt()
+                var g = (((pixel and 0x0000FF00 shr 8)*100 - 125*k)/k).toInt()
+                var b = (((pixel and 0x000000FF)*100 - 125*k)/k).toInt()
+
+                r = max(0,min(r,255))
+                g = max(0,min(g,255))
+                b = max(0,min(b,255))
+                newArr[bitmap.width * y + x] = Color.rgb(r, g, b)
+            }
+        }
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
+    }
+
+    override fun sepiaFilter(bitmap: Bitmap): Bitmap {
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                val pixel = arr[bitmap.width * y + x]
+                var r = pixel and 0x00FF0000 shr 16
+                var g = pixel and 0x0000FF00 shr 8
+                var b = pixel and 0x000000FF
+                r = ((r * 0.393) + (g * 0.769) + (b * 0.189)).toInt()
+                g = ((r * 0.349) + (g * 0.686) + (b * 0.168)).toInt()
+                b = ((r * 0.272) + (g * 0.534) + (b * 0.131)).toInt()
+                r = max(0,min(r,255))
+                g = max(0,min(g,255))
+                b = max(0,min(b,255))
+
+                newArr[bitmap.width * y + x] = Color.rgb(r, g, b)
+            }
+        }
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
+    }
+
     override fun masking(bitmap: Bitmap, progress: Int): Bitmap {
-        val oldBitmap = bitmap
-        val newBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true)
-        val sharpenForce = progress.toFloat()
+        if (progress == 0)
+            return bitmap
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
+        val sharpenForce = progress*0.5.toFloat()
         val kernel = arrayOf(
             floatArrayOf(0f, -1 * sharpenForce, 0f),
             floatArrayOf(-1 * sharpenForce, 4 * sharpenForce + 1, -1 * sharpenForce),
             floatArrayOf(0f, -1 * sharpenForce, 0f)
         )
-        for (y in 1 until oldBitmap.height - 1) {
-            for (x in 1 until oldBitmap.width - 1) {
+        for (y in 1 until bitmap.height - 1) {
+            for (x in 1 until bitmap.width - 1) {
                 var newR = 0
                 var newG = 0
                 var newB = 0
                 for (yk in -1..1) {
                     for (xk in -1..1) {
-                        val pixel = oldBitmap.getPixel(x + xk, y + yk)
-                        val r: Float = Color.red(pixel).toFloat()
-                        val g: Float = Color.green(pixel).toFloat()
-                        val b: Float = Color.blue(pixel).toFloat()
+                        val pixel = arr[bitmap.width*(y + yk) + x + xk]
+                        val r = (pixel and 0x00FF0000 shr 16)
+                        val g = (pixel and 0x0000FF00 shr 8)
+                        val b = (pixel and 0x000000FF)
                         newR += (kernel[yk + 1][xk + 1] * r).toInt()
                         newG += (kernel[yk + 1][xk + 1] * g).toInt()
                         newB += (kernel[yk + 1][xk + 1] * b).toInt()
                     }
                 }
-                if (newR < 0) newR = 0 else if (newR > 255) newR = 255
-                if (newG < 0) newG = 0 else if (newG > 255) newG = 255
-                if (newB < 0) newB = 0 else if (newB > 255) newB = 255
+                newR = max(0,min(newR,255))
+                newG = max(0,min(newG,255))
+                newB = max(0,min(newB,255))
 
-                val newPixel = Color.rgb(newR, newG, newB)
-                newBitmap.setPixel(x, y, newPixel)
+                newArr[bitmap.width * y + x] = Color.rgb(newR, newG, newB)
             }
         }
-        return newBitmap
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
     }
 
     override fun getSqueezedBitmap(
@@ -235,6 +307,10 @@ class EditorActivityModel : EditorContract.Model {
 
 
     override fun scale(bitmap: Bitmap, progress: Int): Bitmap {
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+
         val oldBitmap = bitmap
         val width = oldBitmap.width
         val height = oldBitmap.height
@@ -250,10 +326,7 @@ class EditorActivityModel : EditorContract.Model {
         }
         val newWidth = (ceil(width * coeff)).toInt()
         val newHeight = (ceil(height * coeff)).toInt()
-        val newBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
-        val pixels = IntArray(height * width)
-        val newPixels = IntArray(newHeight * newWidth)
-        oldBitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+
         var a: Int
         var b: Int
         var c: Int
@@ -276,24 +349,30 @@ class EditorActivityModel : EditorContract.Model {
                 xDiff = xRatio * j - x
                 yDiff = yRatio * i - y
                 index = (y * width + x)
-                a = pixels[index]
-                b = pixels[index + 1]
-                c = pixels[index + width]
-                d = pixels[index + width + 1]
+                a = arr[index]
+                b = arr[index + 1]
+                c = arr[index + width]
+                d = arr[index + width + 1]
                 blue =
                     (a and 0xff) * (1 - xDiff) * (1 - yDiff) + (b and 0xff) * xDiff * (1 - yDiff) + (c and 0xff) * yDiff * (1 - xDiff) + (d and 0xff) * (xDiff * yDiff)
                 green =
                     (a shr 8 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 8 and 0xff) * xDiff * (1 - yDiff) + (c shr 8 and 0xff) * yDiff * (1 - xDiff) + (d shr 8 and 0xff) * (xDiff * yDiff)
                 red =
                     (a shr 16 and 0xff) * (1 - xDiff) * (1 - yDiff) + (b shr 16 and 0xff) * xDiff * (1 - yDiff) + (c shr 16 and 0xff) * yDiff * (1 - xDiff) + (d shr 16 and 0xff) * (xDiff * yDiff)
-                newPixels[offset++] = -0x1000000 or
+                newArr[offset++] = -0x1000000 or
                         (red.toInt() shl 16 and 0xff0000) or
                         (green.toInt() shl 8 and 0xff00) or
                         blue.toInt()
             }
         }
-        newBitmap.setPixels(newPixels, 0, newWidth, 0, 0, newWidth, newHeight)
-        return newBitmap
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
     }
 
     override fun findCircle(bitmap: Bitmap, context: Context): Bitmap {

@@ -15,6 +15,8 @@ interface EditorContract {
         fun blackAndWhiteFilter(bitmap: Bitmap): Bitmap
         fun violetFilter(bitmap: Bitmap): Bitmap
         fun negativeFilter(bitmap: Bitmap): Bitmap
+        fun contrastFilter(bitmap: Bitmap): Bitmap
+        fun sepiaFilter(bitmap: Bitmap): Bitmap
         fun getSqueezedBitmap(
             originalBitmapImage: Bitmap,
             rect: Rect?,
@@ -42,6 +44,8 @@ interface EditorContract {
         fun onBlackAndWhiteFilter()
         fun onVioletFilter()
         fun onNegativeFilter()
+        fun onContrastFilter()
+        fun onSepiaFilter()
         fun getImageView(): ImageView?
         fun onMaskingSeekBar(progress: Int)
         fun onScaleSeekBar(progress: Int)

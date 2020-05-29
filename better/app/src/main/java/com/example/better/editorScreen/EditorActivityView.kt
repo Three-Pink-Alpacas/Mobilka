@@ -161,6 +161,14 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter.onNegativeFilter()
     }
 
+    fun onClickContrastFilter(view: View) {
+        presenter.onContrastFilter()
+    }
+
+    fun onClickSepiaFilter(view: View) {
+        presenter.onSepiaFilter()
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun setOnTouchListener(onTouchListener: View.OnTouchListener) {
         selectedImage?.setOnTouchListener(onTouchListener)

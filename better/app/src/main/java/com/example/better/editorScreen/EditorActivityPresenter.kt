@@ -143,6 +143,14 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         updateBitmap(model.violetFilter(bitmapImage))
     }
 
+    override fun onContrastFilter() {
+        updateBitmap(model.contrastFilter(bitmapImage))
+    }
+
+    override fun onSepiaFilter() {
+        updateBitmap(model.sepiaFilter(bitmapImage))
+    }
+
     override fun onNegativeFilter() {
         updateBitmap(model.negativeFilter(bitmapImage))
     }

@@ -42,5 +42,24 @@
             android:contentDescription="@string/scale_image"
             android:onClick="onClickNegativeFilter"
             app:srcCompat="@drawable/scale" />
+
+        <ImageButton
+            android:id="@+id/contrastButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/scale_image"
+            android:onClick="onClickContrastFilter"
+            app:srcCompat="@drawable/scale" />
+
+        <ImageButton
+            android:id="@+id/sepiaButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/scale_image"
+            android:onClick="onClickSepiaFilter"
+            app:srcCompat="@drawable/scale" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
