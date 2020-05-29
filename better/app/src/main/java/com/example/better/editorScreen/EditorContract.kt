@@ -48,6 +48,7 @@ interface EditorContract {
         fun onShapes()
         fun onCircle(context: Context)
         fun onRectangle(context: Context)
+        fun isMainBarHidden():Boolean
     }
 
     interface View {

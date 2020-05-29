@@ -10,7 +10,7 @@ class CustomBar(val layout: ConstraintLayout, private val type: Type) {
     }
 
     private val animator: ValueAnimator = ValueAnimator()
-
+    private var barIsHidden = true
     init {
         animator.addUpdateListener {
             val value = it.animatedValue as Float
@@ -18,6 +18,7 @@ class CustomBar(val layout: ConstraintLayout, private val type: Type) {
         }
         animator.interpolator = LinearInterpolator()
         animator.duration = 300
+
     }
 
     fun hide() {
@@ -26,6 +27,7 @@ class CustomBar(val layout: ConstraintLayout, private val type: Type) {
             Type.TOP -> animator.setFloatValues(0f, -layout.height.toFloat())
         }
         animator.start()
+
     }
 
     fun show() {
@@ -34,6 +36,8 @@ class CustomBar(val layout: ConstraintLayout, private val type: Type) {
             Type.BOTTOM -> animator.setFloatValues(layout.translationY, 0f)
         }
         animator.start()
+
     }
+
 
 }

@@ -48,6 +48,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
     fun onRotate(view: View) {
+
         presenter.onRotate()
     }
 
@@ -56,7 +57,10 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
     override fun onBackPressed() {
-        mainMenuMove(View(this))
+        if (presenter.isMainBarHidden())
+            {presenter.onCancelChanges()}
+        else
+            {mainMenuMove(View(this))}
     }
 
     fun onAcceptChanges(view: View) {
@@ -79,7 +83,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     fun mainMenuMove(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Are you sure?")
-        builder.setMessage("Changes will not be saved.")
+        builder.setMessage("Changes will not be saved")
 
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
             val intent = Intent(this, MainActivityView::class.java)

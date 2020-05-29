@@ -30,6 +30,8 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private val topBar: CustomBar
     private val editTopBar: CustomBar
     private var customBar: CustomBar? = null
+    var mainBarIsHidden = false
+
 
     private lateinit var globalHistory: HistoryHelper
     private var localHistory: HistoryHelper? = null
@@ -99,6 +101,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         editTopBar.show()
         customBar?.show()
         localHistory = HistoryHelper(bitmapImage)
+        mainBarIsHidden = true
     }
 
     override fun onAcceptChanges() {
@@ -108,6 +111,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         topBar.show()
         globalHistory.add(bitmapImage)
         localHistory = null
+        mainBarIsHidden = false
     }
 
     override fun onCancelChanges() {
@@ -118,6 +122,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         bitmapImage = globalHistory.current()
         view.setBitmap(bitmapImage)
         localHistory = null
+        mainBarIsHidden = false
     }
 
     override fun onUndoChanges() {
@@ -211,6 +216,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onRectangle(context: Context) {
         bitmapImage = model.findRectangle(bitmapImage, context)
         view.setBitmap(bitmapImage)
+    }
+
+    override fun isMainBarHidden(): Boolean {
+        return mainBarIsHidden
     }
 
     override fun onFilter() {

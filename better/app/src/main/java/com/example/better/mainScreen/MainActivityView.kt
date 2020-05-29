@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -36,12 +37,14 @@ import com.example.better.utils.CustomViewPager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
 import java.util.*
+import kotlin.system.exitProcess
 
 
 class MainActivityView : AppCompatActivity(), MainContract.View_ {
     private val REQUEST_PERMISSION_CODE = 100
     private val OPEN_GALLERY_CODE = 1
     private val OPEN_CAMERA_CODE = 2
+    var viewPlusIsHidden = true
 
     var presenter = MainActivityPresenter(this)
     private fun changeStatusBarColor(context: Context, num:Int) {
@@ -127,7 +130,6 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     }
     fun plusMove(view: View) {
         var gotAllPermissions: Boolean = true
-        presenter.checkPermissions()
         for (permission in presenter.neededPermissions) {
             if (!checkHasPermission(permission)) {
                 gotAllPermissions = false
@@ -142,9 +144,22 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 }
             showViewPlus()
         }
+        else
+        {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Photo editor")
+            builder.setMessage("Permissions required")
+
+            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+                presenter.checkPermissions()
+            }
+
+            builder.show()
+        }
     }
 
     fun showViewPlus(){
+        viewPlusIsHidden = false
         val viewPlus = this.plusView as ConstraintLayout
         val animator: ValueAnimator = ValueAnimator()
         animator.addUpdateListener {
@@ -158,6 +173,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         plusButton.isEnabled = false
     }
     fun hideViewPlus(){
+        viewPlusIsHidden = true
         val viewPlus = this.plusView as ConstraintLayout
         val animator = ValueAnimator()
         animator.addUpdateListener {
@@ -172,7 +188,24 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     }
 
     override fun onBackPressed() {
-        hideViewPlus()
+        if (!viewPlusIsHidden) {
+            hideViewPlus()
+        }
+        else
+        {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Are you sure you want to exit?")
+
+
+            builder.setPositiveButton(android.R.string.yes) { _, _ ->
+                finish()
+                exitProcess(0)
+            }
+
+            builder.setNegativeButton(android.R.string.no) { _, _ -> }
+            builder.show()
+
+        }
     }
     fun galleryOpen(view: View) {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
