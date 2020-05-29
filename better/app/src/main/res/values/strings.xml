@@ -18,5 +18,7 @@
     <string name="cube_txt">cube.</string>
     <string name="open_in_gallery_txt">gallery</string>
     <string name="filterbarlayout">filterBarLayout</string>
+    <string name="masking_txt">×1</string>
+    <string name="scale_txt">×1</string>
 
 </resources>

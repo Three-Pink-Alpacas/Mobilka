@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View.OnTouchListener
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 interface EditorContract {
@@ -24,8 +25,8 @@ interface EditorContract {
             reqHeight: Int
         ): Bitmap?
 
-        fun masking(bitmap: Bitmap, progress: Int): Bitmap
-        fun scale(bitmap: Bitmap, progress: Int): Bitmap
+        fun masking(bitmap: Bitmap, progress: Int, text: TextView): Bitmap
+        fun scale(bitmap: Bitmap, progress: Int, text: TextView): Bitmap
         fun findCircle(bitmap: Bitmap, context: Context): Bitmap
         fun findRectangle(bitmap: Bitmap, context: Context): Bitmap
     }
@@ -47,8 +48,8 @@ interface EditorContract {
         fun onContrastFilter()
         fun onSepiaFilter()
         fun getImageView(): ImageView?
-        fun onMaskingSeekBar(progress: Int)
-        fun onScaleSeekBar(progress: Int)
+        fun onMaskingSeekBar(progress: Int, text: TextView)
+        fun onScaleSeekBar(progress: Int, text: TextView)
         fun onShapes()
         fun onCircle(context: Context)
         fun onRectangle(context: Context)

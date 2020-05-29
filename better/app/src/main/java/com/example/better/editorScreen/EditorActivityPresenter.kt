@@ -4,15 +4,14 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.View
-import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
-import kotlinx.android.synthetic.main.activity_editor.*
 import kotlinx.android.synthetic.main.masking_bar.view.*
 import kotlinx.android.synthetic.main.scale_bar.view.*
 import kotlinx.coroutines.*
@@ -200,22 +199,22 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         return view.getImageView()
     }
 
-    override fun onMaskingSeekBar(progress: Int) {
+    override fun onMaskingSeekBar(progress: Int, text: TextView) {
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.masking(bitmapImage, progress)
+            var tmp = model.masking(bitmapImage, progress, text)
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
                 hideProgressBar() }
         }
     }
 
-    override fun onScaleSeekBar(progress: Int){
+    override fun onScaleSeekBar(progress: Int, text: TextView){
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.scale(bitmapImage, progress)
+            var tmp = model.scale(bitmapImage, progress, text)
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
                 hideProgressBar() }
@@ -243,7 +242,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                onMaskingSeekBar(maskingSeekBar.progress)
+                onMaskingSeekBar(maskingSeekBar.progress, maskingBarView.maskingText)
             }
         })
         onClickButtonOnBottomBar()
@@ -260,7 +259,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                onScaleSeekBar(scaleSeekBar.progress)
+                onScaleSeekBar(scaleSeekBar.progress, scaleBarView.scaleText)
             }
         })
         onClickButtonOnBottomBar()

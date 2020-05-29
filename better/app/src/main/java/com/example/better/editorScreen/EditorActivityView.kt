@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -23,10 +22,6 @@ import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
@@ -125,6 +120,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun getBottomBar(): ConstraintLayout {
         return bottomBarView
     }
+
     fun onScale(view: View) {
         presenter.onScale()
     }
