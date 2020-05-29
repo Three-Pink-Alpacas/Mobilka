@@ -2,15 +2,15 @@ package com.example.better.editorScreen
 
 import android.graphics.Bitmap
 
-class HistoryHelper(initState: Bitmap) {
-    private val states: MutableList<Bitmap> = mutableListOf()
+class HistoryHelper<T>(initState: T) {
+    private val states: MutableList<T> = mutableListOf()
     private var index = 0
 
     init {
         states.add(initState)
     }
 
-    fun add(bitmap: Bitmap) {
+    fun add(bitmap: T) {
         if (index == states.size-1) {
             states.add(bitmap)
         } else {
@@ -20,21 +20,25 @@ class HistoryHelper(initState: Bitmap) {
         index++
     }
 
-    fun undo(): Bitmap? {
+    fun undo(): T? {
         if (index > 0) {
             index--
         }
         return states[index]
     }
 
-    fun redo(): Bitmap? {
+    fun redo(): T? {
         if (index < states.size-1) {
             index++
         }
         return states[index]
     }
 
-    fun current(): Bitmap {
+    fun current(): T {
         return states[index]
+    }
+
+    fun getList(): MutableList<T> {
+        return states
     }
 }

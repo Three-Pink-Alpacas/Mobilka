@@ -30,11 +30,11 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private val topBar: CustomBar
     private val editTopBar: CustomBar
     private var customBar: CustomBar? = null
-    var mainBarIsHidden = false
+    private var mainBarIsHidden = false
 
-
-    private lateinit var globalHistory: HistoryHelper
-    private var localHistory: HistoryHelper? = null
+    private lateinit var globalHistory: HistoryHelper<Bitmap>
+    private var localHistory: HistoryHelper<Bitmap>? = null
+    private var historyFn: HistoryHelper<(Bitmap) -> Bitmap>
 
     init {
         GlobalScope.launch(Dispatchers.IO) {
@@ -48,6 +48,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
                 view.setBitmap(bitmapImage)
                 globalHistory = HistoryHelper(bitmapImage)
             }
+        }
+        historyFn = HistoryHelper { bitmapImage ->
+            bitmapImage
         }
         val imageView = view.getImageView()!!
         val centerX = imageView.width.toFloat() / 2
@@ -163,7 +166,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         updateBitmap(model.masking(bitmapImage, progress))
     }
 
-    override fun onScaleSeekBar(progress: Int){
+    override fun onScaleSeekBar(progress: Int) {
         updateBitmap(model.scale(bitmapImage, progress))
     }
 
@@ -187,7 +190,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         maskingSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {onMaskingSeekBar(maskingSeekBar!!.progress)}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                onMaskingSeekBar(maskingSeekBar.progress)
+            }
         })
         onClickButtonOnBottomBar()
     }
@@ -202,7 +207,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         scaleSeekBar!!.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {onScaleSeekBar(scaleSeekBar!!.progress)}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                onScaleSeekBar(scaleSeekBar.progress)
+            }
         })
         onClickButtonOnBottomBar()
     }
@@ -239,12 +246,25 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         onClickButtonOnBottomBar()
     }
 
+    override fun save() {
+        val listFn = historyFn.getList()
+        listFn.forEach {
+            originalBitmapImage = it(originalBitmapImage)
+        }
+    }
+
     override fun onRotateRight90() {
-        updateBitmap(model.rotate90(bitmapImage))
+        updateBitmapFn { bitmap -> model.rotate90(bitmap) }
     }
 
     private fun updateBitmap(bitmap: Bitmap) {
         bitmapImage = bitmap
+        view.setBitmap(bitmapImage)
+        localHistory?.add(bitmapImage)
+    }
+
+    private fun updateBitmapFn(fn: (Bitmap) -> Bitmap) {
+        bitmapImage = fn(bitmapImage)
         view.setBitmap(bitmapImage)
         localHistory?.add(bitmapImage)
     }
