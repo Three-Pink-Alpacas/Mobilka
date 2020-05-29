@@ -88,6 +88,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
             val intent = Intent(this, MainActivityView::class.java)
             startActivity(intent)
+            finish()
         }
 
         builder.setNegativeButton(android.R.string.no) { _, _ -> }

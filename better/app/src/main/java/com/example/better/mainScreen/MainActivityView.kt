@@ -198,8 +198,8 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
 
 
             builder.setPositiveButton(android.R.string.yes) { _, _ ->
-                finish()
                 exitProcess(0)
+                finish()
             }
 
             builder.setNegativeButton(android.R.string.no) { _, _ -> }
@@ -229,6 +229,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         val intent = Intent(this, EditorActivityView::class.java)
         intent.putExtra("img", imageUri)
         startActivity(intent)
+        finish()
     }
 
     override fun checkHasPermission(permission: String): Boolean {
