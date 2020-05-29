@@ -33,13 +33,16 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private lateinit var globalHistory: HistoryHelper<Bitmap>
     private var localHistory: HistoryHelper<Bitmap>? = null
     private var historyFn: HistoryHelper<(Bitmap) -> Bitmap>
+    private var globalHistoryFn: HistoryHelper<HistoryHelper<(Bitmap) -> Bitmap>>
 
     init {
         showProgressBar()
 
         GlobalScope.launch(Dispatchers.IO) {
-            bitmapImage = model.getSqueezedBitmap(originalBitmapImage, view.getImageView()?.clipBounds,
-                1024, 1024)!!
+            bitmapImage = model.getSqueezedBitmap(
+                originalBitmapImage, view.getImageView()?.clipBounds,
+                1024, 1024
+            )!!
 
             withContext(Dispatchers.Main) {
                 view.setBitmap(bitmapImage)
@@ -51,6 +54,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         historyFn = HistoryHelper { bitmapImage ->
             bitmapImage
         }
+
+        globalHistoryFn = HistoryHelper(HistoryHelper { bitmapImage ->
+            bitmapImage
+        })
 
         val imageView = view.getImageView()!!
         val centerX = imageView.width.toFloat() / 2
@@ -104,6 +111,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         editTopBar.show()
         customBar?.show()
         localHistory = HistoryHelper(bitmapImage)
+        historyFn = HistoryHelper { bitmapImage ->
+            bitmapImage
+        }
         mainBarIsHidden = true
     }
 
@@ -113,6 +123,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         bottomBar.show()
         topBar.show()
         globalHistory.add(bitmapImage)
+        globalHistoryFn.add(historyFn)
+        historyFn = HistoryHelper { bitmapImage ->
+            bitmapImage
+        }
         localHistory = null
         mainBarIsHidden = false
     }
@@ -124,17 +138,22 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         topBar.show()
         bitmapImage = globalHistory.current()
         view.setBitmap(bitmapImage)
+        historyFn = HistoryHelper { bitmapImage ->
+            bitmapImage
+        }
         localHistory = null
         mainBarIsHidden = false
     }
 
     override fun onUndoChanges() {
         bitmapImage = localHistory?.undo() ?: bitmapImage
+        historyFn.undo()
         view.setBitmap(bitmapImage)
     }
 
     override fun onRedoChanges() {
         bitmapImage = localHistory?.redo() ?: bitmapImage
+        historyFn.redo()
         view.setBitmap(bitmapImage)
     }
 
@@ -142,10 +161,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.blackAndWhiteFilter(bitmapImage)
+            val tmp = model.blackAndWhiteFilter(bitmapImage)
+            historyFn.add { bitmap -> model.blackAndWhiteFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
 
 
@@ -155,10 +176,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.violetFilter(bitmapImage)
+            val tmp = model.violetFilter(bitmapImage)
+            historyFn.add { bitmap -> model.violetFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
@@ -166,10 +189,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.contrastFilter(bitmapImage)
+            val tmp = model.contrastFilter(bitmapImage)
+            historyFn.add { bitmap -> model.contrastFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
@@ -177,10 +202,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.sepiaFilter(bitmapImage)
+            val tmp = model.sepiaFilter(bitmapImage)
+            historyFn.add { bitmap -> model.sepiaFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
@@ -188,10 +215,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.negativeFilter(bitmapImage)
+            val tmp = model.negativeFilter(bitmapImage)
+            historyFn.add { bitmap -> model.negativeFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
@@ -204,20 +233,23 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             var tmp = model.masking(bitmapImage, progress, text)
+            historyFn.add { bitmap -> model.masking(bitmap, progress, text) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
     override fun onScaleSeekBar(progress: Int, text: TextView){
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             var tmp = model.scale(bitmapImage, progress, text)
+            historyFn.add { bitmap -> model.scale(bitmap, progress, text) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
@@ -278,10 +310,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.findCircle(bitmapImage, context)
+            val tmp = model.findCircle(bitmapImage, context)
+            historyFn.add { bitmap -> model.findCircle(bitmap, context) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
     }
 
@@ -289,11 +323,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.findRectangle(bitmapImage, context)
+            val tmp = model.findRectangle(bitmapImage, context)
+            historyFn.add { bitmap -> model.findRectangle(bitmap, context) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
                 hideProgressBar()
-                }
+            }
         }
     }
 
@@ -309,7 +344,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun hideProgressBar() {
         view.hideProgressBar()
     }
-
 
 
     override fun onFilter() {
@@ -332,10 +366,12 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
 
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.rotate90(bitmapImage)
+            val tmp = model.rotate90(bitmapImage)
+            historyFn.add { bitmap -> model.rotate90(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
-                hideProgressBar() }
+                hideProgressBar()
+            }
         }
 
     }
