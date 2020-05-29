@@ -224,6 +224,19 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         }
     }
 
+    override fun onSaturationFilter() {
+
+        showProgressBar()
+        CoroutineScope(Dispatchers.Default).async {
+            val tmp = model.saturationFilter(bitmapImage)
+            historyFn.add { bitmap -> model.saturationFilter(bitmap) }
+            launch(Dispatchers.Main) {
+                updateBitmap(tmp)
+                hideProgressBar()
+            }
+        }
+    }
+
     override fun getImageView(): ImageView? {
         return view.getImageView()
     }

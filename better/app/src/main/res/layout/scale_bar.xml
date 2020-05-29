@@ -26,7 +26,8 @@
             android:paddingLeft="10dp"
             android:text="@string/scale_txt"
             android:textColor="@color/progressText"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:gravity="center" />
 
         <SeekBar
             android:id="@+id/scaleDegree"

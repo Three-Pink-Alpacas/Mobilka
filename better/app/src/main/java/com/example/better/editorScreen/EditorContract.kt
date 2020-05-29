@@ -18,6 +18,7 @@ interface EditorContract {
         fun negativeFilter(bitmap: Bitmap): Bitmap
         fun contrastFilter(bitmap: Bitmap): Bitmap
         fun sepiaFilter(bitmap: Bitmap): Bitmap
+        fun saturationFilter(bitmap: Bitmap): Bitmap
         fun getSqueezedBitmap(
             originalBitmapImage: Bitmap,
             rect: Rect?,
@@ -47,6 +48,7 @@ interface EditorContract {
         fun onNegativeFilter()
         fun onContrastFilter()
         fun onSepiaFilter()
+        fun onSaturationFilter()
         fun getImageView(): ImageView?
         fun onMaskingSeekBar(progress: Int, text: TextView)
         fun onScaleSeekBar(progress: Int, text: TextView)

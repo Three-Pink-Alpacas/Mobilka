@@ -241,6 +241,51 @@ class EditorActivityModel : EditorContract.Model {
         )
     }
 
+    override fun saturationFilter(bitmap: Bitmap): Bitmap {
+        val arr = IntArray(bitmap.height * bitmap.width)
+        val newArr = IntArray(bitmap.height * bitmap.width)
+
+        bitmap.getPixels(arr, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        var pixel: Int
+        var r: Int
+        var g: Int
+        var b: Int
+        val k = 2
+        val HSV: FloatArray = floatArrayOf(0f, 0f, 0f)
+        var newHSV: FloatArray
+        var newPixel: Int
+        for (x in 0 until bitmap.width) {
+            for (y in 0 until bitmap.height) {
+                pixel = arr[bitmap.width * y + x]
+                r = pixel and 0x00FF0000 shr 16
+                g = pixel and 0x0000FF00 shr 8
+                b = pixel and 0x000000FF
+
+                Color.RGBToHSV(r, g, b, HSV)
+                newHSV = floatArrayOf(HSV[0], max(0f,min(HSV[1]*k,1f)), HSV[2])
+                newPixel = Color.HSVToColor(newHSV)
+
+                r = newPixel and 0x00FF0000 shr 16
+                g = newPixel and 0x0000FF00 shr 8
+                b = newPixel and 0x000000FF
+
+                r = max(0,min(r,255))
+                g = max(0,min(g,255))
+                b = max(0,min(b,255))
+
+                newArr[bitmap.width * y + x] = Color.rgb(r, g, b)
+            }
+        }
+        return Bitmap.createBitmap(
+            newArr,
+            0,
+            bitmap.width,
+            bitmap.width,
+            bitmap.height,
+            Bitmap.Config.ARGB_8888
+        )
+    }
+
     @SuppressLint("SetTextI18n")
     override fun masking(bitmap: Bitmap, progress: Int, text: TextView): Bitmap {
         if (progress == 0) {
