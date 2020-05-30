@@ -9,8 +9,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -24,10 +24,8 @@ import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
+import java.util.*
 
 
 class EditorActivityView : AppCompatActivity(), EditorContract.View {
@@ -125,12 +123,24 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         builder.setTitle("Save image?")
 
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
-            showProgressBar()
-            val savedImage = presenter.save()
-            val bytes = ByteArrayOutputStream()
-            savedImage!!.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-            MediaStore.Images.Media.insertImage(this.contentResolver, savedImage, "Title", null)
-            hideProgressBar()
+            val wrapper = ContextWrapper(applicationContext)
+            // Initializing a new file
+            // The bellow line return a directory in internal storage
+            var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+            // Create a file to save the image
+            file = File(file, "${UUID.randomUUID()}.jpg")
+            try {
+                // Get the file output stream
+                val stream: OutputStream = FileOutputStream(file)
+                // Compress bitmap
+                currentImage!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                // Flush the stream
+                stream.flush()
+                // Close stream
+                stream.close()
+            } catch (e: IOException){ // Catch the exception
+                e.printStackTrace()
+            }
 
         }
 
