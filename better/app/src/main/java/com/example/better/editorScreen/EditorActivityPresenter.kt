@@ -200,7 +200,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onMaskingSeekBar(progress: Int, text: TextView) {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.masking(globalHistory.current(), progress, text)
+            val tmp = model.masking(globalHistory.current(), progress, text)
             historyFn.add { bitmap -> model.masking(bitmap, progress, text) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -212,7 +212,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onScaleSeekBar(progress: Int, text: TextView) {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.scale(globalHistory.current(), progress, text)
+            val tmp = model.scale(globalHistory.current(), progress, text)
             historyFn.add { bitmap -> model.scale(bitmap, progress, text) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -274,7 +274,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onCircle(context: Context) {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.findCircle(bitmapImage, context)
@@ -290,7 +289,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         return mainBarIsHidden
     }
 
-
     override fun showProgressBar() {
         view.showProgressBar()
     }
@@ -298,7 +296,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun hideProgressBar() {
         view.hideProgressBar()
     }
-
 
     override fun onFilter() {
         showProgressBar()
@@ -325,7 +322,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
                 hideProgressBar()
             }
         }
-
     }
 
     override fun save(): Bitmap {
@@ -349,35 +345,11 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
                 hideProgressBar()
             }
         }
-
     }
 
     private fun updateBitmap(bitmap: Bitmap) {
         bitmapImage = bitmap
         view.setBitmap(bitmapImage)
         localHistory?.add(bitmapImage)
-    }
-
-    private fun updateBitmapFn(fn: (Bitmap) -> Bitmap) {
-        bitmapImage = fn(bitmapImage)
-        view.setBitmap(bitmapImage)
-        localHistory?.add(bitmapImage)
-    }
-
-    private fun changeImageRotation(diff: Float) {
-        when {
-            imageRotation + diff / 10 > 45f -> {
-                imageRotation = 45f
-                view.setImageRotation(imageRotation)
-            }
-            imageRotation + diff / 10 < -45f -> {
-                imageRotation = -45f
-                view.setImageRotation(imageRotation)
-            }
-            else -> {
-                imageRotation += diff / 10
-                view.setImageRotation(imageRotation)
-            }
-        }
     }
 }

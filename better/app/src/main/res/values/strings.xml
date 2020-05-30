@@ -27,5 +27,11 @@
     <string name="masking">Masking</string>
     <string name="right_on_90">Right on 90</string>
     <string name="circle">Circle</string>
+    <string name="black_white">Black/White</string>
+    <string name="violet">Violet</string>
+    <string name="negative">Negative</string>
+    <string name="contrast">Contrast</string>
+    <string name="sepia">Sepia</string>
+    <string name="saturation">Saturation</string>
 
 </resources>

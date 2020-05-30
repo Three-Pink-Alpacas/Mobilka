@@ -14,7 +14,10 @@ class HistoryHelper<T>(initState: T) {
         if (index == states.size-1) {
             states.add(bitmap)
         } else {
+            println(states.size)
+            println(index)
             states.dropLast(states.size-1-index)
+            println("size=%d".format(states.size))
             states.add(bitmap)
         }
         index++
