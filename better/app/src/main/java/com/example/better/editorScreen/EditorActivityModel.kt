@@ -354,7 +354,7 @@ class EditorActivityModel : EditorContract.Model {
             val stream = ByteArrayOutputStream()
 
             // Calculate inSampleSize
-            inSampleSize = calculateInSampleSize(this, reqWidth, reqHeight)
+            inSampleSize = calculateInSampleSize(originalBitmapImage.width, originalBitmapImage.height, reqWidth, reqHeight)
 
             originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 50, stream)
 
@@ -363,12 +363,11 @@ class EditorActivityModel : EditorContract.Model {
     }
 
     private fun calculateInSampleSize(
-        options: BitmapFactory.Options,
+        width: Int,
+        height: Int,
         reqWidth: Int,
         reqHeight: Int
     ): Int {
-        // Raw height and width of image
-        val (height: Int, width: Int) = options.run { outHeight to outWidth }
         var inSampleSize = 1
 
         if (height > reqHeight || width > reqWidth) {

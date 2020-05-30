@@ -143,17 +143,12 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
             try {
                 val out = FileOutputStream(file)
                 finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
-                // sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
-                //     Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+
                 out.flush()
                 out.close()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-// Tell the media scanner about the new file so that it is
-// immediately available to the user.
-// Tell the media scanner about the new file so that it is
-// immediately available to the user.
             MediaScannerConnection.scanFile(this, arrayOf(file.toString()), null
             ) { path, uri ->
                 Log.i("ExternalStorage", "Scanned $path:")
