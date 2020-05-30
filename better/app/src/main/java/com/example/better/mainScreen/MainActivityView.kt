@@ -47,28 +47,24 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     var viewPlusIsHidden = true
 
     var presenter = MainActivityPresenter(this)
-    private fun changeStatusBarColor(context: Context, num:Int) {
+    private fun changeStatusBarColor(context: Context, num: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val startColor: Int
             val endColor: Int
-            if (num==0)
-            {
+            if (num == 0) {
                 startColor = window.statusBarColor
                 endColor = ContextCompat.getColor(context, R.color.colorStatusBarInEditor)
-            }
-            else if (num==1)
-            {
+            } else if (num == 1) {
                 startColor = window.statusBarColor
                 endColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
-            }
-            else
-            {
+            } else {
                 startColor = window.statusBarColor
                 endColor = ContextCompat.getColor(context, R.color.colorPrimaryDark)
             }
             ObjectAnimator.ofArgb(window, "statusBarColor", startColor, endColor).start()
         }
     }
+
     private var images: ArrayList<String?>? = null
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -84,19 +80,28 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
             }
 
             override fun onPageSelected(position: Int) {
                 when (position) {
-                    1 ->{houseButton.isEnabled = false
+                    1 -> {
+                        houseButton.isEnabled = false
                         universeButton.isEnabled = true
                         changeStatusBarColor(this@MainActivityView, 1)
-                        viewPager.setPagingEnabled(true)}
-                    0 -> {houseButton.isEnabled = true
+                        viewPager.setPagingEnabled(true)
+                    }
+                    0 -> {
+                        houseButton.isEnabled = true
                         universeButton.isEnabled = false
                         changeStatusBarColor(this@MainActivityView, 0)
-                        viewPager.setPagingEnabled(false)}
+                        viewPager.setPagingEnabled(false)
+                    }
                 }
             }
         })
@@ -105,7 +110,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     }
 
 
-    class MyAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm){
+    class MyAdapter internal constructor(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         override fun getCount(): Int {
             return 2
         }
@@ -123,11 +128,12 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         val viewPager: ViewPager = findViewById(R.id.viewpager)
         viewPager.setCurrentItem(0)
     }
-    fun homeMove(view: View)
-    {
+
+    fun homeMove(view: View) {
         val viewPager: ViewPager = findViewById(R.id.viewpager)
         viewPager.setCurrentItem(1)
     }
+
     fun plusMove(view: View) {
         var gotAllPermissions: Boolean = true
         for (permission in presenter.neededPermissions) {
@@ -140,12 +146,16 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             gallery.adapter = ImageAdapter(this)
             gallery.onItemClickListener =
                 AdapterView.OnItemClickListener { arg0, arg1, position, arg3 ->
-                    if (null != images && images!!.isNotEmpty()) startEditor(Uri.fromFile(File(images!![position])))
+                    if (null != images && images!!.isNotEmpty()) startEditor(
+                        Uri.fromFile(
+                            File(
+                                images!![position]
+                            )
+                        )
+                    )
                 }
             showViewPlus()
-        }
-        else
-        {
+        } else {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Photo editor")
             builder.setMessage("Permissions required")
@@ -158,7 +168,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         }
     }
 
-    fun showViewPlus(){
+    fun showViewPlus() {
         viewPlusIsHidden = false
         val viewPlus = this.plusView as ConstraintLayout
         val animator: ValueAnimator = ValueAnimator()
@@ -172,7 +182,8 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
         animator.start()
         plusButton.isEnabled = false
     }
-    fun hideViewPlus(){
+
+    fun hideViewPlus() {
         viewPlusIsHidden = true
         val viewPlus = this.plusView as ConstraintLayout
         val animator = ValueAnimator()
@@ -190,16 +201,13 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     override fun onBackPressed() {
         if (!viewPlusIsHidden) {
             hideViewPlus()
-        }
-        else
-        {
+        } else {
             val builder = AlertDialog.Builder(this)
             builder.setTitle("Are you sure you want to exit?")
 
 
             builder.setPositiveButton(android.R.string.yes) { _, _ ->
                 exitProcess(0)
-                finish()
             }
 
             builder.setNegativeButton(android.R.string.no) { _, _ -> }
@@ -207,6 +215,7 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
 
         }
     }
+
     fun galleryOpen(view: View) {
         val photoPickerIntent = Intent(Intent.ACTION_PICK)
         photoPickerIntent.type = "image/*"
@@ -233,13 +242,19 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
     }
 
     override fun checkHasPermission(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun requestPermissions(permissions: Array<String>) {
-        ActivityCompat.requestPermissions(this@MainActivityView, permissions, REQUEST_PERMISSION_CODE)
+        ActivityCompat.requestPermissions(
+            this@MainActivityView,
+            permissions,
+            REQUEST_PERMISSION_CODE
+        )
     }
-
 
     override fun initView() {
 
@@ -253,7 +268,11 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 //File object of camera image
                 val file = File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg")
                 //Uri of camera image
-                val photoUri = FileProvider.getUriForFile(this, this.applicationContext.packageName + ".provider", file)
+                val photoUri = FileProvider.getUriForFile(
+                    this,
+                    this.applicationContext.packageName + ".provider",
+                    file
+                )
                 if (photoUri != null) {
                     try {
                         startEditor(photoUri)
@@ -306,7 +325,8 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
             if (convertView == null) {
                 picturesView = ImageView(context)
                 picturesView.scaleType = ImageView.ScaleType.FIT_CENTER
-                picturesView.layoutParams = AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 350)
+                picturesView.layoutParams =
+                    AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 350)
             } else {
                 picturesView = convertView as ImageView
             }
@@ -342,7 +362,8 @@ class MainActivityView : AppCompatActivity(), MainContract.View_ {
                 null, orderBy
             )
             column_index_data = cursor!!.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
-            column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+            column_index_folder_name =
+                cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
             while (cursor.moveToNext()) {
                 absolutePathOfImage = cursor.getString(column_index_data)
                 listOfAllImages.add(absolutePathOfImage)

@@ -159,7 +159,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onBlackAndWhiteFilter() {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.blackAndWhiteFilter(bitmapImage)
@@ -169,12 +168,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
                 hideProgressBar()
             }
         }
-
-
     }
 
     override fun onVioletFilter() {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.violetFilter(bitmapImage)
@@ -187,7 +183,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onContrastFilter() {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.contrastFilter(bitmapImage)
@@ -200,7 +195,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onSepiaFilter() {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.sepiaFilter(bitmapImage)
@@ -213,7 +207,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onNegativeFilter() {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.negativeFilter(bitmapImage)
@@ -226,7 +219,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onSaturationFilter() {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.saturationFilter(bitmapImage)
@@ -243,7 +235,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onMaskingSeekBar(progress: Int, text: TextView) {
-
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             var tmp = model.masking(bitmapImage, progress, text)
@@ -255,7 +246,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         }
     }
 
-    override fun onScaleSeekBar(progress: Int, text: TextView){
+    override fun onScaleSeekBar(progress: Int, text: TextView) {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             var tmp = model.scale(bitmapImage, progress, text)
@@ -369,18 +360,19 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         onClickButtonOnBottomBar()
     }
 
-    override fun save():Bitmap {
-
-        val listFn = historyFn.getList()
-        listFn.forEach { originalBitmapImage = it(originalBitmapImage) }
-
-
+    override fun save(): Bitmap {
+        val globalListFn = globalHistoryFn.getList()
+        globalListFn.forEach {
+            val listFn = it.getList()
+            listFn.forEach {
+                originalBitmapImage = it(originalBitmapImage)
+            }
+        }
         return originalBitmapImage
     }
 
     override fun onRotateRight90() {
         showProgressBar()
-
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.rotate90(bitmapImage)
             historyFn.add { bitmap -> model.rotate90(bitmap) }

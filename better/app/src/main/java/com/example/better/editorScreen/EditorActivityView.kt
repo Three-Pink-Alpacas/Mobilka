@@ -3,14 +3,15 @@ package com.example.better.editorScreen
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -24,7 +25,8 @@ import androidx.core.content.ContextCompat
 import com.example.better.R
 import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
-import java.io.*
+import java.io.File
+import java.io.FileOutputStream
 import java.util.*
 
 
@@ -56,13 +58,17 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter = EditorActivityPresenter(this)
     }
 
-    override fun showProgressBar(){
+    override fun showProgressBar() {
         progressBar.visibility = ProgressBar.VISIBLE
-        window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+        )
         isLoading = true
 
     }
-    override fun hideProgressBar(){
+
+    override fun hideProgressBar() {
         progressBar.visibility = ProgressBar.INVISIBLE
         window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
         isLoading = false
@@ -72,12 +78,12 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter.onRotate()
     }
 
-    fun onRotateRight90(view: View){
+    fun onRotateRight90(view: View) {
         presenter.onRotateRight90()
     }
 
     override fun onBackPressed() {
-        if(!isLoading) {
+        if (!isLoading) {
             if (presenter.isMainBarHidden()) {
                 presenter.onCancelChanges()
             } else {
@@ -118,30 +124,41 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         builder.show()
     }
 
-    fun saveImage(view: View){
+    fun saveImage(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Save image?")
 
+        val finalBitmap = presenter.save()
+
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
-            val wrapper = ContextWrapper(applicationContext)
-            // Initializing a new file
-            // The bellow line return a directory in internal storage
-            var file = wrapper.getDir("images", Context.MODE_PRIVATE)
-            // Create a file to save the image
-            file = File(file, "${UUID.randomUUID()}.jpg")
+            val root = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+            ).toString()
+            val myDir = File("$root/saved_images")
+            myDir.mkdirs()
+
+            val fname = "${UUID.randomUUID()}.jpg"
+            val file = File(myDir, fname)
+            if (file.exists()) file.delete()
             try {
-                // Get the file output stream
-                val stream: OutputStream = FileOutputStream(file)
-                // Compress bitmap
-                currentImage!!.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-                // Flush the stream
-                stream.flush()
-                // Close stream
-                stream.close()
-            } catch (e: IOException){ // Catch the exception
+                val out = FileOutputStream(file)
+                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+                // sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+                //     Uri.parse("file://"+ Environment.getExternalStorageDirectory())));
+                out.flush()
+                out.close()
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
-
+// Tell the media scanner about the new file so that it is
+// immediately available to the user.
+// Tell the media scanner about the new file so that it is
+// immediately available to the user.
+            MediaScannerConnection.scanFile(this, arrayOf(file.toString()), null
+            ) { path, uri ->
+                Log.i("ExternalStorage", "Scanned $path:")
+                Log.i("ExternalStorage", "-> uri=$uri")
+            }
         }
 
         builder.setNegativeButton(android.R.string.no) { _, _ -> }
@@ -202,7 +219,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     override fun getEditTopBar(): ConstraintLayout {
         return editTopBar
     }
-
 
     fun onClickBlackAndWhiteFilter(view: View) {
         presenter.onBlackAndWhiteFilter()
