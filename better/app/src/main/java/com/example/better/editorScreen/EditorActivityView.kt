@@ -28,6 +28,10 @@ import kotlinx.android.synthetic.main.activity_editor.*
 import java.io.File
 import java.io.FileOutputStream
 import kotlinx.android.synthetic.main.filter_bar.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.io.*
 import java.util.*
 
@@ -118,7 +122,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     fun mainMenuMove(view: View) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Leave editor?")
-        builder.setMessage("Changes will not be saved")
 
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
             val intent = Intent(this, MainActivityView::class.java)
@@ -134,9 +137,10 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Save image?")
 
-        val finalBitmap = presenter.save()
+
 
         builder.setPositiveButton(android.R.string.yes) { _, _ ->
+            showProgressBar()
             val root = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES
             ).toString()
@@ -145,21 +149,31 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
 
             val fname = "${UUID.randomUUID()}.jpg"
             val file = File(myDir, fname)
-            if (file.exists()) file.delete()
-            try {
-                val out = FileOutputStream(file)
-                finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+            CoroutineScope(Dispatchers.Default).async {
+                val finalBitmap = presenter.save()
+                launch(Dispatchers.Main) {
 
-                out.flush()
-                out.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
+                    if (file.exists()) file.delete()
+                    try {
+                        val out = FileOutputStream(file)
+                        finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+
+                        out.flush()
+                        out.close()
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    MediaScannerConnection.scanFile(applicationContext, arrayOf(file.toString()), null
+                    ) { path, uri ->
+                        Log.i("ExternalStorage", "Scanned $path:")
+                        Log.i("ExternalStorage", "-> uri=$uri")
+                    }
+                    hideProgressBar()
+                    mainMenuMove(view)
+                }
+
             }
-            MediaScannerConnection.scanFile(this, arrayOf(file.toString()), null
-            ) { path, uri ->
-                Log.i("ExternalStorage", "Scanned $path:")
-                Log.i("ExternalStorage", "-> uri=$uri")
-            }
+
         }
 
         builder.setNegativeButton(android.R.string.no) { _, _ -> }

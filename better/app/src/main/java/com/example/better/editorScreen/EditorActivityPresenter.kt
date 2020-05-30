@@ -43,7 +43,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
         GlobalScope.launch(Dispatchers.IO) {
             bitmapImage = model.getSqueezedBitmap(originalBitmapImage, view.getImageView()?.clipBounds, 256, 256)!!
-            bitmapPrev = model.getSqueezedBitmap(bitmapImage, view.getBlackAndWhiteFiltPrev()?.clipBounds, 25, 25)!!
+            bitmapPrev = model.getSqueezedBitmap(originalBitmapImage, view.getBlackAndWhiteFiltPrev()?.clipBounds, 100, 100)!!
             withContext(Dispatchers.Main) {
                 view.setBitmap(bitmapImage)
                 globalHistory = HistoryHelper(bitmapImage)
