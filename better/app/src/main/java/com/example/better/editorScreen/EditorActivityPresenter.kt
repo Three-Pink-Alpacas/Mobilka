@@ -3,7 +3,6 @@ package com.example.better.editorScreen
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
-import android.view.View
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -11,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
-import com.example.better.utils.OnMoveTouchListener
 import kotlinx.android.synthetic.main.filter_bar.view.*
 import kotlinx.android.synthetic.main.masking_bar.view.*
 import kotlinx.android.synthetic.main.scale_bar.view.*
@@ -126,7 +124,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onBlackAndWhiteFilter() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.blackAndWhiteFilter(bitmapImage)
+            val tmp = model.blackAndWhiteFilter(globalHistory.current())
             historyFn.add { bitmap -> model.blackAndWhiteFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -138,7 +136,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onVioletFilter() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.violetFilter(bitmapImage)
+            val tmp = model.violetFilter(globalHistory.current())
             historyFn.add { bitmap -> model.violetFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -150,7 +148,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onContrastFilter() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.contrastFilter(bitmapImage)
+            val tmp = model.contrastFilter(globalHistory.current())
             historyFn.add { bitmap -> model.contrastFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -162,7 +160,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onSepiaFilter() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.sepiaFilter(bitmapImage)
+            val tmp = model.sepiaFilter(globalHistory.current())
             historyFn.add { bitmap -> model.sepiaFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -174,7 +172,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onNegativeFilter() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.negativeFilter(bitmapImage)
+            val tmp = model.negativeFilter(globalHistory.current())
             historyFn.add { bitmap -> model.negativeFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -186,7 +184,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onSaturationFilter() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.saturationFilter(bitmapImage)
+            val tmp = model.saturationFilter(globalHistory.current())
             historyFn.add { bitmap -> model.saturationFilter(bitmap) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -202,7 +200,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onMaskingSeekBar(progress: Int, text: TextView) {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.masking(bitmapImage, progress, text)
+            var tmp = model.masking(globalHistory.current(), progress, text)
             historyFn.add { bitmap -> model.masking(bitmap, progress, text) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
@@ -214,7 +212,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onScaleSeekBar(progress: Int, text: TextView) {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            var tmp = model.scale(bitmapImage, progress, text)
+            var tmp = model.scale(globalHistory.current(), progress, text)
             historyFn.add { bitmap -> model.scale(bitmap, progress, text) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
