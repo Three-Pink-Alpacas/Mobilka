@@ -206,11 +206,6 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         presenter.onCircle(context)
     }
 
-    fun onRectangle(view: View) {
-        val context: Context = applicationContext
-        presenter.onRectangle(context)
-    }
-
     override fun getTopBar(): ConstraintLayout {
         return topBar as ConstraintLayout
     }

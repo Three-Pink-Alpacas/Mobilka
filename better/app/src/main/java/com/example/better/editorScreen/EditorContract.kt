@@ -29,7 +29,6 @@ interface EditorContract {
         fun masking(bitmap: Bitmap, progress: Int, text: TextView): Bitmap
         fun scale(bitmap: Bitmap, progress: Int, text: TextView): Bitmap
         fun findCircle(bitmap: Bitmap, context: Context): Bitmap
-        fun findRectangle(bitmap: Bitmap, context: Context): Bitmap
     }
 
     interface Presenter {
@@ -54,7 +53,6 @@ interface EditorContract {
         fun onScaleSeekBar(progress: Int, text: TextView)
         fun onShapes()
         fun onCircle(context: Context)
-        fun onRectangle(context: Context)
         fun isMainBarHidden():Boolean
         fun showProgressBar()
         fun hideProgressBar()

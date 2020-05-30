@@ -11,11 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import org.opencv.android.Utils
-import org.opencv.core.*
+import org.opencv.core.Core
+import org.opencv.core.Mat
+import org.opencv.core.Point
+import org.opencv.core.Scalar
 import org.opencv.imgproc.Imgproc.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
-import java.util.*
 import kotlin.math.*
 
 
@@ -489,51 +491,6 @@ class EditorActivityModel : EditorContract.Model {
         }
         else {
             val text = "No circles found"
-            val duration = Toast.LENGTH_SHORT
-            val toast = Toast.makeText(context, text, duration)
-            toast.show()
-            return bitmap
-        }
-    }
-
-    override fun findRectangle(bitmap: Bitmap, context: Context): Bitmap {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
-        val gray = Mat()
-        val tmp = Mat()
-        Utils.bitmapToMat(bitmap, tmp)
-        cvtColor(tmp, gray, COLOR_BGR2GRAY)
-        medianBlur(gray, gray, 5)
-        val thres = Mat()
-        threshold(gray, thres, 130.0, 255.0, THRESH_BINARY_INV)
-        val contours: Vector<MatOfPoint> = Vector()
-        val hierarchy = Mat()
-        findContours(thres, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0.0, 0.0))
-        hierarchy.release()
-        if (contours.size != 0) {
-            for(contour in contours) {
-
-                val approxCurve = MatOfPoint2f()
-                val contour2f = MatOfPoint2f()
-                contour.convertTo(contour2f, CvType.CV_32FC2)
-                val approxDistance = arcLength(contour2f, true) * 0.02
-                approxPolyDP(contour2f, approxCurve, approxDistance, true)
-                val points = MatOfPoint()
-                //approxCurve.convertTo(points, CvType.CV_8UC4)
-                val rect = boundingRect(points)
-
-                rectangle(tmp, Point(rect.x.toDouble(), rect.y.toDouble()),
-                    Point((rect.x + rect.width).toDouble(), (rect.y + rect.height).toDouble()), Scalar(255.0, 0.0, 0.0, 255.0), 3)
-            }
-            val newBitmap: Bitmap = bitmap
-            Utils.matToBitmap(tmp, newBitmap)
-            val text = "wtf"
-            val duration = Toast.LENGTH_SHORT
-            val toast = Toast.makeText(context, text, duration)
-            toast.show()
-            return newBitmap
-        }
-        else {
-            val text = "No rectangles found"
             val duration = Toast.LENGTH_SHORT
             val toast = Toast.makeText(context, text, duration)
             toast.show()

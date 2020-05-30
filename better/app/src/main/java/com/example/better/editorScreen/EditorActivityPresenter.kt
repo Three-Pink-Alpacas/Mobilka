@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -316,19 +315,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.findCircle(bitmapImage, context)
             historyFn.add { bitmap -> model.findCircle(bitmap, context) }
-            launch(Dispatchers.Main) {
-                updateBitmap(tmp)
-                hideProgressBar()
-            }
-        }
-    }
-
-    override fun onRectangle(context: Context) {
-
-        showProgressBar()
-        CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.findRectangle(bitmapImage, context)
-            historyFn.add { bitmap -> model.findRectangle(bitmap, context) }
             launch(Dispatchers.Main) {
                 updateBitmap(tmp)
                 hideProgressBar()
