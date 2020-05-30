@@ -61,5 +61,14 @@
             android:onClick="onClickSepiaFilter"
             app:srcCompat="@drawable/scale" />
 
+        <ImageButton
+            android:id="@+id/saturationButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/scale_image"
+            android:onClick="onClickSaturationFilter"
+            app:srcCompat="@drawable/scale" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
