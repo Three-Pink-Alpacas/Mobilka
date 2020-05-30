@@ -461,40 +461,44 @@ class EditorActivityModel : EditorContract.Model {
     }
 
     override fun findCircle(bitmap: Bitmap, context: Context): Bitmap {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
-        val gray = Mat()
-        val tmp = Mat()
-        Utils.bitmapToMat(bitmap, tmp)
-        cvtColor(tmp, gray, COLOR_BGR2GRAY)
-        medianBlur(gray, gray, 5)
-        val circles = Mat()
-        HoughCircles(
-            gray, circles, HOUGH_GRADIENT, 1.0,
-            gray.rows()/8.toDouble(),
-            100.0, 30.0, 1, 1000
-        )
-        var c: DoubleArray
-        var center: Point
-        var radius: Int
-        if (circles.cols() !=0) {
-            for (x in 0 until circles.cols()) {
-                c = circles[0, x]
-                center = Point(c[0].roundToInt().toDouble(), c[1].roundToInt().toDouble())
-                circle(tmp, center, 1, Scalar(0.0, 100.0, 100.0), 3, 8, 0)
+        var newBitmap = bitmap
+        val runnable = Runnable {
+            System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
+            val gray = Mat()
+            val tmp = Mat()
+            Utils.bitmapToMat(bitmap, tmp)
+            cvtColor(tmp, gray, COLOR_BGR2GRAY)
+            medianBlur(gray, gray, 5)
+            val circles = Mat()
+            HoughCircles(
+                gray, circles, HOUGH_GRADIENT, 1.0,
+                gray.rows()/8.toDouble(),
+                100.0, 30.0, 1, 1000
+            )
+            var c: DoubleArray
+            var center: Point
+            var radius: Int
+            if (circles.cols() != 0 ) {
+                for (x in 0 until circles.cols()) {
+                    c = circles[0, x]
+                    center = Point(c[0].roundToInt().toDouble(), c[1].roundToInt().toDouble())
+                    circle(tmp, center, 1, Scalar(0.0, 100.0, 100.0), 3, 8, 0)
 
-                radius = c[2].roundToInt()
-                circle(tmp, center, radius, Scalar(255.0, 0.0, 255.0), 3, 8, 0)
+                    radius = c[2].roundToInt()
+                    circle(tmp, center, radius, Scalar(255.0, 0.0, 255.0), 3, 8, 0)
+                }
+                Utils.matToBitmap(tmp, newBitmap)
             }
-            val newBitmap: Bitmap = bitmap
-            Utils.matToBitmap(tmp, newBitmap)
-            return newBitmap
         }
-        else {
-            val text = "No circles found"
-            val duration = Toast.LENGTH_SHORT
-            val toast = Toast.makeText(context, text, duration)
-            toast.show()
-            return bitmap
+        val thread = Thread(runnable)
+        val endTimeMillis = System.currentTimeMillis() + 10000
+        thread.start()
+        while (thread.isAlive) {
+            if (System.currentTimeMillis() > endTimeMillis) {
+                thread.stop();
+                break;
+            }
         }
+        return newBitmap
     }
 }
