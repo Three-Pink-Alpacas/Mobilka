@@ -15,6 +15,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
@@ -217,6 +219,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         return currentImage!!
     }
 
+    override fun getApply(): ImageButton {
+        return acceptButton!!
+    }
 
     override fun setImageRotation(angle: Float) {
         selectedImage?.rotation = angle

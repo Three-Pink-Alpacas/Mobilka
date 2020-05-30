@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.view.View.OnTouchListener
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -73,6 +74,6 @@ interface EditorContract {
         fun createView(resource: Int): android.view.View
         fun showProgressBar()
         fun hideProgressBar()
-
+        fun getApply(): ImageButton
     }
 }

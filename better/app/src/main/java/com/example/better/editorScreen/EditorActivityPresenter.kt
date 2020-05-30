@@ -3,6 +3,7 @@ package com.example.better.editorScreen
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
@@ -93,6 +94,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         }
         localHistory = null
         mainBarIsHidden = false
+        view.getApply().visibility = ImageButton.VISIBLE
     }
 
     override fun onCancelChanges() {
@@ -107,6 +109,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         }
         localHistory = null
         mainBarIsHidden = false
+        view.getApply().visibility = ImageButton.VISIBLE
     }
 
     override fun onUndoChanges() {
@@ -274,6 +277,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     }
 
     override fun onCircle() {
+        view.getApply().visibility = ImageButton.GONE
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val b = bitmapImage.copy(bitmapImage.config, false)
