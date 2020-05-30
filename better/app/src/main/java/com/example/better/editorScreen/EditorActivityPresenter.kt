@@ -318,7 +318,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
     override fun onFilter() {
         showProgressBar()
-        val filterBarView = view.createView(R.layout.filter_bar)
         CoroutineScope(Dispatchers.Default).async {
             val baw = model.blackAndWhiteFilter(bitmapPrev)
             val v = model.violetFilter(bitmapPrev)
@@ -327,6 +326,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             val se = model.sepiaFilter(bitmapPrev)
             val sa = model.saturationFilter(bitmapPrev)
             launch(Dispatchers.Main) {
+                val filterBarView = view.createView(R.layout.filter_bar)
                 filterBarView.blackAndWhiteButton.setImageBitmap(baw)
                 filterBarView.violetButton.setImageBitmap(v)
                 filterBarView.negativeButton.setImageBitmap(n)
