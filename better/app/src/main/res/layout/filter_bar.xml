@@ -24,7 +24,7 @@
                 android:id="@+id/blackAndWhiteButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/gradient"
+                android:background="@color/colorStatusBarInEditor"
                 android:contentDescription="@string/scale_image"
                 android:onClick="onClickBlackAndWhiteFilter" />
 
@@ -32,7 +32,7 @@
                 android:id="@+id/violetButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/gradient"
+                android:background="@color/colorStatusBarInEditor"
                 android:contentDescription="@string/scale_image"
                 android:onClick="onClickVioletFilter" />
 
@@ -40,7 +40,7 @@
                 android:id="@+id/negativeButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/gradient"
+                android:background="@color/colorStatusBarInEditor"
                 android:contentDescription="@string/scale_image"
                 android:onClick="onClickNegativeFilter" />
 
@@ -48,7 +48,7 @@
                 android:id="@+id/contrastButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/gradient"
+                android:background="@color/colorStatusBarInEditor"
                 android:contentDescription="@string/scale_image"
                 android:onClick="onClickContrastFilter" />
 
@@ -56,7 +56,7 @@
                 android:id="@+id/sepiaButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/gradient"
+                android:background="@color/colorStatusBarInEditor"
                 android:contentDescription="@string/scale_image"
                 android:onClick="onClickSepiaFilter" />
 
@@ -64,7 +64,7 @@
                 android:id="@+id/saturationButton"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="@drawable/gradient"
+                android:background="@color/colorStatusBarInEditor"
                 android:contentDescription="@string/scale_image"
                 android:onClick="onClickSaturationFilter" />
 
