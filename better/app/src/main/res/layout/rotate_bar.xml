@@ -9,21 +9,25 @@
 
     <LinearLayout
         android:id="@+id/rotateBar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_marginLeft="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="20dp">
 
-        <ImageButton
+        <Button
             android:id="@+id/imageButton7"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="#00FFFFFF"
+            android:drawableTop="@drawable/rotate_right_90"
             android:onClick="onRotateRight90"
-            app:srcCompat="@drawable/rotate_right_90" />
+            android:text="@string/right_on_90"
+            android:textAllCaps="false"
+            android:textColor="#A3A3A3"
+            android:textSize="12sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

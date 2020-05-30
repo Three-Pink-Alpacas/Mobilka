@@ -16,14 +16,18 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
+        <Button
             android:id="@+id/circleButton"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:background="#00FFFFFF"
             android:contentDescription="@string/scale_image"
+            android:drawableTop="@drawable/ic_panorama_fish_eye_white_24dp"
             android:onClick="onCircle"
-            app:srcCompat="@drawable/scale" />
+            android:text="@string/circle"
+            android:textAllCaps="false"
+            android:textColor="#A3A3A3"
+            android:textSize="12sp" />
 
 
         <ImageButton

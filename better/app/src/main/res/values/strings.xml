@@ -8,7 +8,7 @@
     <string name="editable_image">editable_image</string>
     <string name="filterbutton">filterButton</string>
     <string name="maskingbutton">maskingButton</string>
-    <string name="shapesbutton">shapesButton</string>
+    <string name="shapes_button">shapesButton</string>
     <string name="backbutton">backButton</string>
     <string name="acceptbutton">acceptButton</string>
     <string name="undobutton">undoButton</string>
@@ -20,5 +20,12 @@
     <string name="filterbarlayout">filterBarLayout</string>
     <string name="masking_txt">×0</string>
     <string name="scale_txt">×1</string>
+    <string name="rotate">Rotate</string>
+    <string name="scale">Scale</string>
+    <string name="filter">Filter</string>
+    <string name="shapes">Shapes</string>
+    <string name="masking">Masking</string>
+    <string name="right_on_90">Right on 90</string>
+    <string name="circle">Circle</string>
 
 </resources>
