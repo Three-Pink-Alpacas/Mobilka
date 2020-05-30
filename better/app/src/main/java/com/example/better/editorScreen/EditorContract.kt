@@ -69,6 +69,7 @@ interface EditorContract {
         fun getBitmap(): Bitmap
         fun setImageRotation(angle: Float)
         fun getImageView(): ImageView?
+        fun getBlackAndWhiteFiltPrev(): ImageView?
         fun setOnTouchListener(onTouchListener: OnTouchListener)
         fun detachOnTouchListener()
         fun createView(resource: Int): android.view.View

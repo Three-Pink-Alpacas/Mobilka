@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:translationY="50dp"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintStart_toStartOf="parent">
 
-    <LinearLayout
-        android:id="@+id/filterBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" >
 
-        <ImageButton
-            android:id="@+id/blackAndWhiteButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onClickBlackAndWhiteFilter"
-            app:srcCompat="@drawable/scale" />
+        <LinearLayout
+            android:id="@+id/filterBar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
 
-        <ImageButton
-            android:id="@+id/violetButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onClickVioletFilter"
-            app:srcCompat="@drawable/scale" />
+            <ImageView
+                android:id="@+id/blackAndWhiteButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient"
+                android:contentDescription="@string/scale_image"
+                android:onClick="onClickBlackAndWhiteFilter" />
 
-        <ImageButton
-            android:id="@+id/negativeButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onClickNegativeFilter"
-            app:srcCompat="@drawable/scale" />
+            <ImageView
+                android:id="@+id/violetButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient"
+                android:contentDescription="@string/scale_image"
+                android:onClick="onClickVioletFilter" />
 
-        <ImageButton
-            android:id="@+id/contrastButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onClickContrastFilter"
-            app:srcCompat="@drawable/scale" />
+            <ImageView
+                android:id="@+id/negativeButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient"
+                android:contentDescription="@string/scale_image"
+                android:onClick="onClickNegativeFilter" />
 
-        <ImageButton
-            android:id="@+id/sepiaButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onClickSepiaFilter"
-            app:srcCompat="@drawable/scale" />
+            <ImageView
+                android:id="@+id/contrastButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient"
+                android:contentDescription="@string/scale_image"
+                android:onClick="onClickContrastFilter" />
 
-        <ImageButton
-            android:id="@+id/saturationButton"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:background="#00FFFFFF"
-            android:contentDescription="@string/scale_image"
-            android:onClick="onClickSaturationFilter"
-            app:srcCompat="@drawable/scale" />
+            <ImageView
+                android:id="@+id/sepiaButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient"
+                android:contentDescription="@string/scale_image"
+                android:onClick="onClickSepiaFilter" />
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/saturationButton"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/gradient"
+                android:contentDescription="@string/scale_image"
+                android:onClick="onClickSaturationFilter" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

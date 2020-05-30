@@ -27,6 +27,8 @@ import com.example.better.mainScreen.MainActivityView
 import kotlinx.android.synthetic.main.activity_editor.*
 import java.io.File
 import java.io.FileOutputStream
+import kotlinx.android.synthetic.main.filter_bar.*
+import java.io.*
 import java.util.*
 
 
@@ -40,6 +42,9 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
     private var selectedImage: ImageView? = null
+    private var blackAndWhiteImage: ImageView? = null
+
+
     private var currentImage: Bitmap? = null
     private var isLoading: Boolean = false
 
@@ -51,6 +56,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         changeStatusBarColor(this)
         setContentView(R.layout.activity_editor)
         selectedImage = editableImage
+        blackAndWhiteImage = blackAndWhiteButton
         val progressBar = findViewById<ProgressBar>(R.id.progressBar)
         progressBar.visibility = ProgressBar.VISIBLE
         val imgUri = this.intent.getParcelableExtra<Uri>("img")
@@ -203,12 +209,17 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
         return currentImage!!
     }
 
+
     override fun setImageRotation(angle: Float) {
         selectedImage?.rotation = angle
     }
 
     override fun getImageView(): ImageView? {
         return selectedImage
+    }
+    override fun getBlackAndWhiteFiltPrev(): ImageView?
+    {
+        return blackAndWhiteImage
     }
 
     override fun getEditTopBar(): ConstraintLayout {

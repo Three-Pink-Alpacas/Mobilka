@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.better.R
 import com.example.better.utils.CustomBar
 import com.example.better.utils.OnMoveTouchListener
+import kotlinx.android.synthetic.main.filter_bar.view.*
 import kotlinx.android.synthetic.main.masking_bar.view.*
 import kotlinx.android.synthetic.main.scale_bar.view.*
 import kotlinx.coroutines.*
@@ -23,6 +24,7 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private val model: EditorContract.Model = EditorActivityModel()
     private var originalBitmapImage: Bitmap = view.getBitmap()
     private lateinit var bitmapImage: Bitmap
+    private lateinit var bitmapPrev: Bitmap
     private val onTouchListener: View.OnTouchListener
     private var imageRotation: Float = 0f
     private val bottomBar: CustomBar
@@ -40,11 +42,8 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
 
         GlobalScope.launch(Dispatchers.IO) {
-            bitmapImage = model.getSqueezedBitmap(
-                originalBitmapImage, view.getImageView()?.clipBounds,
-                1024, 1024
-            )!!
-
+            bitmapImage = model.getSqueezedBitmap(originalBitmapImage, view.getImageView()?.clipBounds, 256, 256)!!
+            bitmapPrev = model.getSqueezedBitmap(bitmapImage, view.getBlackAndWhiteFiltPrev()?.clipBounds, 25, 25)!!
             withContext(Dispatchers.Main) {
                 view.setBitmap(bitmapImage)
                 globalHistory = HistoryHelper(bitmapImage)
@@ -352,12 +351,31 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
 
 
     override fun onFilter() {
+        showProgressBar()
         val filterBarView = view.createView(R.layout.filter_bar)
-        customBar = CustomBar(
-            filterBarView as ConstraintLayout,
-            CustomBar.Type.BOTTOM
-        )
-        onClickButtonOnBottomBar()
+        CoroutineScope(Dispatchers.Default).async {
+            val baw = model.blackAndWhiteFilter(bitmapPrev)
+            val v = model.violetFilter(bitmapPrev)
+            val n = model.negativeFilter(bitmapPrev)
+            val c = model.contrastFilter(bitmapPrev)
+            val se = model.sepiaFilter(bitmapPrev)
+            val sa = model.saturationFilter(bitmapPrev)
+            launch(Dispatchers.Main) {
+                filterBarView.blackAndWhiteButton.setImageBitmap(baw)
+                filterBarView.violetButton.setImageBitmap(v)
+                filterBarView.negativeButton.setImageBitmap(n)
+                filterBarView.contrastButton.setImageBitmap(c)
+                filterBarView.sepiaButton.setImageBitmap(se)
+                filterBarView.saturationButton.setImageBitmap(sa)
+                customBar = CustomBar(
+                    filterBarView as ConstraintLayout,
+                    CustomBar.Type.BOTTOM
+                )
+                onClickButtonOnBottomBar()
+                hideProgressBar()
+            }
+        }
+
     }
 
     override fun save(): Bitmap {
