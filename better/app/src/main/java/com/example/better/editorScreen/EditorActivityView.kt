@@ -202,8 +202,7 @@ class EditorActivityView : AppCompatActivity(), EditorContract.View {
     }
 
     fun onCircle(view: View) {
-        val context: Context = applicationContext
-        presenter.onCircle(context)
+        presenter.onCircle()
     }
 
     override fun getTopBar(): ConstraintLayout {

@@ -460,7 +460,7 @@ class EditorActivityModel : EditorContract.Model {
         )
     }
 
-    override fun findCircle(bitmap: Bitmap, context: Context): Bitmap {
+    override fun findCircle(bitmap: Bitmap): Bitmap {
         var newBitmap = bitmap
         val runnable = Runnable {
             System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
