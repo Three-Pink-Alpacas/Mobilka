@@ -185,7 +185,8 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/backMenuButton">
+            app:layout_constraintStart_toStartOf="@+id/backMenuButton"
+            android:layout_marginRight="10dp">
 
             <ImageButton
                 android:id="@+id/undoButton"
@@ -195,7 +196,8 @@
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/undobutton"
                 android:onClick="onUndo"
-                app:srcCompat="@drawable/undo" />
+                app:srcCompat="@drawable/undo"
+                android:layout_marginRight="20dp" />
 
             <ImageButton
                 android:id="@+id/redoButton"
@@ -205,7 +207,8 @@
                 android:background="#00FFFFFF"
                 android:contentDescription="@string/redobutton"
                 android:onClick="onRedo"
-                app:srcCompat="@drawable/redo" />
+                app:srcCompat="@drawable/redo"
+                android:layout_marginLeft="10dp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

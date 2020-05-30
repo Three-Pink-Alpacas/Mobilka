@@ -358,7 +358,7 @@ class EditorActivityModel : EditorContract.Model {
             // Calculate inSampleSize
             inSampleSize = calculateInSampleSize(originalBitmapImage.width, originalBitmapImage.height, reqWidth, reqHeight)
 
-            originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 25, stream)
+            originalBitmapImage.compress(Bitmap.CompressFormat.PNG, 100, stream)
 
             BitmapFactory.decodeStream(ByteArrayInputStream(stream.toByteArray()), rect, this)
         }

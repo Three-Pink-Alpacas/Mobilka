@@ -3,7 +3,7 @@ package com.example.better.editorScreen
 import android.graphics.Bitmap
 
 class HistoryHelper<T>(initState: T) {
-    private val states: MutableList<T> = mutableListOf()
+    private var states: MutableList<T> = mutableListOf()
     private var index = 0
 
     init {
@@ -14,10 +14,9 @@ class HistoryHelper<T>(initState: T) {
         if (index == states.size-1) {
             states.add(bitmap)
         } else {
-            println(states.size)
-            println(index)
-            states.dropLast(states.size-1-index)
-            println("size=%d".format(states.size))
+            for (i in states.size-1 until states.size-index) {
+                states.removeAt(i)
+            }
             states.add(bitmap)
         }
         index++
