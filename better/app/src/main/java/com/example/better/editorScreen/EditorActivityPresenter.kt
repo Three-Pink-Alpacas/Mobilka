@@ -25,7 +25,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     private var originalBitmapImage: Bitmap = view.getBitmap()
     private lateinit var bitmapImage: Bitmap
     private lateinit var bitmapPrev: Bitmap
-    private val onTouchListener: View.OnTouchListener
     private var imageRotation: Float = 0f
     private val bottomBar: CustomBar
     private val topBar: CustomBar
@@ -59,38 +58,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             bitmapImage
         })
 
-        val imageView = view.getImageView()!!
-        val centerX = imageView.width.toFloat() / 2
-        val centerY = imageView.height.toFloat() / 2
-        onTouchListener = object : OnMoveTouchListener() {
-            override fun onMoveLeft(diff: Float, x: Float, y: Float) {
-                when {
-                    y < centerY -> changeImageRotation(-diff)
-                    y >= centerY -> changeImageRotation(diff)
-                }
-            }
-
-            override fun onMoveRight(diff: Float, x: Float, y: Float) {
-                when {
-                    y < centerY -> changeImageRotation(diff)
-                    y >= centerY -> changeImageRotation(-diff)
-                }
-            }
-
-            override fun onMoveTop(diff: Float, x: Float, y: Float) {
-                when {
-                    x < centerX -> changeImageRotation(diff)
-                    x >= centerX -> changeImageRotation(-diff)
-                }
-            }
-
-            override fun onMoveBottom(diff: Float, x: Float, y: Float) {
-                when {
-                    x < centerX -> changeImageRotation(-diff)
-                    x >= centerX -> changeImageRotation(diff)
-                }
-            }
-        }
         bottomBar = CustomBar(
             view.getBottomBar(),
             CustomBar.Type.BOTTOM
@@ -264,7 +231,6 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
             CustomBar.Type.BOTTOM
         )
         onClickButtonOnBottomBar()
-        view.setOnTouchListener(onTouchListener)
     }
 
     override fun onMasking() {
