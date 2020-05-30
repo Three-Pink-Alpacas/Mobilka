@@ -125,9 +125,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.blackAndWhiteFilter(globalHistory.current())
-            historyFn.add { bitmap -> model.blackAndWhiteFilter(bitmap) }
+            historyFn.replaceLast { bitmap -> model.blackAndWhiteFilter(bitmap) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -137,9 +137,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.violetFilter(globalHistory.current())
-            historyFn.add { bitmap -> model.violetFilter(bitmap) }
+            historyFn.replaceLast { bitmap -> model.violetFilter(bitmap) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -149,9 +149,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.contrastFilter(globalHistory.current())
-            historyFn.add { bitmap -> model.contrastFilter(bitmap) }
+            historyFn.replaceLast { bitmap -> model.contrastFilter(bitmap) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -161,9 +161,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.sepiaFilter(globalHistory.current())
-            historyFn.add { bitmap -> model.sepiaFilter(bitmap) }
+            historyFn.replaceLast { bitmap -> model.sepiaFilter(bitmap) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -173,9 +173,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.negativeFilter(globalHistory.current())
-            historyFn.add { bitmap -> model.negativeFilter(bitmap) }
+            historyFn.replaceLast { bitmap -> model.negativeFilter(bitmap) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -185,9 +185,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.saturationFilter(globalHistory.current())
-            historyFn.add { bitmap -> model.saturationFilter(bitmap) }
+            historyFn.replaceLast { bitmap -> model.saturationFilter(bitmap) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -201,9 +201,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.masking(globalHistory.current(), progress, text)
-            historyFn.add { bitmap -> model.masking(bitmap, progress, text) }
+            historyFn.replaceLast { bitmap -> model.masking(bitmap, progress, text) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -213,9 +213,9 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
             val tmp = model.scale(globalHistory.current(), progress, text)
-            historyFn.add { bitmap -> model.scale(bitmap, progress, text) }
+            historyFn.replaceLast { bitmap -> model.scale(bitmap, progress, text) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -276,10 +276,10 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onCircle(context: Context) {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.findCircle(bitmapImage, context)
-            historyFn.add { bitmap -> model.findCircle(bitmap, context) }
+            val tmp = model.findCircle(globalHistory.current(), context)
+            historyFn.replaceLast { bitmap -> model.findCircle(bitmap, context) }
             launch(Dispatchers.Main) {
-                updateBitmap(tmp)
+                updateBitmapReplace(tmp)
                 hideProgressBar()
             }
         }
@@ -351,5 +351,11 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
         bitmapImage = bitmap
         view.setBitmap(bitmapImage)
         localHistory?.add(bitmapImage)
+    }
+
+    private fun updateBitmapReplace(bitmap: Bitmap) {
+        bitmapImage = bitmap
+        view.setBitmap(bitmapImage)
+        localHistory?.replaceLast(bitmapImage)
     }
 }

@@ -23,6 +23,8 @@ class HistoryHelper<T>(initState: T) {
     }
 
     fun undo(): T? {
+        println(states.size)
+        println(index)
         if (index > 0) {
             index--
         }
@@ -42,5 +44,15 @@ class HistoryHelper<T>(initState: T) {
 
     fun getList(): MutableList<T> {
         return states
+    }
+
+    fun replaceLast(bitmap: T) {
+        if (index == 0) {
+            states.add(bitmap)
+            index++
+            return
+        }
+        states.removeAt(states.size-1)
+        states.add(bitmap)
     }
 }
