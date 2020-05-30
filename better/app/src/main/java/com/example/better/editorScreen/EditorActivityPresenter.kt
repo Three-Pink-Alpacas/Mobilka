@@ -276,10 +276,11 @@ class EditorActivityPresenter(_view: EditorContract.View) : EditorContract.Prese
     override fun onCircle() {
         showProgressBar()
         CoroutineScope(Dispatchers.Default).async {
-            val tmp = model.findCircle(globalHistory.current())
-            historyFn.replaceLast { bitmap -> model.findCircle(bitmap) }
+            val b = bitmapImage.copy(bitmapImage.config, false)
+            val tmp = model.findCircle(b)
+            //historyFn.replaceLast { bitmap -> model.findCircle(bitmap.copy(bitmap.config, false)) }
             launch(Dispatchers.Main) {
-                updateBitmapReplace(tmp)
+                updateBitmapReplace(tmp.copy(tmp.config, false))
                 hideProgressBar()
             }
         }

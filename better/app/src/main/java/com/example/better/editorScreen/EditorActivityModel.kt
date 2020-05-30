@@ -10,6 +10,7 @@ import android.os.Build
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.Dispatchers
 import org.opencv.android.Utils
 import org.opencv.core.Core
 import org.opencv.core.Mat
@@ -19,7 +20,7 @@ import org.opencv.imgproc.Imgproc.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import kotlin.math.*
-
+import kotlinx.coroutines.*
 
 class EditorActivityModel : EditorContract.Model {
     @RequiresApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -153,15 +154,13 @@ class EditorActivityModel : EditorContract.Model {
         var r: Int
         var g: Int
         var b: Int
-        for (x in 0 until bitmap.width) {
-            for (y in 0 until bitmap.height) {
-                pixel = arr[bitmap.width * y + x]
-                r = 255 - (pixel and 0x00FF0000 shr 16)
-                g = 255 - (pixel and 0x0000FF00 shr 8)
-                b = 255 - (pixel and 0x000000FF)
+        for (i in arr.indices) {
+            pixel = arr[i]
+            r = 255 - (pixel and 0x00FF0000 shr 16)
+            g = 255 - (pixel and 0x0000FF00 shr 8)
+            b = 255 - (pixel and 0x000000FF)
 
-                newArr[bitmap.width * y + x] = Color.rgb(r, g, b)
-            }
+            newArr[i] = Color.rgb(r, g, b)
         }
         return Bitmap.createBitmap(
             newArr,
